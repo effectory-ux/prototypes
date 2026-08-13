@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('./tokens.css');
+
+/* ── Base reset ───────────────────────────────────────────────────────────
+   De docs-site levert deze globale baseline via styles.css; prototypes laden
+   alleen tokens/foundation/components (NIET styles.css). Zonder deze reset
+   renderen componenten die erop rekenen verkeerd — bijv. .mn-item (width:100% +
+   padding) loopt over zonder border-box, de 8px UA body-margin duwt de app-shell
+   van de rand, en UA-marges op <p>/<h*>/<ul> geven extra ruimte. Dit is exact de
+   reset bovenin styles.css; houd ze in sync. */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  color: var(--content-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  /* Border radius — from Border Radius docs */
+  --radius-none:  0;
+  --radius-sm:    4px;
+  --radius-base:  6px;
+  --radius-md:    8px;
+  --radius-lg:    12px;
+  --radius-xl:    16px;
+  --radius-full:  999px;
+  --radius:       var(--radius-md);
+
+  /* Motion — standard durations + easings for component animations */
+  --motion-fast:     75ms;   /* exits, quick fades */
+  --motion-base:     150ms;  /* dialog open, standard enters */
+  --motion-slow:     300ms;  /* larger surfaces — side panel slide */
+  --ease-out:        cubic-bezier(0, 0, 0.2, 1);    /* decelerate — enters */
+  --ease-in:         cubic-bezier(0.4, 0, 1, 1);    /* accelerate — exits */
+  --ease-standard:   cubic-bezier(0.4, 0, 0.2, 1);  /* move on screen */
+
+  /* Spacing — from Spacing docs (4 px base) */
+  --spacing-extra-tight:       4px;
+  --spacing-tight:             8px;
+  --spacing-base-tight:        12px;
+  --spacing-base:              16px;
+  --spacing-loose:             24px;
+  --spacing-extra-loose:       32px;
+  --spacing-super-loose:       40px;
+  --spacing-super-extra-loose: 56px;
+
+  /* Shadows — from Shadows docs */
+  --sh-action:        0 1px 2px  rgba(25,39,67,.04);
+  --sh-action-hover:  0 2px 2px  rgba(25,39,67,.06);
+  --sh-card:          0 2px 4px  rgba(25,39,67,.04);
+  --sh-card-hover:    0 2px 9px  rgba(25,39,67,.08);
+  --sh-popovers:      0 2px 12px rgba(25,39,67,.08);
+  --sh-dialogs:       0 4px 12px rgba(25,39,67,.08);
+  --sh-footer:        0 4px 12px rgba(25,39,67,.08);
+  --sh-slide-panel:   -4px 4px 4px rgba(25,39,67,.04);
+}
+
+/* ── Typography — from Typography docs ── */
+.text-l1 { font-size: 42px; font-weight: 600; letter-spacing: -.03em; line-height: 1.2; color: var(--content-base); }
+.text-l2 { font-size: 32px; font-weight: 600; letter-spacing: -.02em; line-height: 1.2; color: var(--content-base); }
+.text-l3 { font-size: 26px; font-weight: 600; letter-spacing: -.02em; line-height: 1.3; color: var(--content-base); }
+.text-l4 { font-size: 20px; font-weight: 600; letter-spacing: -.01em; line-height: 1.4; color: var(--content-base); }
+.text-l5 { font-size: 16px; font-weight: 600; letter-spacing: 0;     line-height: 1.5; color: var(--content-base); }
+.text-l6 { font-size: 12px; font-weight: 600; letter-spacing: .08em;  line-height: 1.5; color: var(--content-subtle); text-transform: uppercase; }
+.text-small  { font-size: 12px; line-height: 1.5; }
+.text-medium { font-size: 14px; line-height: 1.6; }
+.text-large  { font-size: 16px; line-height: 1.6; }
+.text-w600 { font-weight: 600; }
+.text-w500 { font-weight: 500; }
+.text-w400 { font-weight: 400; }
+.text-subdued { color: var(--content-subtle); }
+
+/* ── Icons — global behaviour ── */
+/* Without this rule <i data-icon> has display:inline, which adds unwanted     */
+/* spacing inside buttons and absolutely-positioned icon containers.           */
+/* Mirrors styles.css rule 253; omitted during initial extraction.             */
+[data-icon] { display: contents; }
+
+/* Match Figma text rendering — grayscale antialiasing (text looks thinner/crisper) */
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }

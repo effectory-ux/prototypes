@@ -1,0 +1,223 @@
+{
+  "designSystem": {
+    "docs": "https://effectory-ux.github.io/Engage-Design-system-/",
+    "guide": "https://effectory-ux.github.io/Engage-Design-system-/prototypes-docs.html"
+  },
+  "repos": {
+    "engage": {
+      "repo": "effectory-design/effectory-design-documentation",
+      "pages": "https://effectory-design.github.io/effectory-design-documentation/",
+      "repos": [
+        { "org": "effectory-design", "name": "effectory-design-documentation" }
+      ],
+      "ignore": [
+        "-docs\\.html$", "^index\\.html$", "^nav\\.html$", "^changelog\\.html$",
+        "^404\\.html$", "embed\\.html$", "^skill-source/", "^\\.claude/",
+        "^dist/", "^ci/"
+      ]
+    },
+    "eray-ac": {
+      "repo": "eray-effectory/action-center",
+      "pages": null,
+      "repos": [{ "org": "eray-effectory", "name": "action-center" }],
+      "ignore": ["^404\\.html$"]
+    },
+    "eray-ux": {
+      "repo": "eray-effectory/ux",
+      "pages": "https://eray-effectory.github.io/ux/",
+      "repos": [{ "org": "eray-effectory", "name": "ux" }],
+      "ignore": ["^404\\.html$"]
+    },
+    "cyos": {
+      "repo": "effectory-ux/cyos",
+      "pages": "https://effectory-ux.github.io/cyos/",
+      "liveRewrite": [["^site/", ""]],
+      "repos": [{ "org": "effectory-ux", "name": "cyos" }],
+      "ignore": ["^404\\.html$"]
+    },
+    "cyos-demo": {
+      "repo": "N33G3K/cyos-survey-creation-flow-demo",
+      "pages": "https://n33g3k.github.io/cyos-survey-creation-flow-demo/",
+      "repos": [{ "org": "N33G3K", "name": "cyos-survey-creation-flow-demo" }],
+      "ignore": ["^404\\.html$"]
+    },
+    "gl-old": {
+      "repo": "effectory-design/group-linking",
+      "pages": null,
+      "repos": [{ "org": "effectory-design", "name": "group-linking" }],
+      "ignore": ["^404\\.html$"]
+    }
+  },
+  "entries": [
+    {
+      "name": "Group linking",
+      "desc": "Vorige survey koppelen aan de nieuwe structuur. Hoofdflow plus zeven richtingen en stresstests.",
+      "owner": "Jente", "group": "Survey opzetten", "repo": "engage",
+      "path": "prototypes/group-linking.html",
+      "also": ["^prototypes/group-linking-"]
+    },
+    {
+      "name": "Group linking · eerste versie",
+      "desc": "De losse repo waarin group linking begon.",
+      "owner": "Jente", "group": "Survey opzetten", "repo": "gl-old",
+      "path": "index.html"
+    },
+    {
+      "name": "Approach picker",
+      "desc": "Keuze van de survey-aanpak, met de lege begintoestand.",
+      "owner": "Jente", "group": "Survey opzetten", "repo": "engage",
+      "path": "prototypes/approach-picker.html"
+    },
+    {
+      "name": "CYOS survey creation",
+      "desc": "Create your own survey, twee fases naast elkaar te bekijken.",
+      "owner": "Jamal", "group": "Survey opzetten", "repo": "cyos",
+      "path": "phase-1/index.html",
+      "also": ["^phase-"]
+    },
+    {
+      "name": "CYOS demo",
+      "desc": "Losse demo van de survey-creation flow.",
+      "owner": "Jamal", "group": "Survey opzetten", "repo": "cyos-demo",
+      "path": "index.html"
+    },
+    {
+      "name": "CYOS research · central library sync",
+      "desc": "Onderzoeksnotitie over het synchroniseren van de centrale bibliotheek.",
+      "owner": "Jamal", "group": "Survey opzetten", "repo": "cyos",
+      "path": "site/research/central-library-sync/index.html"
+    },
+    {
+      "name": "CYOS site",
+      "desc": "Overzichtspagina van het CYOS-project.",
+      "owner": "Jamal", "group": "Survey opzetten", "repo": "cyos",
+      "path": "site/index.html"
+    },
+
+    {
+      "name": "Results dashboard",
+      "desc": "Resultaten voor managers: overzicht, scores, thema's en rapporten.",
+      "owner": "Jente", "group": "Resultaten", "repo": "engage",
+      "path": "prototypes/results-dashboard.html",
+      "also": [
+        "^prototypes/results-", "^prototypes/scores\\.", "^prototypes/themes\\.",
+        "^prototypes/reports\\."
+      ]
+    },
+    {
+      "name": "Effectiveness",
+      "desc": "Effectiviteitsscores en de groepsvergelijking.",
+      "owner": "Jente", "group": "Resultaten", "repo": "engage",
+      "path": "prototypes/effectiveness-overview.html",
+      "also": ["^prototypes/effectiveness-"]
+    },
+    {
+      "name": "Dashboard kaarten",
+      "desc": "Losse kaart-demo's: eNPS, respons, hoogste en laagste scores, thema's, topics, werkdruk.",
+      "owner": "Jente", "group": "Resultaten", "repo": "engage",
+      "path": "prototypes/enps-card.html",
+      "also": ["^prototypes/.*-card(s)?\\.html$", "^prototypes/.*-cards\\.html$"]
+    },
+    {
+      "name": "Before / after · neutraal",
+      "desc": "Vergelijking van de oude en nieuwe situatie over zes schermen.",
+      "owner": "Jente", "group": "Resultaten", "repo": "engage",
+      "path": "before-overview.html",
+      "also": ["^before-", "^after-"]
+    },
+    {
+      "name": "Before / after · Novanta",
+      "desc": "Dezelfde vergelijking met Novanta als voorbeeldorganisatie.",
+      "owner": "Jente", "group": "Resultaten", "repo": "engage",
+      "path": "novanta-before-overview.html",
+      "also": ["^novanta-"]
+    },
+    {
+      "name": "Before / after · Team IT",
+      "desc": "Dezelfde vergelijking op teamniveau.",
+      "owner": "Jente", "group": "Resultaten", "repo": "engage",
+      "path": "team-it-before-overview.html",
+      "also": ["^team-it-"]
+    },
+
+    {
+      "name": "Action Center · manager",
+      "desc": "Van resultaat naar actie. Vier richtingen, van focus view tot multi-select en triage.",
+      "owner": "Jente", "group": "Van resultaat naar actie", "repo": "engage",
+      "path": "action-center-manager.html",
+      "also": ["^action-center-"]
+    },
+    {
+      "name": "Action Center · Eray",
+      "desc": "Manager- en coordinator-schermen, action planner en drie opties voor het kiezen van acties.",
+      "owner": "Eray", "group": "Van resultaat naar actie", "repo": "eray-ac",
+      "path": "index.html",
+      "also": [".*"]
+    },
+    {
+      "name": "Conversation Guide",
+      "desc": "Gespreksleidraad voor het teamgesprek na de survey.",
+      "owner": "Jente", "group": "Van resultaat naar actie", "repo": "engage",
+      "path": "conversation-guide.html",
+      "also": ["^conversation-guide"]
+    },
+
+    {
+      "name": "My Effectory · home",
+      "desc": "De homepage van het platform, in twee versies.",
+      "owner": "Jente", "group": "Platform", "repo": "engage",
+      "path": "prototypes/my-effectory-home.html",
+      "also": ["^prototypes/my-effectory-"]
+    },
+    {
+      "name": "Platform design",
+      "desc": "Eray's volledige platform-designrepo.",
+      "owner": "Eray", "group": "Platform", "repo": "eray-ux",
+      "path": "index.html"
+    },
+    {
+      "name": "Alle surveys",
+      "desc": "Overzicht van lopende en afgeronde surveys.",
+      "owner": "Jente", "group": "Platform", "repo": "engage",
+      "path": "prototypes/all-surveys.html"
+    },
+    {
+      "name": "Projecten",
+      "desc": "Projectoverzicht binnen My Effectory.",
+      "owner": "Jente", "group": "Platform", "repo": "engage",
+      "path": "prototypes/projects.html"
+    },
+    {
+      "name": "App shell",
+      "desc": "Navigatie en raamwerk waarin de schermen hangen.",
+      "owner": "Jente", "group": "Platform", "repo": "engage",
+      "path": "prototypes/app-shell.html"
+    },
+    {
+      "name": "Instellingen",
+      "desc": "Account- en platforminstellingen, met een Nederlandse variant.",
+      "owner": "Jente", "group": "Platform", "repo": "engage",
+      "path": "prototypes/settings.html",
+      "also": ["^prototypes/(instellingen|account-settings)\\.html$"]
+    },
+    {
+      "name": "BambooHR integratie",
+      "desc": "Koppeling met een HR-systeem opzetten.",
+      "owner": "Jente", "group": "Platform", "repo": "engage",
+      "path": "prototypes/integration-bamboohr.html"
+    },
+
+    {
+      "name": "Onboarding kaart",
+      "desc": "Opties voor de onboarding-kaart op de homepage.",
+      "owner": "Jente", "group": "Losse verkenningen", "repo": "engage",
+      "path": "prototypes/onboarding-card-options.html"
+    },
+    {
+      "name": "Announcement playground",
+      "desc": "Alle varianten van de announcement-component naast elkaar.",
+      "owner": "Jente", "group": "Losse verkenningen", "repo": "engage",
+      "path": "prototypes/announcement-playground.html"
+    }
+  ]
+}

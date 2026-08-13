@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prototypes · Effectory UX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="foundation.css" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-interface-body-secondary, var(--bg-secondary));
+    font-family: 'Poppins', system-ui, sans-serif;
+    color: var(--content-base);
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── Top bar ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 40;
+    display: flex; align-items: center; gap: var(--spacing-base);
+    padding: var(--spacing-base-tight) var(--spacing-loose);
+    background: var(--bg-base);
+    border-bottom: 1px solid var(--border-base);
+  }
+  .brand { display: flex; align-items: baseline; gap: var(--spacing-tight); margin-right: auto; }
+  .brand-name { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  .brand-count { font-size: 14px; color: var(--content-secondary); }
+
+  .search { width: 240px; }
+  .search input {
+    width: 100%; height: 36px;
+    padding: 0 var(--spacing-base-tight);
+    font: 400 14px 'Poppins', system-ui, sans-serif;
+    color: var(--content-base);
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-base);
+    outline: none;
+  }
+  .search input:hover { border-color: var(--border-action-hover); }
+  .search input:focus { border-color: var(--border-action); box-shadow: var(--sh-action); }
+  .search input::placeholder { color: var(--content-subtle); }
+
+  .ds-btn {
+    display: inline-flex; align-items: center; gap: var(--spacing-tight);
+    height: 36px; padding: 0 var(--spacing-base);
+    font-size: 14px; font-weight: 500;
+    color: var(--content-always-white);
+    background: var(--bg-brand);
+    border-radius: var(--radius-base);
+    white-space: nowrap;
+    transition: background .12s ease;
+  }
+  .ds-btn:hover { background: var(--bg-brand-hover); }
+  .ds-btn:active { background: var(--bg-brand-pressed); }
+  .ds-btn svg { width: 16px; height: 16px; flex: none; }
+
+  /* ── Filters ── */
+  .filters {
+    position: sticky; top: 61px; z-index: 30;
+    display: flex; flex-wrap: wrap; gap: var(--spacing-tight);
+    padding: var(--spacing-base-tight) var(--spacing-loose);
+    background: var(--bg-base);
+    border-bottom: 1px solid var(--border-base);
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 30px; padding: 0 var(--spacing-base-tight);
+    font: 500 12px 'Poppins', system-ui, sans-serif;
+    color: var(--content-secondary);
+    background: var(--bg-secondary);
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+  }
+  .chip:hover { background: var(--bg-secondary-hover); color: var(--content-base); }
+  .chip.is-on {
+    color: var(--content-brand);
+    background: var(--bg-brand-subtle);
+    border-color: var(--border-brand-subtle);
+  }
+  .chip-n { font-weight: 400; opacity: .7; }
+  .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
+
+  /* ── Hero ── */
+  .wrap { padding: var(--spacing-loose) var(--spacing-loose) var(--spacing-super-extra-loose); }
+  .hero { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--spacing-base-tight); margin-bottom: var(--spacing-extra-loose); }
+  .hero-card {
+    display: flex; align-items: center; gap: var(--spacing-base);
+    padding: var(--spacing-base);
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--sh-card);
+    transition: box-shadow .15s ease, transform .15s ease;
+  }
+  .hero-card:hover { box-shadow: var(--sh-card-hover); transform: translateY(-1px); }
+  .hero-icon {
+    display: grid; place-items: center; flex: none;
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--bg-brand-subtle);
+    color: var(--content-brand);
+  }
+  .hero-icon svg { width: 20px; height: 20px; }
+  .hero-icon.alt { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
+  .hero-t { display: block; font-size: 16px; font-weight: 600; }
+  .hero-d { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
+
+  /* ── Sections ── */
+  .sec { margin-bottom: var(--spacing-extra-loose); }
+  .sec-hd { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-base-tight); }
+  .sec-t { font-size: 16px; font-weight: 600; }
+  .sec-n { font-size: 12px; color: var(--content-secondary); }
+  .sec-line { flex: 1; height: 1px; background: var(--border-base); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-base); }
+
+  /* ── Card ── */
+  .card {
+    display: flex; flex-direction: column;
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--sh-card);
+    transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .card:hover { box-shadow: var(--sh-card-hover); transform: translateY(-2px); border-color: var(--border-base-hover); }
+
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-base);
+    overflow: hidden;
+    display: block;
+  }
+  .thumb iframe {
+    position: absolute; top: 0; left: 0;
+    width: 1440px; height: 900px;
+    border: 0;
+    transform-origin: 0 0;
+    transform: scale(var(--s, .22));
+    pointer-events: none;
+    background: var(--bg-base);
+  }
+  .thumb-skel {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    font-size: 12px; color: var(--content-subtle);
+    background: var(--bg-secondary);
+  }
+  .thumb.is-loaded .thumb-skel { display: none; }
+  .thumb-none {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    font-size: 12px; color: var(--content-subtle);
+    background: repeating-linear-gradient(45deg,
+      var(--bg-secondary) 0 10px, var(--bg-secondary-hover) 10px 20px);
+  }
+  .thumb-none svg { width: 20px; height: 20px; opacity: .5; }
+
+  .open-ov {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    background: rgba(25, 39, 67, .5);
+    opacity: 0; transition: opacity .15s ease;
+  }
+  .card:hover .open-ov { opacity: 1; }
+  .open-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 34px; padding: 0 var(--spacing-base);
+    font-size: 14px; font-weight: 600;
+    color: var(--content-base);
+    background: var(--bg-base);
+    border-radius: var(--radius-full);
+    box-shadow: var(--sh-popovers);
+  }
+  .open-pill svg { width: 14px; height: 14px; }
+
+  .card-body { padding: var(--spacing-base-tight); display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .card-hd { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
+  .card-t { font-size: 16px; font-weight: 600; line-height: 1.3; flex: 1; }
+  .card-d { font-size: 12px; color: var(--content-secondary); line-height: 1.45; }
+  .card-meta { display: flex; flex-direction: column; gap: 6px; margin-top: var(--spacing-tight); }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px var(--spacing-tight);
+    font-size: 12px; font-weight: 500; line-height: 1.35;
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    color: var(--content-secondary);
+    max-width: 100%;
+  }
+  .tag.repo { align-items: baseline; word-break: break-word; text-align: left; }
+  .tag.org-ux { background: var(--bg-brand-subtle); color: var(--content-brand); }
+  .tag.org-design { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
+  .tag.org-eray { background: var(--bg-accent-purple-subtle); color: var(--content-base); }
+  .tag.org-jamal { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise); }
+  .tag-dot { width: 6px; height: 6px; border-radius: var(--radius-full); background: currentColor; flex: none; position: relative; top: 5px; }
+  .tag.who { background: var(--bg-highlight-subtle, var(--bg-secondary)); color: var(--content-base); font-weight: 600; }
+  .tag.code { margin-left: auto; background: transparent; color: var(--content-action); border: 1px solid var(--border-base); }
+  .tag.code:hover { border-color: var(--border-action-hover); background: var(--bg-secondary); }
+
+  .empty { padding: var(--spacing-super-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
+
+  .foot { margin-top: var(--spacing-extra-loose); padding-top: var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); line-height: 1.7; }
+  .foot a { color: var(--content-action); }
+  .foot code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
+
+  @media (max-width: 720px) {
+    .topbar { flex-wrap: wrap; }
+    .search { width: 100%; order: 3; }
+    .filters { top: 105px; }
+    .wrap { padding: var(--spacing-base); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="brand-name">Prototypes</span>
+    <span class="brand-count" id="count">__COUNT__</span>
+  </div>
+  <div class="search">
+    <input id="q" type="search" placeholder="Zoek op naam of repo" autocomplete="off" />
+  </div>
+  <a class="ds-btn" id="dsbtn" href="#" target="_blank" rel="noopener">
+    <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+    Design system
+  </a>
+</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="wrap">
+  <div class="hero" id="hero"></div>
+  <div id="sections"></div>
+  <div class="foot">
+    Eén kaart per prototype. Een prototype met meerdere schermen opent op zijn beginpagina.<br />
+    Verversen na nieuwe prototypes: pas <code>prototypes.json</code> aan en draai <code>./build-gallery.py</code>.<br />
+    <span id="foot-src"></span>
+  </div>
+</div>
+
+<script>
+const DATA = /*__DATA__*/;
+const DS = /*__DS__*/;
+const REPOS = /*__REPOS__*/;
+
+const ICON = {
+  ext: '<svg viewBox="0 0 16 16" fill="none"><path d="M6 3H3.5A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14h8a1.5 1.5 0 001.5-1.5V10M9.5 2H14v4.5M14 2L7.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  none: '<svg viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M8 3.5c3.2 0 5.6 2.4 6.5 4.5-.4 1-1.2 2.1-2.2 2.9M4.6 4.7C3.3 5.6 2.3 6.9 1.5 8c.9 2.1 3.3 4.5 6.5 4.5 1 0 1.9-.2 2.7-.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  book: '<svg viewBox="0 0 20 20" fill="none"><path d="M3 4.5A1.5 1.5 0 014.5 3H9v14H4.5A1.5 1.5 0 013 15.5v-11zM17 4.5A1.5 1.5 0 0015.5 3H11v14h4.5A1.5 1.5 0 0017 15.5v-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+  wrench: '<svg viewBox="0 0 20 20" fill="none"><path d="M12.5 3a4 4 0 00-3.8 5.2L3 13.9V17h3l5.7-5.7A4 4 0 1012.5 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>'
+};
+
+function orgClass(org) {
+  if (org === "effectory-ux") return "org-ux";
+  if (org === "effectory-design") return "org-design";
+  if (org === "eray-effectory") return "org-eray";
+  return "org-jamal";
+}
+
+const owners = [...new Set(DATA.map(d => d.owner))].sort();
+const groups = [...new Set(DATA.map(d => d.group))];
+let activeOwner = null, activeGroup = null, query = "";
+
+function matches(d) {
+  if (activeOwner && d.owner !== activeOwner) return false;
+  if (activeGroup && d.group !== activeGroup) return false;
+  if (query) {
+    const hay = (d.name + " " + d.desc + " " + d.path + " " + d.owner + " " + d.group + " " +
+      d.pages.join(" ") + " " + d.repos.map(r => r.org + "/" + r.name).join(" ")).toLowerCase();
+    if (!query.split(/\s+/).every(t => hay.includes(t))) return false;
+  }
+  return true;
+}
+
+function chip(label, n, on, onClick) {
+  const b = document.createElement("button");
+  b.className = "chip" + (on ? " is-on" : "");
+  b.innerHTML = label + ' <span class="chip-n">' + n + "</span>";
+  b.onclick = onClick;
+  return b;
+}
+
+function renderFilters() {
+  const f = document.getElementById("filters");
+  f.innerHTML = "";
+  f.appendChild(chip("Alles", DATA.length, !activeOwner && !activeGroup, () => {
+    activeOwner = activeGroup = null; render();
+  }));
+  const s1 = document.createElement("div"); s1.className = "filters-sep"; f.appendChild(s1);
+  owners.forEach(o => f.appendChild(chip(o, DATA.filter(d => d.owner === o).length, activeOwner === o, () => {
+    activeOwner = activeOwner === o ? null : o; render();
+  })));
+  const s2 = document.createElement("div"); s2.className = "filters-sep"; f.appendChild(s2);
+  groups.forEach(g => f.appendChild(chip(g, DATA.filter(d => d.group === g).length, activeGroup === g, () => {
+    activeGroup = activeGroup === g ? null : g; render();
+  })));
+}
+
+/* Thumbnails only load once their card comes near the viewport. */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const t = e.target, url = t.dataset.live;
+    if (!url || t.dataset.done) return;
+    t.dataset.done = "1";
+    const fr = document.createElement("iframe");
+    fr.loading = "lazy";
+    fr.setAttribute("scrolling", "no");
+    fr.setAttribute("tabindex", "-1");
+    fr.setAttribute("aria-hidden", "true");
+    fr.src = url;
+    fr.onload = () => t.classList.add("is-loaded");
+    t.prepend(fr);
+    io.unobserve(t);
+  });
+}, { rootMargin: "400px 0px" });
+
+function card(d) {
+  const el = document.createElement("div");
+  el.className = "card";
+
+  const thumb = document.createElement("a");
+  thumb.className = "thumb";
+  thumb.href = d.live || d.code;
+  thumb.target = "_blank";
+  thumb.rel = "noopener";
+  if (d.live) {
+    thumb.dataset.live = d.live;
+    thumb.innerHTML =
+      '<div class="thumb-skel">Laden</div>' +
+      '<div class="open-ov"><span class="open-pill">' + ICON.ext + " Openen</span></div>";
+    io.observe(thumb);
+  } else {
+    thumb.innerHTML =
+      '<div class="thumb-none">' + ICON.none + "<span>Geen live preview</span></div>" +
+      '<div class="open-ov"><span class="open-pill">' + ICON.ext + " Bekijk code</span></div>";
+  }
+
+  const body = document.createElement("div");
+  body.className = "card-body";
+
+  const hd = document.createElement("div");
+  hd.className = "card-hd";
+  const t = document.createElement("span");
+  t.className = "card-t";
+  t.textContent = d.name;
+  hd.append(t);
+
+  const desc = document.createElement("div");
+  desc.className = "card-d";
+  desc.textContent = d.desc;
+
+  const meta = document.createElement("div");
+  meta.className = "card-meta";
+  const row1 = document.createElement("div");
+  row1.className = "meta-row";
+  row1.innerHTML =
+    '<span class="tag who">' + d.owner + "</span>" +
+    '<span class="tag" title="' + d.pages.join("\n") + '">' +
+      (d.screens === 1 ? "1 scherm" : d.screens + " schermen") + "</span>" +
+    '<a class="tag code" href="' + d.code + '" target="_blank" rel="noopener">Code</a>';
+  meta.append(row1);
+
+  d.repos.forEach(r => {
+    const row = document.createElement("div");
+    row.className = "meta-row";
+    row.innerHTML = '<span class="tag repo ' + orgClass(r.org) + '">' +
+      '<span class="tag-dot"></span><span>' + r.org + "/" + r.name + "</span></span>";
+    meta.append(row);
+  });
+
+  body.append(hd, desc, meta);
+  el.append(thumb, body);
+  return el;
+}
+
+function render() {
+  renderFilters();
+  const shown = DATA.filter(matches);
+  document.getElementById("count").textContent =
+    shown.length === DATA.length
+      ? DATA.length + " prototypes"
+      : shown.length + " van " + DATA.length + " prototypes";
+
+  const host = document.getElementById("sections");
+  host.innerHTML = "";
+  if (!shown.length) {
+    host.innerHTML = '<div class="empty">Niets gevonden. Pas je zoekterm of filter aan.</div>';
+    return;
+  }
+  const secs = [];
+  shown.forEach(d => {
+    let g = secs.find(x => x.name === d.group);
+    if (!g) secs.push(g = { name: d.group, items: [] });
+    g.items.push(d);
+  });
+  secs.forEach(g => {
+    const sec = document.createElement("div");
+    sec.className = "sec";
+    const hd = document.createElement("div");
+    hd.className = "sec-hd";
+    hd.innerHTML = '<span class="sec-t">' + g.name + '</span><span class="sec-n">' +
+      g.items.length + '</span><span class="sec-line"></span>';
+    const grid = document.createElement("div");
+    grid.className = "grid";
+    g.items.forEach(d => grid.appendChild(card(d)));
+    sec.append(hd, grid);
+    host.appendChild(sec);
+  });
+  scale();
+}
+
+function renderHero() {
+  document.getElementById("dsbtn").href = DS.docs;
+  document.getElementById("hero").innerHTML =
+    '<a class="hero-card" href="' + DS.docs + '" target="_blank" rel="noopener">' +
+      '<span class="hero-icon">' + ICON.book + "</span>" +
+      '<span><span class="hero-t">Design system documentatie</span>' +
+      '<span class="hero-d">Componenten, tokens, iconen en richtlijnen</span></span></a>' +
+    '<a class="hero-card" href="' + DS.guide + '" target="_blank" rel="noopener">' +
+      '<span class="hero-icon alt">' + ICON.wrench + "</span>" +
+      '<span><span class="hero-t">Zelf een prototype bouwen</span>' +
+      '<span class="hero-d">Skill installeren en aan de slag met Claude</span></span></a>';
+  document.getElementById("foot-src").innerHTML = "Bronnen: " + REPOS.map(r =>
+    '<a href="https://github.com/' + r.repo + '" target="_blank" rel="noopener">' + r.repo + "</a>"
+  ).join(" · ");
+}
+
+/* Each thumbnail renders a 1440px-wide viewport, scaled down to the card width. */
+function scale() {
+  const t = document.querySelector(".thumb");
+  if (!t) return;
+  document.documentElement.style.setProperty("--s", (t.clientWidth / 1440).toFixed(4));
+}
+
+document.getElementById("q").addEventListener("input", e => {
+  query = e.target.value.trim().toLowerCase();
+  render();
+});
+window.addEventListener("resize", scale);
+
+renderHero();
+render();
+</script>
+</body>
+</html>
