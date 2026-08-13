@@ -119,25 +119,17 @@
       "also": ["^prototypes/.*-card(s)?\\.html$", "^prototypes/.*-cards\\.html$"]
     },
     {
-      "name": "Before / after · neutraal",
-      "desc": "Vergelijking van de oude en nieuwe situatie over zes schermen.",
-      "owner": "Jente", "group": "Resultaten", "repo": "engage",
-      "path": "before-overview.html",
-      "also": ["^before-", "^after-"]
-    },
-    {
-      "name": "Before / after · Novanta",
-      "desc": "Dezelfde vergelijking met Novanta als voorbeeldorganisatie.",
+      "name": "Before / after",
+      "desc": "De oude en nieuwe situatie naast elkaar, voor twee voorbeeldorganisaties. Elk moment heeft zijn eigen URL, met overview, scores, thema's, focus, rapporten en acties.",
       "owner": "Jente", "group": "Resultaten", "repo": "engage",
       "path": "novanta-before-overview.html",
-      "also": ["^novanta-"]
-    },
-    {
-      "name": "Before / after · Team IT",
-      "desc": "Dezelfde vergelijking op teamniveau.",
-      "owner": "Jente", "group": "Resultaten", "repo": "engage",
-      "path": "team-it-before-overview.html",
-      "also": ["^team-it-"]
+      "variants": [
+        { "label": "Novanta · Q2", "path": "novanta-before-overview.html" },
+        { "label": "Novanta · Q3", "path": "novanta-after-overview.html" },
+        { "label": "Team IT · Q2", "path": "team-it-before-overview.html" },
+        { "label": "Team IT · Q3", "path": "team-it-after-overview.html" }
+      ],
+      "also": ["^novanta-", "^team-it-", "^before-", "^after-"]
     },
 
     {

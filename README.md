@@ -33,6 +33,17 @@ Eén kaart per prototype, met een live thumbnail en de repo waar het staat.
 `path` is de beginpagina. `also` claimt de overige schermen van hetzelfde prototype,
 zodat de kaart "5 schermen" kan tonen in plaats van vijf losse kaarten.
 
+Heeft één prototype meerdere ingangen, bijvoorbeeld dezelfde flow met andere data,
+dan zet je die als `variants`. Ze komen als losse links op de kaart te staan, zodat
+het één prototype blijft maar elke URL bereikbaar is:
+
+```json
+"variants": [
+  { "label": "Novanta · Q2", "path": "novanta-before-overview.html" },
+  { "label": "Novanta · Q3", "path": "novanta-after-overview.html" }
+]
+```
+
 2. Draai het script en commit het resultaat:
 
 ```bash

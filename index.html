@@ -187,6 +187,18 @@
   .card-hd { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
   .card-t { font-size: 16px; font-weight: 600; line-height: 1.3; flex: 1; }
   .card-d { font-size: 12px; color: var(--content-secondary); line-height: 1.45; }
+  .card-vars { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .card-var {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px var(--spacing-tight);
+    font-size: 12px; font-weight: 500; line-height: 1.35;
+    color: var(--content-action);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+  }
+  .card-var:hover { background: var(--bg-brand-subtle); color: var(--content-brand); }
+  .card-var svg { width: 11px; height: 11px; opacity: .7; }
+
   .card-meta { display: flex; flex-direction: column; gap: 6px; margin-top: var(--spacing-tight); }
   .meta-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 
@@ -228,7 +240,7 @@
 <div class="topbar">
   <div class="brand">
     <span class="brand-name">Prototypes</span>
-    <span class="brand-count" id="count">25</span>
+    <span class="brand-count" id="count">23</span>
   </div>
   <div class="search">
     <input id="q" type="search" placeholder="Zoek op naam of repo" autocomplete="off" />
@@ -255,6 +267,7 @@
 const DATA = [
 {
 "name": "Approach picker",
+"variants": [],
 "desc": "Keuze van de survey-aanpak, met de lege begintoestand.",
 "owner": "Jente",
 "group": "Survey opzetten",
@@ -275,6 +288,7 @@ const DATA = [
 },
 {
 "name": "CYOS demo",
+"variants": [],
 "desc": "Losse demo van de survey-creation flow.",
 "owner": "Jamal",
 "group": "Survey opzetten",
@@ -295,6 +309,7 @@ const DATA = [
 },
 {
 "name": "CYOS research · central library sync",
+"variants": [],
 "desc": "Onderzoeksnotitie over het synchroniseren van de centrale bibliotheek.",
 "owner": "Jamal",
 "group": "Survey opzetten",
@@ -315,6 +330,7 @@ const DATA = [
 },
 {
 "name": "CYOS site",
+"variants": [],
 "desc": "Overzichtspagina van het CYOS-project.",
 "owner": "Jamal",
 "group": "Survey opzetten",
@@ -335,6 +351,7 @@ const DATA = [
 },
 {
 "name": "CYOS survey creation",
+"variants": [],
 "desc": "Create your own survey, twee fases naast elkaar te bekijken.",
 "owner": "Jamal",
 "group": "Survey opzetten",
@@ -356,6 +373,7 @@ const DATA = [
 },
 {
 "name": "Group linking",
+"variants": [],
 "desc": "Vorige survey koppelen aan de nieuwe structuur. Hoofdflow plus zeven richtingen en stresstests.",
 "owner": "Jente",
 "group": "Survey opzetten",
@@ -383,6 +401,7 @@ const DATA = [
 },
 {
 "name": "Group linking · eerste versie",
+"variants": [],
 "desc": "De losse repo waarin group linking begon.",
 "owner": "Jente",
 "group": "Survey opzetten",
@@ -402,37 +421,30 @@ const DATA = [
 ]
 },
 {
-"name": "Before / after · neutraal",
-"desc": "Vergelijking van de oude en nieuwe situatie over zes schermen.",
-"owner": "Jente",
-"group": "Resultaten",
-"path": "before-overview.html",
-"repos": [
+"name": "Before / after",
+"variants": [
 {
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/before-overview.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/before-overview.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 10,
-"pages": [
-"after-actions.html",
-"after-focus.html",
-"after-overview.html",
-"after-reports.html",
-"after-scores.html",
-"before-actions.html",
-"before-focus.html",
-"before-overview.html",
-"before-reports.html",
-"before-scores.html"
-]
+"label": "Novanta · Q2",
+"live": "https://effectory-design.github.io/effectory-design-documentation/novanta-before-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/novanta-before-overview.html"
 },
 {
-"name": "Before / after · Novanta",
-"desc": "Dezelfde vergelijking met Novanta als voorbeeldorganisatie.",
+"label": "Novanta · Q3",
+"live": "https://effectory-design.github.io/effectory-design-documentation/novanta-after-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/novanta-after-overview.html"
+},
+{
+"label": "Team IT · Q2",
+"live": "https://effectory-design.github.io/effectory-design-documentation/team-it-before-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/team-it-before-overview.html"
+},
+{
+"label": "Team IT · Q3",
+"live": "https://effectory-design.github.io/effectory-design-documentation/team-it-after-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/team-it-after-overview.html"
+}
+],
+"desc": "De oude en nieuwe situatie naast elkaar, voor twee voorbeeldorganisaties. Elk moment heeft zijn eigen URL, met overview, scores, thema's, focus, rapporten en acties.",
 "owner": "Jente",
 "group": "Resultaten",
 "path": "novanta-before-overview.html",
@@ -445,8 +457,18 @@ const DATA = [
 "live": "https://effectory-design.github.io/effectory-design-documentation/novanta-before-overview.html",
 "code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/novanta-before-overview.html",
 "tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 12,
+"screens": 34,
 "pages": [
+"after-actions.html",
+"after-focus.html",
+"after-overview.html",
+"after-reports.html",
+"after-scores.html",
+"before-actions.html",
+"before-focus.html",
+"before-overview.html",
+"before-reports.html",
+"before-scores.html",
 "novanta-after-actions.html",
 "novanta-after-focus.html",
 "novanta-after-overview.html",
@@ -458,26 +480,7 @@ const DATA = [
 "novanta-before-overview.html",
 "novanta-before-reports.html",
 "novanta-before-scores.html",
-"novanta-before-themes.html"
-]
-},
-{
-"name": "Before / after · Team IT",
-"desc": "Dezelfde vergelijking op teamniveau.",
-"owner": "Jente",
-"group": "Resultaten",
-"path": "team-it-before-overview.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/team-it-before-overview.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/team-it-before-overview.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 12,
-"pages": [
+"novanta-before-themes.html",
 "team-it-after-actions.html",
 "team-it-after-focus.html",
 "team-it-after-overview.html",
@@ -494,6 +497,7 @@ const DATA = [
 },
 {
 "name": "Dashboard kaarten",
+"variants": [],
 "desc": "Losse kaart-demo's: eNPS, respons, hoogste en laagste scores, thema's, topics, werkdruk.",
 "owner": "Jente",
 "group": "Resultaten",
@@ -521,6 +525,7 @@ const DATA = [
 },
 {
 "name": "Effectiveness",
+"variants": [],
 "desc": "Effectiviteitsscores en de groepsvergelijking.",
 "owner": "Jente",
 "group": "Resultaten",
@@ -542,6 +547,7 @@ const DATA = [
 },
 {
 "name": "Results dashboard",
+"variants": [],
 "desc": "Resultaten voor managers: overzicht, scores, thema's en rapporten.",
 "owner": "Jente",
 "group": "Resultaten",
@@ -568,6 +574,7 @@ const DATA = [
 },
 {
 "name": "Action Center · manager",
+"variants": [],
 "desc": "Van resultaat naar actie. Vier richtingen, van focus view tot multi-select en triage.",
 "owner": "Jente",
 "group": "Van resultaat naar actie",
@@ -591,6 +598,7 @@ const DATA = [
 },
 {
 "name": "Conversation Guide",
+"variants": [],
 "desc": "Gespreksleidraad voor het teamgesprek na de survey.",
 "owner": "Jente",
 "group": "Van resultaat naar actie",
@@ -611,6 +619,7 @@ const DATA = [
 },
 {
 "name": "Action Center · Eray",
+"variants": [],
 "desc": "Manager- en coordinator-schermen, action planner en drie opties voor het kiezen van acties.",
 "owner": "Eray",
 "group": "Van resultaat naar actie",
@@ -641,6 +650,7 @@ const DATA = [
 },
 {
 "name": "Alle surveys",
+"variants": [],
 "desc": "Overzicht van lopende en afgeronde surveys.",
 "owner": "Jente",
 "group": "Platform",
@@ -661,6 +671,7 @@ const DATA = [
 },
 {
 "name": "App shell",
+"variants": [],
 "desc": "Navigatie en raamwerk waarin de schermen hangen.",
 "owner": "Jente",
 "group": "Platform",
@@ -681,6 +692,7 @@ const DATA = [
 },
 {
 "name": "BambooHR integratie",
+"variants": [],
 "desc": "Koppeling met een HR-systeem opzetten.",
 "owner": "Jente",
 "group": "Platform",
@@ -701,6 +713,7 @@ const DATA = [
 },
 {
 "name": "Instellingen",
+"variants": [],
 "desc": "Account- en platforminstellingen, met een Nederlandse variant.",
 "owner": "Jente",
 "group": "Platform",
@@ -723,6 +736,7 @@ const DATA = [
 },
 {
 "name": "My Effectory · home",
+"variants": [],
 "desc": "De homepage van het platform, in twee versies.",
 "owner": "Jente",
 "group": "Platform",
@@ -744,6 +758,7 @@ const DATA = [
 },
 {
 "name": "Platform design",
+"variants": [],
 "desc": "Eray's volledige platform-designrepo.",
 "owner": "Eray",
 "group": "Platform",
@@ -764,6 +779,7 @@ const DATA = [
 },
 {
 "name": "Projecten",
+"variants": [],
 "desc": "Projectoverzicht binnen My Effectory.",
 "owner": "Jente",
 "group": "Platform",
@@ -784,6 +800,7 @@ const DATA = [
 },
 {
 "name": "Announcement playground",
+"variants": [],
 "desc": "Alle varianten van de announcement-component naast elkaar.",
 "owner": "Jente",
 "group": "Losse verkenningen",
@@ -804,6 +821,7 @@ const DATA = [
 },
 {
 "name": "Onboarding kaart",
+"variants": [],
 "desc": "Opties voor de onboarding-kaart op de homepage.",
 "owner": "Jente",
 "group": "Losse verkenningen",
@@ -933,6 +951,15 @@ function card(d) {
   desc.className = "card-d";
   desc.textContent = d.desc;
 
+  const vars = document.createElement("div");
+  if (d.variants && d.variants.length) {
+    vars.className = "card-vars";
+    vars.innerHTML = d.variants.map(v =>
+      '<a class="card-var" href="' + (v.live || v.code) + '" target="_blank" rel="noopener">' +
+      ICON.ext + v.label + "</a>"
+    ).join("");
+  }
+
   const meta = document.createElement("div");
   meta.className = "card-meta";
   const row1 = document.createElement("div");
@@ -952,7 +979,7 @@ function card(d) {
     meta.append(row);
   });
 
-  body.append(hd, desc, meta);
+  body.append(hd, desc, vars, meta);
   el.append(thumb, body);
   return el;
 }

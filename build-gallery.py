@@ -90,9 +90,26 @@ def main():
             pages |= {p for p in rc["paths"] if rx.search(p)}
         claimed[entry["repo"]] |= pages
 
+        # A prototype can have several entry points (same flow, different data);
+        # each becomes its own link on the card.
+        variants = []
+        for v in entry.get("variants", []):
+            if v["path"] not in rc["paths"]:
+                sys.exit(f"✗ variant bestaat niet: {rc['repo']}/{v['path']}")
+            pages.add(v["path"])
+            claimed[entry["repo"]].add(v["path"])
+            variants.append(
+                {
+                    "label": v["label"],
+                    "live": live_url(rc.get("pages"), v["path"], rc.get("liveRewrite", [])),
+                    "code": f"https://github.com/{rc['repo']}/blob/{rc['branch']}/{v['path']}",
+                }
+            )
+
         items.append(
             {
                 "name": entry["name"],
+                "variants": variants,
                 "desc": entry.get("desc", ""),
                 "owner": entry["owner"],
                 "group": entry["group"],
