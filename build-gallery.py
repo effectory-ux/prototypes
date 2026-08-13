@@ -49,6 +49,26 @@ def crawl(key, cfg):
     return {"branch": branch, "paths": paths}
 
 
+def auto_variants(entry_path, pages):
+    """Label every page of a prototype from its filename, entry page first.
+
+    The part the filenames share is dropped, so group-linking-bol.html becomes
+    "Bol" rather than repeating the prototype name on every chip."""
+    def stem(p):
+        s = p.rsplit("/", 1)[-1]
+        return p.split("/")[-2] if s == "index.html" and "/" in p else s[:-5]
+
+    stems = [stem(p) for p in pages]
+    prefix = os.path.commonprefix(stems).rstrip("-") if len(stems) > 1 else ""
+
+    out = []
+    for p in sorted(pages, key=lambda p: (p != entry_path, p)):
+        rest = stem(p)[len(prefix):].lstrip("-") if prefix else stem(p)
+        label = rest.replace("-", " ").strip().capitalize() or "Basis"
+        out.append({"label": label, "path": p})
+    return out
+
+
 def live_url(base, path, rewrites=()):
     """Repo path to published URL. Some repos publish a subfolder as the site
     root (cyos rsyncs site/ onto the gh-pages root), hence the rewrites."""
@@ -90,10 +110,15 @@ def main():
             pages |= {p for p in rc["paths"] if rx.search(p)}
         claimed[entry["repo"]] |= pages
 
-        # A prototype can have several entry points (same flow, different data);
-        # each becomes its own link on the card.
+        # A prototype can have several entry points (same flow, different data or
+        # a different design direction); each becomes its own link on the card.
+        # Without explicit labels the pages are labelled from their filenames.
+        spec = entry.get("variants")
+        if spec is None and len(pages) > 1 and entry.get("autoVariants", True):
+            spec = auto_variants(path, sorted(pages))
+
         variants = []
-        for v in entry.get("variants", []):
+        for v in spec or []:
             if v["path"] not in rc["paths"]:
                 sys.exit(f"✗ variant bestaat niet: {rc['repo']}/{v['path']}")
             pages.add(v["path"])
