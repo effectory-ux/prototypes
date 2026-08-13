@@ -1,7 +1,8 @@
 # Prototypes · Effectory UX
 
 Centrale ingang voor alle prototypes van het UX-team, over meerdere repos en accounts heen.
-Eén kaart per prototype, met een live thumbnail en de repo waar het staat.
+Eén kaart per prototype, met een live thumbnail. De knop op de kaart opent een
+modal met alle pagina's van dat prototype en de repo waar het staat.
 
 **Live:** https://effectory-ux.github.io/prototypes/
 

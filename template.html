@@ -220,6 +220,12 @@
   }
   .modal-x:hover { background: var(--bg-secondary); color: var(--content-base); }
   .modal-x svg { width: 14px; height: 14px; }
+  .modal-repos {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: var(--spacing-base-tight) var(--spacing-base);
+    border-bottom: 1px solid var(--border-base);
+  }
+  .modal-repos:empty { display: none; }
   .modal-list { overflow-y: auto; padding: var(--spacing-tight); }
   .modal-row {
     display: flex; align-items: center; gap: var(--spacing-base-tight);
@@ -318,6 +324,7 @@
       </div>
       <button class="modal-x" id="ov-close" aria-label="Sluiten"></button>
     </div>
+    <div class="modal-repos" id="ov-repos"></div>
     <div class="modal-list" id="ov-list"></div>
     <div class="modal-ft">Elke pagina opent in een nieuw tabblad.</div>
   </div>
@@ -456,18 +463,14 @@ function card(d) {
   row1.className = "meta-row";
   row1.innerHTML = '<span class="tag who">' + d.owner + "</span>";
 
-  if (d.variants && d.variants.length > 1) {
-    const btn = document.createElement("button");
-    btn.className = "pages-btn";
-    btn.innerHTML = ICON.pages + d.variants.length + " pagina's";
-    btn.onclick = () => openModal(d);
-    row1.append(btn);
-  } else {
-    const one = document.createElement("span");
-    one.className = "tag";
-    one.textContent = d.screens === 1 ? "1 scherm" : d.screens + " schermen";
-    row1.append(one);
-  }
+  // One button per card, also when there is a single page: the modal is where the
+  // repo lives, so it has to stay reachable from every card.
+  const n = d.variants && d.variants.length ? d.variants.length : 1;
+  const btn = document.createElement("button");
+  btn.className = "pages-btn";
+  btn.innerHTML = ICON.pages + (n === 1 ? "1 pagina" : n + " pagina's");
+  btn.onclick = () => openModal(d);
+  row1.append(btn);
 
   const code = document.createElement("a");
   code.className = "tag code";
@@ -477,14 +480,6 @@ function card(d) {
   code.textContent = "Code";
   row1.append(code);
   meta.append(row1);
-
-  d.repos.forEach(r => {
-    const row = document.createElement("div");
-    row.className = "meta-row";
-    row.innerHTML = '<span class="tag repo ' + orgClass(r.org) + '">' +
-      '<span class="tag-dot"></span><span>' + r.org + "/" + r.name + "</span></span>";
-    meta.append(row);
-  });
 
   body.append(hd, desc, meta);
   el.append(thumb, body);
@@ -549,14 +544,22 @@ let lastFocus = null;
 
 function openModal(d) {
   lastFocus = document.activeElement;
+  const pages = d.variants && d.variants.length
+    ? d.variants
+    : [{ label: d.name, live: d.live, code: d.code }];
+
   document.getElementById("ov-title").textContent = d.name;
   document.getElementById("ov-sub").textContent =
-    d.variants.length + " pagina's · " + d.owner + " · " +
-    d.repos.map(r => r.org + "/" + r.name).join(", ");
+    (pages.length === 1 ? "1 pagina" : pages.length + " pagina's") + " · " + d.owner;
+
+  document.getElementById("ov-repos").innerHTML = d.repos.map(r =>
+    '<span class="tag repo ' + orgClass(r.org) + '">' +
+    '<span class="tag-dot"></span><span>' + r.org + "/" + r.name + "</span></span>"
+  ).join("");
 
   const list = document.getElementById("ov-list");
   list.innerHTML = "";
-  d.variants.forEach((v, i) => {
+  pages.forEach((v, i) => {
     const a = document.createElement("a");
     a.className = "modal-row";
     a.href = v.live || v.code;
