@@ -30,12 +30,13 @@ Eén kaart per prototype, met een live thumbnail en de repo waar het staat.
 }
 ```
 
-`path` is de beginpagina. `also` claimt de overige schermen van hetzelfde prototype,
-zodat de kaart "5 schermen" kan tonen in plaats van vijf losse kaarten.
+`path` is de pagina die de kaart opent. Zet hier de nieuwste versie, want dat is wat
+iemand ziet als hij op de thumbnail klikt. `also` claimt de overige schermen van
+hetzelfde prototype, zodat het één kaart blijft in plaats van vijf losse.
 
-Heeft één prototype meerdere ingangen, bijvoorbeeld dezelfde flow met andere data,
-dan zet je die als `variants`. Ze komen als losse links op de kaart te staan, zodat
-het één prototype blijft maar elke URL bereikbaar is:
+Heeft één prototype meerdere ingangen, bijvoorbeeld dezelfde flow met andere data
+of een andere ontwerprichting, dan zet je die als `variants`. De kaart opent altijd
+de eerste, en een knopje "N pagina's" opent een modal met de hele lijst:
 
 ```json
 "variants": [
@@ -65,6 +66,10 @@ Zet hem in `repos` in `prototypes.json`, met de Pages-URL als die er is:
   "ignore": ["^404\\.html$"]
 }
 ```
+
+Laat je `variants` weg terwijl een prototype meer pagina's heeft, dan verzint de
+generator de labels uit de bestandsnamen: het deel dat alle namen delen gaat eraf,
+dus `group-linking-bol.html` wordt "Bol".
 
 Zonder Pages krijgt de kaart geen thumbnail maar een link naar de code.
 Gebruik `liveRewrite` als de repo een submap als site-root publiceert, zoals `cyos` doet

@@ -187,17 +187,73 @@
   .card-hd { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
   .card-t { font-size: 16px; font-weight: 600; line-height: 1.3; flex: 1; }
   .card-d { font-size: 12px; color: var(--content-secondary); line-height: 1.45; }
-  .card-vars { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
-  .card-var {
+  /* ── Modal with every page of a prototype ── */
+  .ov {
+    position: fixed; inset: 0; z-index: 90;
+    display: none; align-items: center; justify-content: center;
+    padding: var(--spacing-loose);
+    background: rgba(25, 39, 67, .45);
+  }
+  .ov.is-open { display: flex; }
+  .modal {
+    display: flex; flex-direction: column;
+    width: 100%; max-width: 520px; max-height: 80vh;
+    background: var(--bg-base);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--sh-dialogs);
+    overflow: hidden;
+  }
+  .modal-hd {
+    display: flex; align-items: flex-start; gap: var(--spacing-base);
+    padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight);
+    border-bottom: 1px solid var(--border-base);
+  }
+  .modal-t { font-size: 18px; font-weight: 600; line-height: 1.3; }
+  .modal-sub { font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
+  .modal-x {
+    margin-left: auto; flex: none;
+    display: grid; place-items: center;
+    width: 32px; height: 32px;
+    border: 0; border-radius: var(--radius-base);
+    background: transparent; color: var(--content-secondary);
+    cursor: pointer;
+  }
+  .modal-x:hover { background: var(--bg-secondary); color: var(--content-base); }
+  .modal-x svg { width: 14px; height: 14px; }
+  .modal-list { overflow-y: auto; padding: var(--spacing-tight); }
+  .modal-row {
+    display: flex; align-items: center; gap: var(--spacing-base-tight);
+    padding: var(--spacing-tight) var(--spacing-base-tight);
+    border-radius: var(--radius-md);
+  }
+  .modal-row:hover { background: var(--bg-secondary); }
+  .modal-num {
+    flex: none; display: grid; place-items: center;
+    width: 22px; height: 22px;
+    font-size: 12px; font-weight: 600;
+    color: var(--content-secondary);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-full);
+  }
+  .modal-row:hover .modal-num { background: var(--bg-brand-subtle); color: var(--content-brand); }
+  .modal-lbl { font-size: 14px; font-weight: 500; }
+  .modal-path { font-size: 12px; color: var(--content-subtle); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .modal-open { margin-left: auto; flex: none; display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--content-action); }
+  .modal-open svg { width: 12px; height: 12px; }
+  .modal-ft { padding: var(--spacing-base-tight) var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); }
+
+  .pages-btn {
     display: inline-flex; align-items: center; gap: 5px;
     padding: 3px var(--spacing-tight);
-    font-size: 12px; font-weight: 500; line-height: 1.35;
+    font: 500 12px 'Poppins', system-ui, sans-serif;
     color: var(--content-action);
-    background: var(--bg-secondary);
+    background: transparent;
+    border: 1px solid var(--border-base);
     border-radius: var(--radius-sm);
+    cursor: pointer;
   }
-  .card-var:hover { background: var(--bg-brand-subtle); color: var(--content-brand); }
-  .card-var svg { width: 11px; height: 11px; opacity: .7; }
+  .pages-btn:hover { border-color: var(--border-action-hover); background: var(--bg-secondary); }
+  .pages-btn svg { width: 12px; height: 12px; }
 
   .card-meta { display: flex; flex-direction: column; gap: 6px; margin-top: var(--spacing-tight); }
   .meta-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
@@ -252,6 +308,20 @@
 </div>
 
 <div class="filters" id="filters"></div>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ov-title">
+  <div class="modal" id="modal">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-t" id="ov-title"></div>
+        <div class="modal-sub" id="ov-sub"></div>
+      </div>
+      <button class="modal-x" id="ov-close" aria-label="Sluiten"></button>
+    </div>
+    <div class="modal-list" id="ov-list"></div>
+    <div class="modal-ft">Elke pagina opent in een nieuw tabblad.</div>
+  </div>
+</div>
 
 <div class="wrap">
   <div class="hero" id="hero"></div>
@@ -1092,7 +1162,9 @@ const ICON = {
   ext: '<svg viewBox="0 0 16 16" fill="none"><path d="M6 3H3.5A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14h8a1.5 1.5 0 001.5-1.5V10M9.5 2H14v4.5M14 2L7.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   none: '<svg viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M8 3.5c3.2 0 5.6 2.4 6.5 4.5-.4 1-1.2 2.1-2.2 2.9M4.6 4.7C3.3 5.6 2.3 6.9 1.5 8c.9 2.1 3.3 4.5 6.5 4.5 1 0 1.9-.2 2.7-.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   book: '<svg viewBox="0 0 20 20" fill="none"><path d="M3 4.5A1.5 1.5 0 014.5 3H9v14H4.5A1.5 1.5 0 013 15.5v-11zM17 4.5A1.5 1.5 0 0015.5 3H11v14h4.5A1.5 1.5 0 0017 15.5v-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-  wrench: '<svg viewBox="0 0 20 20" fill="none"><path d="M12.5 3a4 4 0 00-3.8 5.2L3 13.9V17h3l5.7-5.7A4 4 0 1012.5 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>'
+  wrench: '<svg viewBox="0 0 20 20" fill="none"><path d="M12.5 3a4 4 0 00-3.8 5.2L3 13.9V17h3l5.7-5.7A4 4 0 1012.5 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+  pages: '<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 4V3.5A1.5 1.5 0 016.5 2h6A1.5 1.5 0 0114 3.5v6a1.5 1.5 0 01-1.5 1.5H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  close: '<svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
 };
 
 function orgClass(org) {
@@ -1150,6 +1222,9 @@ const io = new IntersectionObserver(entries => {
     t.dataset.done = "1";
     const fr = document.createElement("iframe");
     fr.loading = "lazy";
+    // Scripts may run so the page renders, but without allow-top-navigation an
+    // embedded prototype cannot take over this window.
+    fr.setAttribute("sandbox", "allow-scripts allow-same-origin");
     fr.setAttribute("scrolling", "no");
     fr.setAttribute("tabindex", "-1");
     fr.setAttribute("aria-hidden", "true");
@@ -1195,24 +1270,32 @@ function card(d) {
   desc.className = "card-d";
   desc.textContent = d.desc;
 
-  const vars = document.createElement("div");
-  if (d.variants && d.variants.length) {
-    vars.className = "card-vars";
-    vars.innerHTML = d.variants.map(v =>
-      '<a class="card-var" href="' + (v.live || v.code) + '" target="_blank" rel="noopener">' +
-      ICON.ext + v.label + "</a>"
-    ).join("");
-  }
-
   const meta = document.createElement("div");
   meta.className = "card-meta";
   const row1 = document.createElement("div");
   row1.className = "meta-row";
-  row1.innerHTML =
-    '<span class="tag who">' + d.owner + "</span>" +
-    '<span class="tag" title="' + d.pages.join("\n") + '">' +
-      (d.screens === 1 ? "1 scherm" : d.screens + " schermen") + "</span>" +
-    '<a class="tag code" href="' + d.code + '" target="_blank" rel="noopener">Code</a>';
+  row1.innerHTML = '<span class="tag who">' + d.owner + "</span>";
+
+  if (d.variants && d.variants.length > 1) {
+    const btn = document.createElement("button");
+    btn.className = "pages-btn";
+    btn.innerHTML = ICON.pages + d.variants.length + " pagina's";
+    btn.onclick = () => openModal(d);
+    row1.append(btn);
+  } else {
+    const one = document.createElement("span");
+    one.className = "tag";
+    one.textContent = d.screens === 1 ? "1 scherm" : d.screens + " schermen";
+    row1.append(one);
+  }
+
+  const code = document.createElement("a");
+  code.className = "tag code";
+  code.href = d.code;
+  code.target = "_blank";
+  code.rel = "noopener";
+  code.textContent = "Code";
+  row1.append(code);
   meta.append(row1);
 
   d.repos.forEach(r => {
@@ -1223,7 +1306,7 @@ function card(d) {
     meta.append(row);
   });
 
-  body.append(hd, desc, vars, meta);
+  body.append(hd, desc, meta);
   el.append(thumb, body);
   return el;
 }
@@ -1279,6 +1362,57 @@ function renderHero() {
     '<a href="https://github.com/' + r.repo + '" target="_blank" rel="noopener">' + r.repo + "</a>"
   ).join(" · ");
 }
+
+/* ── Modal listing every page of one prototype ── */
+const ov = document.getElementById("ov");
+let lastFocus = null;
+
+function openModal(d) {
+  lastFocus = document.activeElement;
+  document.getElementById("ov-title").textContent = d.name;
+  document.getElementById("ov-sub").textContent =
+    d.variants.length + " pagina's · " + d.owner + " · " +
+    d.repos.map(r => r.org + "/" + r.name).join(", ");
+
+  const list = document.getElementById("ov-list");
+  list.innerHTML = "";
+  d.variants.forEach((v, i) => {
+    const a = document.createElement("a");
+    a.className = "modal-row";
+    a.href = v.live || v.code;
+    a.target = "_blank";
+    a.rel = "noopener";
+    const label = document.createElement("div");
+    label.innerHTML = '<div class="modal-lbl"></div><div class="modal-path"></div>';
+    label.querySelector(".modal-lbl").textContent = v.label;
+    label.querySelector(".modal-path").textContent =
+      (v.live || v.code).split("/").pop() || v.label;
+    a.innerHTML = '<span class="modal-num">' + (i + 1) + "</span>";
+    a.append(label);
+    const open = document.createElement("span");
+    open.className = "modal-open";
+    open.innerHTML = ICON.ext + (v.live ? "Openen" : "Code");
+    a.append(open);
+    list.append(a);
+  });
+
+  ov.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("ov-close").focus();
+}
+
+function closeModal() {
+  ov.classList.remove("is-open");
+  document.body.style.overflow = "";
+  if (lastFocus) lastFocus.focus();
+}
+
+document.getElementById("ov-close").innerHTML = ICON.close;
+document.getElementById("ov-close").onclick = closeModal;
+ov.addEventListener("click", e => { if (e.target === ov) closeModal(); });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && ov.classList.contains("is-open")) closeModal();
+});
 
 /* Each thumbnail renders a 1440px-wide viewport, scaled down to the card width. */
 function scale() {
