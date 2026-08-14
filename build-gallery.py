@@ -133,6 +133,9 @@ def main():
 
         items.append(
             {
+                # Stable handle back to this entry in prototypes.json, so a rename
+                # made in the page can be written to the right entry.
+                "id": entry["repo"] + "::" + path,
                 "name": entry["name"],
                 "variants": variants,
                 "desc": entry.get("desc", ""),
@@ -179,6 +182,9 @@ def main():
             ),
         )
         .replace("__COUNT__", str(len(items)))
+        # The page needs the source config verbatim to be able to write a renamed
+        # prototypes.json for the GitHub editor.
+        .replace("/*__CONFIG__*/", json.dumps(cfg, ensure_ascii=False))
     )
 
     with open(os.path.join(ROOT, "index.html"), "w") as f:

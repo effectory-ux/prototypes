@@ -283,6 +283,71 @@
   .tag.code { margin-left: auto; background: transparent; color: var(--content-action); border: 1px solid var(--border-base); }
   .tag.code:hover { border-color: var(--border-action-hover); background: var(--bg-secondary); }
 
+  /* ── Renaming ── */
+  .card-edit {
+    flex: none; display: grid; place-items: center;
+    width: 24px; height: 24px; margin: -2px -4px 0 0;
+    border: 0; border-radius: var(--radius-sm);
+    background: transparent; color: var(--content-subtle);
+    cursor: pointer; opacity: 0;
+    transition: opacity .12s ease;
+  }
+  .card:hover .card-edit, .card-edit:focus { opacity: 1; }
+  .card-edit:hover { background: var(--bg-secondary); color: var(--content-base); }
+  .card-edit svg { width: 13px; height: 13px; }
+
+  .card-t input {
+    width: 100%;
+    font: 600 16px 'Poppins', system-ui, sans-serif;
+    color: var(--content-base);
+    background: var(--bg-base);
+    border: 1px solid var(--border-action);
+    border-radius: var(--radius-sm);
+    padding: 2px 6px; margin: -3px -7px;
+    outline: none;
+    box-shadow: var(--sh-action);
+  }
+  .card.is-renamed .card-t::after {
+    content: "hernoemd";
+    display: inline-block; margin-left: 6px; vertical-align: middle;
+    padding: 1px 6px;
+    font-size: 12px; font-weight: 500;
+    color: var(--content-highlight);
+    background: var(--bg-highlight-subtle);
+    border-radius: var(--radius-full);
+  }
+
+  .pub {
+    position: fixed; left: 50%; bottom: var(--spacing-loose); z-index: 50;
+    transform: translateX(-50%) translateY(120%);
+    display: flex; align-items: center; gap: var(--spacing-base-tight);
+    padding: var(--spacing-base-tight) var(--spacing-base-tight) var(--spacing-base-tight) var(--spacing-base);
+    background: var(--bg-inverse);
+    color: var(--content-inverse);
+    border-radius: var(--radius-full);
+    box-shadow: var(--sh-dialogs);
+    transition: transform .2s ease;
+  }
+  .pub.is-on { transform: translateX(-50%) translateY(0); }
+  .pub-txt { font-size: 14px; font-weight: 500; }
+  .pub-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 32px; padding: 0 var(--spacing-base-tight);
+    font: 500 14px 'Poppins', system-ui, sans-serif;
+    border: 0; border-radius: var(--radius-full);
+    background: var(--bg-base); color: var(--content-base);
+    cursor: pointer;
+  }
+  .pub-btn:hover { background: var(--bg-secondary); }
+  .pub-btn.ghost { background: transparent; color: var(--content-inverse); opacity: .8; }
+  .pub-btn.ghost:hover { background: rgba(255,255,255,.14); opacity: 1; }
+
+  .steps { padding: var(--spacing-base); font-size: 14px; line-height: 1.6; }
+  .steps ol { margin: 0; padding-left: var(--spacing-base); }
+  .steps li { margin-bottom: 6px; }
+  .steps code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
+  .steps .done { color: var(--content-positive); font-weight: 500; }
+
   .empty { padding: var(--spacing-super-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
 
   .foot { margin-top: var(--spacing-extra-loose); padding-top: var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); line-height: 1.7; }
@@ -326,8 +391,14 @@
     </div>
     <div class="modal-repos" id="ov-repos"></div>
     <div class="modal-list" id="ov-list"></div>
-    <div class="modal-ft">Elke pagina opent in een nieuw tabblad.</div>
+    <div class="modal-ft" id="ov-ft"></div>
   </div>
+</div>
+
+<div class="pub" id="pub">
+  <span class="pub-txt" id="pub-txt"></span>
+  <button class="pub-btn" id="pub-go">Publiceren</button>
+  <button class="pub-btn ghost" id="pub-undo">Ongedaan maken</button>
 </div>
 
 <div class="wrap">
@@ -344,6 +415,20 @@
 const DATA = /*__DATA__*/;
 const DS = /*__DS__*/;
 const REPOS = /*__REPOS__*/;
+const CONFIG = /*__CONFIG__*/;
+const GALLERY_REPO = "effectory-ux/prototypes";
+
+/* Renames live in this browser until they are published to prototypes.json,
+   which stays the single source of truth for everyone. */
+const STORE = "effx-gallery-names";
+let renames = {};
+try { renames = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { renames = {}; }
+
+const nameOf = d => renames[d.id] || d.name;
+function saveRenames() {
+  try { localStorage.setItem(STORE, JSON.stringify(renames)); } catch (e) {}
+  renderPub();
+}
 
 const ICON = {
   ext: '<svg viewBox="0 0 16 16" fill="none"><path d="M6 3H3.5A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14h8a1.5 1.5 0 001.5-1.5V10M9.5 2H14v4.5M14 2L7.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -351,7 +436,8 @@ const ICON = {
   book: '<svg viewBox="0 0 20 20" fill="none"><path d="M3 4.5A1.5 1.5 0 014.5 3H9v14H4.5A1.5 1.5 0 013 15.5v-11zM17 4.5A1.5 1.5 0 0015.5 3H11v14h4.5A1.5 1.5 0 0017 15.5v-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
   wrench: '<svg viewBox="0 0 20 20" fill="none"><path d="M12.5 3a4 4 0 00-3.8 5.2L3 13.9V17h3l5.7-5.7A4 4 0 1012.5 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
   pages: '<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 4V3.5A1.5 1.5 0 016.5 2h6A1.5 1.5 0 0114 3.5v6a1.5 1.5 0 01-1.5 1.5H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  close: '<svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+  close: '<svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  pencil: '<svg viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5l2 2L6 12l-2.5.5L4 10l7.5-7.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 4l2 2" stroke="currentColor" stroke-width="1.5"/></svg>'
 };
 
 function orgClass(org) {
@@ -369,7 +455,7 @@ function matches(d) {
   if (activeOwner && d.owner !== activeOwner) return false;
   if (activeGroup && d.group !== activeGroup) return false;
   if (query) {
-    const hay = (d.name + " " + d.desc + " " + d.path + " " + d.owner + " " + d.group + " " +
+    const hay = (nameOf(d) + " " + d.name + " " + d.desc + " " + d.path + " " + d.owner + " " + d.group + " " +
       d.pages.join(" ") + " " + d.repos.map(r => r.org + "/" + r.name).join(" ")).toLowerCase();
     if (!query.split(/\s+/).every(t => hay.includes(t))) return false;
   }
@@ -450,8 +536,15 @@ function card(d) {
   hd.className = "card-hd";
   const t = document.createElement("span");
   t.className = "card-t";
-  t.textContent = d.name;
-  hd.append(t);
+  t.textContent = nameOf(d);
+  const pen = document.createElement("button");
+  pen.className = "card-edit";
+  pen.title = "Naam wijzigen";
+  pen.setAttribute("aria-label", "Naam wijzigen");
+  pen.innerHTML = ICON.pencil;
+  pen.onclick = () => startRename(el, t, d);
+  hd.append(t, pen);
+  if (renames[d.id]) el.classList.add("is-renamed");
 
   const desc = document.createElement("div");
   desc.className = "card-d";
@@ -538,6 +631,110 @@ function renderHero() {
   ).join(" · ");
 }
 
+/* ── Renaming a card ── */
+function startRename(cardEl, titleEl, d) {
+  if (titleEl.querySelector("input")) return;
+  const before = nameOf(d);
+  const inp = document.createElement("input");
+  inp.value = before;
+  inp.setAttribute("aria-label", "Nieuwe naam");
+  titleEl.textContent = "";
+  titleEl.append(inp);
+  inp.focus();
+  inp.select();
+
+  let done = false;
+  const finish = commit => {
+    if (done) return;
+    done = true;
+    const next = inp.value.trim();
+    if (commit) {
+      if (next && next !== d.name) renames[d.id] = next;
+      else delete renames[d.id];
+      saveRenames();
+    }
+    titleEl.textContent = nameOf(d);
+    cardEl.classList.toggle("is-renamed", !!renames[d.id]);
+  };
+
+  inp.onblur = () => finish(true);
+  inp.onkeydown = e => {
+    if (e.key === "Enter") { e.preventDefault(); finish(true); }
+    if (e.key === "Escape") { e.preventDefault(); finish(false); }
+  };
+}
+
+/* ── Publishing renames back to prototypes.json ── */
+function renamedConfig() {
+  const cfg = JSON.parse(JSON.stringify(CONFIG));
+  cfg.entries.forEach(e => {
+    const id = e.repo + "::" + e.path;
+    if (renames[id]) e.name = renames[id];
+  });
+  return JSON.stringify(cfg, null, 2) + "\n";
+}
+
+function renderPub() {
+  const n = Object.keys(renames).length;
+  document.getElementById("pub").classList.toggle("is-on", n > 0);
+  document.getElementById("pub-txt").textContent =
+    n === 1 ? "1 naam gewijzigd" : n + " namen gewijzigd";
+}
+
+async function publish() {
+  const json = renamedConfig();
+  let copied = false;
+  try { await navigator.clipboard.writeText(json); copied = true; } catch (e) {}
+
+  const n = Object.keys(renames).length;
+  document.getElementById("ov-title").textContent = "Publiceren voor iedereen";
+  document.getElementById("ov-sub").textContent =
+    (n === 1 ? "1 gewijzigde naam" : n + " gewijzigde namen") + " · prototypes.json";
+  document.getElementById("ov-repos").innerHTML = "";
+  document.getElementById("ov-ft").textContent =
+    "Je wijzigingen blijven in deze browser staan tot je ze publiceert.";
+
+  const list = document.getElementById("ov-list");
+  list.innerHTML =
+    '<div class="steps"><ol>' +
+      "<li>" + (copied
+        ? '<span class="done">De nieuwe prototypes.json staat op je klembord.</span>'
+        : 'Kopieer de nieuwe <code>prototypes.json</code> met de knop hieronder.') + "</li>" +
+      "<li>Klik op <strong>GitHub-editor openen</strong>. Die opent in een nieuw tabblad.</li>" +
+      "<li>Selecteer alles in het bestand (<code>Cmd + A</code>) en plak (<code>Cmd + V</code>).</li>" +
+      "<li>Klik op <strong>Commit changes</strong>. Binnen een minuut ziet iedereen de nieuwe namen.</li>" +
+    "</ol></div>";
+
+  const bar = document.createElement("div");
+  bar.className = "steps";
+  bar.style.display = "flex";
+  bar.style.gap = "8px";
+  bar.style.paddingTop = "0";
+
+  const copy = document.createElement("button");
+  copy.className = "pages-btn";
+  copy.textContent = copied ? "Nogmaals kopiëren" : "Kopieer JSON";
+  copy.onclick = async () => {
+    try { await navigator.clipboard.writeText(json); copy.textContent = "Gekopieerd"; }
+    catch (e) { copy.textContent = "Kopiëren mislukt"; }
+  };
+
+  const open = document.createElement("a");
+  open.className = "pages-btn";
+  open.href = "https://github.com/" + GALLERY_REPO + "/edit/main/prototypes.json";
+  open.target = "_blank";
+  open.rel = "noopener";
+  open.textContent = "GitHub-editor openen";
+
+  bar.append(copy, open);
+  list.append(bar);
+
+  lastFocus = document.activeElement;
+  ov.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("ov-close").focus();
+}
+
 /* ── Modal listing every page of one prototype ── */
 const ov = document.getElementById("ov");
 let lastFocus = null;
@@ -548,7 +745,7 @@ function openModal(d) {
     ? d.variants
     : [{ label: d.name, live: d.live, code: d.code }];
 
-  document.getElementById("ov-title").textContent = d.name;
+  document.getElementById("ov-title").textContent = nameOf(d);
   document.getElementById("ov-sub").textContent =
     (pages.length === 1 ? "1 pagina" : pages.length + " pagina's") + " · " + d.owner;
 
@@ -556,6 +753,8 @@ function openModal(d) {
     '<span class="tag repo ' + orgClass(r.org) + '">' +
     '<span class="tag-dot"></span><span>' + r.org + "/" + r.name + "</span></span>"
   ).join("");
+
+  document.getElementById("ov-ft").textContent = "Elke pagina opent in een nieuw tabblad.";
 
   const list = document.getElementById("ov-list");
   list.innerHTML = "";
@@ -610,8 +809,16 @@ document.getElementById("q").addEventListener("input", e => {
 });
 window.addEventListener("resize", scale);
 
+document.getElementById("pub-go").onclick = publish;
+document.getElementById("pub-undo").onclick = () => {
+  renames = {};
+  saveRenames();
+  render();
+};
+
 renderHero();
 render();
+renderPub();
 </script>
 </body>
 </html>

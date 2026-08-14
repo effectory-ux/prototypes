@@ -15,6 +15,21 @@ modal met alle pagina's van dat prototype en de repo waar het staat.
 - Thumbnails zijn geen plaatjes maar de echte pagina in een verkleinde iframe, pas
   geladen als de kaart in beeld komt. Ze zijn dus altijd actueel.
 
+## Een naam wijzigen vanaf de pagina
+
+Klik op het potloodje naast een kaartnaam en typ een nieuwe. Je ziet het meteen,
+maar alleen bij jezelf: de wijziging staat in je eigen browser (`localStorage`).
+GitHub Pages serveert alleen statische bestanden, dus er is geen server die het
+voor iedereen kan bewaren.
+
+Onderin verschijnt een balk met **Publiceren**. Die zet de bijgewerkte
+`prototypes.json` op je klembord en opent de GitHub-editor. Alles selecteren,
+plakken, commit, en binnen een minuut ziet iedereen de nieuwe namen. Zo blijft
+`prototypes.json` de enige bron en staat elke naamswijziging in de historie.
+
+**Ongedaan maken** wist je lokale wijzigingen en zet de namen terug op wat er
+gepubliceerd is.
+
 ## Een prototype toevoegen
 
 1. Voeg een entry toe aan `entries` in `prototypes.json`:

@@ -283,6 +283,71 @@
   .tag.code { margin-left: auto; background: transparent; color: var(--content-action); border: 1px solid var(--border-base); }
   .tag.code:hover { border-color: var(--border-action-hover); background: var(--bg-secondary); }
 
+  /* ── Renaming ── */
+  .card-edit {
+    flex: none; display: grid; place-items: center;
+    width: 24px; height: 24px; margin: -2px -4px 0 0;
+    border: 0; border-radius: var(--radius-sm);
+    background: transparent; color: var(--content-subtle);
+    cursor: pointer; opacity: 0;
+    transition: opacity .12s ease;
+  }
+  .card:hover .card-edit, .card-edit:focus { opacity: 1; }
+  .card-edit:hover { background: var(--bg-secondary); color: var(--content-base); }
+  .card-edit svg { width: 13px; height: 13px; }
+
+  .card-t input {
+    width: 100%;
+    font: 600 16px 'Poppins', system-ui, sans-serif;
+    color: var(--content-base);
+    background: var(--bg-base);
+    border: 1px solid var(--border-action);
+    border-radius: var(--radius-sm);
+    padding: 2px 6px; margin: -3px -7px;
+    outline: none;
+    box-shadow: var(--sh-action);
+  }
+  .card.is-renamed .card-t::after {
+    content: "hernoemd";
+    display: inline-block; margin-left: 6px; vertical-align: middle;
+    padding: 1px 6px;
+    font-size: 12px; font-weight: 500;
+    color: var(--content-highlight);
+    background: var(--bg-highlight-subtle);
+    border-radius: var(--radius-full);
+  }
+
+  .pub {
+    position: fixed; left: 50%; bottom: var(--spacing-loose); z-index: 50;
+    transform: translateX(-50%) translateY(120%);
+    display: flex; align-items: center; gap: var(--spacing-base-tight);
+    padding: var(--spacing-base-tight) var(--spacing-base-tight) var(--spacing-base-tight) var(--spacing-base);
+    background: var(--bg-inverse);
+    color: var(--content-inverse);
+    border-radius: var(--radius-full);
+    box-shadow: var(--sh-dialogs);
+    transition: transform .2s ease;
+  }
+  .pub.is-on { transform: translateX(-50%) translateY(0); }
+  .pub-txt { font-size: 14px; font-weight: 500; }
+  .pub-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 32px; padding: 0 var(--spacing-base-tight);
+    font: 500 14px 'Poppins', system-ui, sans-serif;
+    border: 0; border-radius: var(--radius-full);
+    background: var(--bg-base); color: var(--content-base);
+    cursor: pointer;
+  }
+  .pub-btn:hover { background: var(--bg-secondary); }
+  .pub-btn.ghost { background: transparent; color: var(--content-inverse); opacity: .8; }
+  .pub-btn.ghost:hover { background: rgba(255,255,255,.14); opacity: 1; }
+
+  .steps { padding: var(--spacing-base); font-size: 14px; line-height: 1.6; }
+  .steps ol { margin: 0; padding-left: var(--spacing-base); }
+  .steps li { margin-bottom: 6px; }
+  .steps code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
+  .steps .done { color: var(--content-positive); font-weight: 500; }
+
   .empty { padding: var(--spacing-super-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
 
   .foot { margin-top: var(--spacing-extra-loose); padding-top: var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); line-height: 1.7; }
@@ -326,8 +391,14 @@
     </div>
     <div class="modal-repos" id="ov-repos"></div>
     <div class="modal-list" id="ov-list"></div>
-    <div class="modal-ft">Elke pagina opent in een nieuw tabblad.</div>
+    <div class="modal-ft" id="ov-ft"></div>
   </div>
+</div>
+
+<div class="pub" id="pub">
+  <span class="pub-txt" id="pub-txt"></span>
+  <button class="pub-btn" id="pub-go">Publiceren</button>
+  <button class="pub-btn ghost" id="pub-undo">Ongedaan maken</button>
 </div>
 
 <div class="wrap">
@@ -343,6 +414,7 @@
 <script>
 const DATA = [
 {
+"id": "engage::prototypes/approach-picker.html",
 "name": "Approach picker",
 "variants": [],
 "desc": "Keuze van de survey-aanpak, met de lege begintoestand.",
@@ -364,6 +436,7 @@ const DATA = [
 ]
 },
 {
+"id": "cyos-demo::index.html",
 "name": "CYOS demo",
 "variants": [],
 "desc": "Losse demo van de survey-creation flow.",
@@ -385,6 +458,7 @@ const DATA = [
 ]
 },
 {
+"id": "cyos::site/research/central-library-sync/index.html",
 "name": "CYOS research · central library sync",
 "variants": [],
 "desc": "Onderzoeksnotitie over het synchroniseren van de centrale bibliotheek.",
@@ -406,6 +480,7 @@ const DATA = [
 ]
 },
 {
+"id": "cyos::site/index.html",
 "name": "CYOS site",
 "variants": [],
 "desc": "Overzichtspagina van het CYOS-project.",
@@ -427,6 +502,7 @@ const DATA = [
 ]
 },
 {
+"id": "cyos::phase-1/index.html",
 "name": "CYOS survey creation",
 "variants": [
 {
@@ -460,6 +536,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/group-linking-effectory.html",
 "name": "Group linking",
 "variants": [
 {
@@ -529,6 +606,7 @@ const DATA = [
 ]
 },
 {
+"id": "gl-old::index.html",
 "name": "Group linking · eerste versie",
 "variants": [],
 "desc": "De losse repo waarin group linking begon.",
@@ -550,6 +628,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::novanta-before-overview.html",
 "name": "Before / after",
 "variants": [
 {
@@ -625,6 +704,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/enps-card.html",
 "name": "Dashboard kaarten",
 "variants": [
 {
@@ -694,6 +774,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/effectiveness-overview.html",
 "name": "Effectiveness",
 "variants": [
 {
@@ -727,6 +808,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/results-dashboard.html",
 "name": "Results dashboard",
 "variants": [
 {
@@ -790,6 +872,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::action-center-manager.html",
 "name": "Action Center · manager",
 "variants": [
 {
@@ -835,6 +918,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::conversation-guide.html",
 "name": "Conversation Guide",
 "variants": [],
 "desc": "Gespreksleidraad voor het teamgesprek na de survey.",
@@ -856,6 +940,7 @@ const DATA = [
 ]
 },
 {
+"id": "eray-ac::index.html",
 "name": "Action Center · Eray",
 "variants": [
 {
@@ -943,6 +1028,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/all-surveys.html",
 "name": "Alle surveys",
 "variants": [],
 "desc": "Overzicht van lopende en afgeronde surveys.",
@@ -964,6 +1050,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/app-shell.html",
 "name": "App shell",
 "variants": [],
 "desc": "Navigatie en raamwerk waarin de schermen hangen.",
@@ -985,6 +1072,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/integration-bamboohr.html",
 "name": "BambooHR integratie",
 "variants": [],
 "desc": "Koppeling met een HR-systeem opzetten.",
@@ -1006,6 +1094,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/settings.html",
 "name": "Instellingen",
 "variants": [
 {
@@ -1045,6 +1134,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/my-effectory-home.html",
 "name": "My Effectory · home",
 "variants": [
 {
@@ -1078,6 +1168,7 @@ const DATA = [
 ]
 },
 {
+"id": "eray-ux::index.html",
 "name": "Platform design",
 "variants": [],
 "desc": "Eray's volledige platform-designrepo.",
@@ -1099,6 +1190,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/projects.html",
 "name": "Projecten",
 "variants": [],
 "desc": "Projectoverzicht binnen My Effectory.",
@@ -1120,6 +1212,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/announcement-playground.html",
 "name": "Announcement playground",
 "variants": [],
 "desc": "Alle varianten van de announcement-component naast elkaar.",
@@ -1141,6 +1234,7 @@ const DATA = [
 ]
 },
 {
+"id": "engage::prototypes/onboarding-card-options.html",
 "name": "Onboarding kaart",
 "variants": [],
 "desc": "Opties voor de onboarding-kaart op de homepage.",
@@ -1164,6 +1258,20 @@ const DATA = [
 ];
 const DS = {"docs": "https://effectory-ux.github.io/Engage-Design-system-/", "guide": "https://effectory-ux.github.io/Engage-Design-system-/prototypes-docs.html"};
 const REPOS = [{"repo": "effectory-design/effectory-design-documentation", "pages": "https://effectory-design.github.io/effectory-design-documentation/"}, {"repo": "eray-effectory/action-center", "pages": null}, {"repo": "eray-effectory/ux", "pages": "https://eray-effectory.github.io/ux/"}, {"repo": "effectory-ux/cyos", "pages": "https://effectory-ux.github.io/cyos/"}, {"repo": "N33G3K/cyos-survey-creation-flow-demo", "pages": "https://n33g3k.github.io/cyos-survey-creation-flow-demo/"}, {"repo": "effectory-design/group-linking", "pages": null}];
+const CONFIG = {"designSystem": {"docs": "https://effectory-ux.github.io/Engage-Design-system-/", "guide": "https://effectory-ux.github.io/Engage-Design-system-/prototypes-docs.html"}, "repos": {"engage": {"repo": "effectory-design/effectory-design-documentation", "pages": "https://effectory-design.github.io/effectory-design-documentation/", "repos": [{"org": "effectory-design", "name": "effectory-design-documentation"}], "ignore": ["-docs\\.html$", "^index\\.html$", "^nav\\.html$", "^changelog\\.html$", "^404\\.html$", "embed\\.html$", "^skill-source/", "^\\.claude/", "^dist/", "^ci/"]}, "eray-ac": {"repo": "eray-effectory/action-center", "pages": null, "repos": [{"org": "eray-effectory", "name": "action-center"}], "ignore": ["^404\\.html$"]}, "eray-ux": {"repo": "eray-effectory/ux", "pages": "https://eray-effectory.github.io/ux/", "repos": [{"org": "eray-effectory", "name": "ux"}], "ignore": ["^404\\.html$"]}, "cyos": {"repo": "effectory-ux/cyos", "pages": "https://effectory-ux.github.io/cyos/", "liveRewrite": [["^site/", ""]], "repos": [{"org": "effectory-ux", "name": "cyos"}], "ignore": ["^404\\.html$"]}, "cyos-demo": {"repo": "N33G3K/cyos-survey-creation-flow-demo", "pages": "https://n33g3k.github.io/cyos-survey-creation-flow-demo/", "repos": [{"org": "N33G3K", "name": "cyos-survey-creation-flow-demo"}], "ignore": ["^404\\.html$"]}, "gl-old": {"repo": "effectory-design/group-linking", "pages": null, "repos": [{"org": "effectory-design", "name": "group-linking"}], "ignore": ["^404\\.html$"]}}, "entries": [{"name": "Group linking", "desc": "Vorige survey koppelen aan de nieuwe structuur. De bovenste drie zijn de meest recente uitwerking, daaronder een stresstest, de eerste versie en drie vroege richtingen.", "owner": "Jente", "group": "Survey opzetten", "repo": "engage", "path": "prototypes/group-linking-effectory.html", "variants": [{"label": "Effectory-structuur", "path": "prototypes/group-linking-effectory.html"}, {"label": "bol.com-structuur", "path": "prototypes/group-linking-bol.html"}, {"label": "Stapsgewijs", "path": "prototypes/group-linking-stepped.html"}, {"label": "Diepe structuur (stresstest)", "path": "prototypes/group-linking-deep.html"}, {"label": "Eerste versie", "path": "prototypes/group-linking.html"}, {"label": "Richting: hybride", "path": "prototypes/group-linking-hybrid-mockup.html"}, {"label": "Richting: Qualtrics-stijl", "path": "prototypes/group-linking-qualtrics-mockup.html"}, {"label": "Richting: substructuur", "path": "prototypes/group-linking-subtree-mockup.html"}], "also": ["^prototypes/group-linking"]}, {"name": "Group linking · eerste versie", "desc": "De losse repo waarin group linking begon.", "owner": "Jente", "group": "Survey opzetten", "repo": "gl-old", "path": "index.html"}, {"name": "Approach picker", "desc": "Keuze van de survey-aanpak, met de lege begintoestand.", "owner": "Jente", "group": "Survey opzetten", "repo": "engage", "path": "prototypes/approach-picker.html"}, {"name": "CYOS survey creation", "desc": "Create your own survey, twee fases naast elkaar te bekijken.", "owner": "Jamal", "group": "Survey opzetten", "repo": "cyos", "path": "phase-1/index.html", "also": ["^phase-"], "variants": [{"label": "Fase 1", "path": "phase-1/index.html"}, {"label": "Fase 2", "path": "phase-2/index.html"}]}, {"name": "CYOS demo", "desc": "Losse demo van de survey-creation flow.", "owner": "Jamal", "group": "Survey opzetten", "repo": "cyos-demo", "path": "index.html"}, {"name": "CYOS research · central library sync", "desc": "Onderzoeksnotitie over het synchroniseren van de centrale bibliotheek.", "owner": "Jamal", "group": "Survey opzetten", "repo": "cyos", "path": "site/research/central-library-sync/index.html"}, {"name": "CYOS site", "desc": "Overzichtspagina van het CYOS-project.", "owner": "Jamal", "group": "Survey opzetten", "repo": "cyos", "path": "site/index.html"}, {"name": "Results dashboard", "desc": "Resultaten voor managers: overzicht, scores, thema's en rapporten.", "owner": "Jente", "group": "Resultaten", "repo": "engage", "path": "prototypes/results-dashboard.html", "also": ["^prototypes/results-", "^prototypes/scores\\.", "^prototypes/themes\\.", "^prototypes/reports\\."], "variants": [{"label": "Overzicht", "path": "prototypes/results-dashboard.html"}, {"label": "Scores", "path": "prototypes/scores.html"}, {"label": "Thema's", "path": "prototypes/themes.html"}, {"label": "Rapporten", "path": "prototypes/reports.html"}, {"label": "Overzicht (variant)", "path": "prototypes/results-dashboard-overview.html"}, {"label": "Overzicht met terugknop", "path": "prototypes/results-dashboard-panel-back.html"}, {"label": "Effectiviteit-overzicht", "path": "prototypes/results-overview.html"}]}, {"name": "Effectiveness", "desc": "Effectiviteitsscores en de groepsvergelijking.", "owner": "Jente", "group": "Resultaten", "repo": "engage", "path": "prototypes/effectiveness-overview.html", "also": ["^prototypes/effectiveness-"], "variants": [{"label": "Groepsvergelijking", "path": "prototypes/effectiveness-overview.html"}, {"label": "Losse kaart", "path": "prototypes/effectiveness-card.html"}]}, {"name": "Dashboard kaarten", "desc": "Losse kaart-demo's: eNPS, respons, hoogste en laagste scores, thema's, topics, werkdruk.", "owner": "Jente", "group": "Resultaten", "repo": "engage", "path": "prototypes/enps-card.html", "also": ["^prototypes/.*-card(s)?\\.html$", "^prototypes/.*-cards\\.html$"], "variants": [{"label": "eNPS", "path": "prototypes/enps-card.html"}, {"label": "Respons", "path": "prototypes/response-rate-card.html"}, {"label": "Hoogste scores", "path": "prototypes/highest-scores-card.html"}, {"label": "Laagste scores", "path": "prototypes/lowest-scores-card.html"}, {"label": "Thema's", "path": "prototypes/themes-spiderweb-card.html"}, {"label": "Topics", "path": "prototypes/topics-card.html"}, {"label": "Werkdruk en welzijn", "path": "prototypes/workload-retention-wellbeing-card.html"}, {"label": "Effectiviteit", "path": "prototypes/effectiveness-card.html"}]}, {"name": "Before / after", "desc": "De oude en nieuwe situatie naast elkaar, voor twee voorbeeldorganisaties. Elk moment heeft zijn eigen URL, met overview, scores, thema's, focus, rapporten en acties.", "owner": "Jente", "group": "Resultaten", "repo": "engage", "path": "novanta-before-overview.html", "variants": [{"label": "Novanta · Q2", "path": "novanta-before-overview.html"}, {"label": "Novanta · Q3", "path": "novanta-after-overview.html"}, {"label": "Team IT · Q2", "path": "team-it-before-overview.html"}, {"label": "Team IT · Q3", "path": "team-it-after-overview.html"}], "also": ["^novanta-", "^team-it-", "^before-", "^after-"]}, {"name": "Action Center · manager", "desc": "Van resultaat naar actie. Vier richtingen, van focus view tot multi-select en triage.", "owner": "Jente", "group": "Van resultaat naar actie", "repo": "engage", "path": "action-center-manager.html", "also": ["^action-center-"], "variants": [{"label": "Focus view", "path": "action-center-manager.html"}, {"label": "Stepper", "path": "action-center-manager-stepper.html"}, {"label": "V4 · multi-select en triage", "path": "action-center-manager-v4.html"}, {"label": "V5 · triage-pagina", "path": "action-center-manager-v5.html"}]}, {"name": "Action Center · Eray", "desc": "Manager- en coordinator-schermen, action planner en drie opties voor het kiezen van acties.", "owner": "Eray", "group": "Van resultaat naar actie", "repo": "eray-ac", "path": "index.html", "also": [".*"], "variants": [{"label": "Overzicht", "path": "index.html"}, {"label": "Manager", "path": "action-center/action-center-manager-standalone.html"}, {"label": "Action planner", "path": "action-planner/index.html"}, {"label": "Action planner · org-view", "path": "action-planner/org-view.html"}, {"label": "Conversation guide", "path": "conversation-guide/conversation-guide.html"}, {"label": "Coordinator home", "path": "coordinator-home.html"}, {"label": "Home activity feed", "path": "home-activity-feed.html"}, {"label": "Optie A: inline uitklappen", "path": "option-a-inline-expand.html"}, {"label": "Optie B: chips en drawer", "path": "option-b-chips-drawer.html"}, {"label": "Optie C: keuzedialoog", "path": "option-c-choose-dialog.html"}, {"label": "Group linking preview", "path": "group-linking-preview/prototypes/group-linking-stepped.html"}]}, {"name": "Conversation Guide", "desc": "Gespreksleidraad voor het teamgesprek na de survey.", "owner": "Jente", "group": "Van resultaat naar actie", "repo": "engage", "path": "conversation-guide.html", "also": ["^conversation-guide"]}, {"name": "My Effectory · home", "desc": "De homepage van het platform, in twee versies.", "owner": "Jente", "group": "Platform", "repo": "engage", "path": "prototypes/my-effectory-home.html", "also": ["^prototypes/my-effectory-"], "variants": [{"label": "Ontwerp", "path": "prototypes/my-effectory-home.html"}, {"label": "Live-versie", "path": "prototypes/my-effectory-home-live.html"}]}, {"name": "Platform design", "desc": "Eray's volledige platform-designrepo.", "owner": "Eray", "group": "Platform", "repo": "eray-ux", "path": "index.html"}, {"name": "Alle surveys", "desc": "Overzicht van lopende en afgeronde surveys.", "owner": "Jente", "group": "Platform", "repo": "engage", "path": "prototypes/all-surveys.html"}, {"name": "Projecten", "desc": "Projectoverzicht binnen My Effectory.", "owner": "Jente", "group": "Platform", "repo": "engage", "path": "prototypes/projects.html"}, {"name": "App shell", "desc": "Navigatie en raamwerk waarin de schermen hangen.", "owner": "Jente", "group": "Platform", "repo": "engage", "path": "prototypes/app-shell.html"}, {"name": "Instellingen", "desc": "Account- en platforminstellingen, met een Nederlandse variant.", "owner": "Jente", "group": "Platform", "repo": "engage", "path": "prototypes/settings.html", "also": ["^prototypes/(instellingen|account-settings)\\.html$"], "variants": [{"label": "Platform (EN)", "path": "prototypes/settings.html"}, {"label": "Platform (NL)", "path": "prototypes/instellingen.html"}, {"label": "Account", "path": "prototypes/account-settings.html"}]}, {"name": "BambooHR integratie", "desc": "Koppeling met een HR-systeem opzetten.", "owner": "Jente", "group": "Platform", "repo": "engage", "path": "prototypes/integration-bamboohr.html"}, {"name": "Onboarding kaart", "desc": "Opties voor de onboarding-kaart op de homepage.", "owner": "Jente", "group": "Losse verkenningen", "repo": "engage", "path": "prototypes/onboarding-card-options.html"}, {"name": "Announcement playground", "desc": "Alle varianten van de announcement-component naast elkaar.", "owner": "Jente", "group": "Losse verkenningen", "repo": "engage", "path": "prototypes/announcement-playground.html"}]};
+const GALLERY_REPO = "effectory-ux/prototypes";
+
+/* Renames live in this browser until they are published to prototypes.json,
+   which stays the single source of truth for everyone. */
+const STORE = "effx-gallery-names";
+let renames = {};
+try { renames = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { renames = {}; }
+
+const nameOf = d => renames[d.id] || d.name;
+function saveRenames() {
+  try { localStorage.setItem(STORE, JSON.stringify(renames)); } catch (e) {}
+  renderPub();
+}
 
 const ICON = {
   ext: '<svg viewBox="0 0 16 16" fill="none"><path d="M6 3H3.5A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14h8a1.5 1.5 0 001.5-1.5V10M9.5 2H14v4.5M14 2L7.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -1171,7 +1279,8 @@ const ICON = {
   book: '<svg viewBox="0 0 20 20" fill="none"><path d="M3 4.5A1.5 1.5 0 014.5 3H9v14H4.5A1.5 1.5 0 013 15.5v-11zM17 4.5A1.5 1.5 0 0015.5 3H11v14h4.5A1.5 1.5 0 0017 15.5v-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
   wrench: '<svg viewBox="0 0 20 20" fill="none"><path d="M12.5 3a4 4 0 00-3.8 5.2L3 13.9V17h3l5.7-5.7A4 4 0 1012.5 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
   pages: '<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 4V3.5A1.5 1.5 0 016.5 2h6A1.5 1.5 0 0114 3.5v6a1.5 1.5 0 01-1.5 1.5H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  close: '<svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+  close: '<svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  pencil: '<svg viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5l2 2L6 12l-2.5.5L4 10l7.5-7.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 4l2 2" stroke="currentColor" stroke-width="1.5"/></svg>'
 };
 
 function orgClass(org) {
@@ -1189,7 +1298,7 @@ function matches(d) {
   if (activeOwner && d.owner !== activeOwner) return false;
   if (activeGroup && d.group !== activeGroup) return false;
   if (query) {
-    const hay = (d.name + " " + d.desc + " " + d.path + " " + d.owner + " " + d.group + " " +
+    const hay = (nameOf(d) + " " + d.name + " " + d.desc + " " + d.path + " " + d.owner + " " + d.group + " " +
       d.pages.join(" ") + " " + d.repos.map(r => r.org + "/" + r.name).join(" ")).toLowerCase();
     if (!query.split(/\s+/).every(t => hay.includes(t))) return false;
   }
@@ -1270,8 +1379,15 @@ function card(d) {
   hd.className = "card-hd";
   const t = document.createElement("span");
   t.className = "card-t";
-  t.textContent = d.name;
-  hd.append(t);
+  t.textContent = nameOf(d);
+  const pen = document.createElement("button");
+  pen.className = "card-edit";
+  pen.title = "Naam wijzigen";
+  pen.setAttribute("aria-label", "Naam wijzigen");
+  pen.innerHTML = ICON.pencil;
+  pen.onclick = () => startRename(el, t, d);
+  hd.append(t, pen);
+  if (renames[d.id]) el.classList.add("is-renamed");
 
   const desc = document.createElement("div");
   desc.className = "card-d";
@@ -1358,6 +1474,110 @@ function renderHero() {
   ).join(" · ");
 }
 
+/* ── Renaming a card ── */
+function startRename(cardEl, titleEl, d) {
+  if (titleEl.querySelector("input")) return;
+  const before = nameOf(d);
+  const inp = document.createElement("input");
+  inp.value = before;
+  inp.setAttribute("aria-label", "Nieuwe naam");
+  titleEl.textContent = "";
+  titleEl.append(inp);
+  inp.focus();
+  inp.select();
+
+  let done = false;
+  const finish = commit => {
+    if (done) return;
+    done = true;
+    const next = inp.value.trim();
+    if (commit) {
+      if (next && next !== d.name) renames[d.id] = next;
+      else delete renames[d.id];
+      saveRenames();
+    }
+    titleEl.textContent = nameOf(d);
+    cardEl.classList.toggle("is-renamed", !!renames[d.id]);
+  };
+
+  inp.onblur = () => finish(true);
+  inp.onkeydown = e => {
+    if (e.key === "Enter") { e.preventDefault(); finish(true); }
+    if (e.key === "Escape") { e.preventDefault(); finish(false); }
+  };
+}
+
+/* ── Publishing renames back to prototypes.json ── */
+function renamedConfig() {
+  const cfg = JSON.parse(JSON.stringify(CONFIG));
+  cfg.entries.forEach(e => {
+    const id = e.repo + "::" + e.path;
+    if (renames[id]) e.name = renames[id];
+  });
+  return JSON.stringify(cfg, null, 2) + "\n";
+}
+
+function renderPub() {
+  const n = Object.keys(renames).length;
+  document.getElementById("pub").classList.toggle("is-on", n > 0);
+  document.getElementById("pub-txt").textContent =
+    n === 1 ? "1 naam gewijzigd" : n + " namen gewijzigd";
+}
+
+async function publish() {
+  const json = renamedConfig();
+  let copied = false;
+  try { await navigator.clipboard.writeText(json); copied = true; } catch (e) {}
+
+  const n = Object.keys(renames).length;
+  document.getElementById("ov-title").textContent = "Publiceren voor iedereen";
+  document.getElementById("ov-sub").textContent =
+    (n === 1 ? "1 gewijzigde naam" : n + " gewijzigde namen") + " · prototypes.json";
+  document.getElementById("ov-repos").innerHTML = "";
+  document.getElementById("ov-ft").textContent =
+    "Je wijzigingen blijven in deze browser staan tot je ze publiceert.";
+
+  const list = document.getElementById("ov-list");
+  list.innerHTML =
+    '<div class="steps"><ol>' +
+      "<li>" + (copied
+        ? '<span class="done">De nieuwe prototypes.json staat op je klembord.</span>'
+        : 'Kopieer de nieuwe <code>prototypes.json</code> met de knop hieronder.') + "</li>" +
+      "<li>Klik op <strong>GitHub-editor openen</strong>. Die opent in een nieuw tabblad.</li>" +
+      "<li>Selecteer alles in het bestand (<code>Cmd + A</code>) en plak (<code>Cmd + V</code>).</li>" +
+      "<li>Klik op <strong>Commit changes</strong>. Binnen een minuut ziet iedereen de nieuwe namen.</li>" +
+    "</ol></div>";
+
+  const bar = document.createElement("div");
+  bar.className = "steps";
+  bar.style.display = "flex";
+  bar.style.gap = "8px";
+  bar.style.paddingTop = "0";
+
+  const copy = document.createElement("button");
+  copy.className = "pages-btn";
+  copy.textContent = copied ? "Nogmaals kopiëren" : "Kopieer JSON";
+  copy.onclick = async () => {
+    try { await navigator.clipboard.writeText(json); copy.textContent = "Gekopieerd"; }
+    catch (e) { copy.textContent = "Kopiëren mislukt"; }
+  };
+
+  const open = document.createElement("a");
+  open.className = "pages-btn";
+  open.href = "https://github.com/" + GALLERY_REPO + "/edit/main/prototypes.json";
+  open.target = "_blank";
+  open.rel = "noopener";
+  open.textContent = "GitHub-editor openen";
+
+  bar.append(copy, open);
+  list.append(bar);
+
+  lastFocus = document.activeElement;
+  ov.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("ov-close").focus();
+}
+
 /* ── Modal listing every page of one prototype ── */
 const ov = document.getElementById("ov");
 let lastFocus = null;
@@ -1368,7 +1588,7 @@ function openModal(d) {
     ? d.variants
     : [{ label: d.name, live: d.live, code: d.code }];
 
-  document.getElementById("ov-title").textContent = d.name;
+  document.getElementById("ov-title").textContent = nameOf(d);
   document.getElementById("ov-sub").textContent =
     (pages.length === 1 ? "1 pagina" : pages.length + " pagina's") + " · " + d.owner;
 
@@ -1376,6 +1596,8 @@ function openModal(d) {
     '<span class="tag repo ' + orgClass(r.org) + '">' +
     '<span class="tag-dot"></span><span>' + r.org + "/" + r.name + "</span></span>"
   ).join("");
+
+  document.getElementById("ov-ft").textContent = "Elke pagina opent in een nieuw tabblad.";
 
   const list = document.getElementById("ov-list");
   list.innerHTML = "";
@@ -1430,8 +1652,16 @@ document.getElementById("q").addEventListener("input", e => {
 });
 window.addEventListener("resize", scale);
 
+document.getElementById("pub-go").onclick = publish;
+document.getElementById("pub-undo").onclick = () => {
+  renames = {};
+  saveRenames();
+  render();
+};
+
 renderHero();
 render();
+renderPub();
 </script>
 </body>
 </html>
