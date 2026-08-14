@@ -210,7 +210,7 @@
     },
     {
       "name": "Results dashboard",
-      "desc": "Results for managers: overview, scores, themes and reports.",
+      "desc": "Results for managers: the overview, a variant with a back button, and the effectiveness overview.",
       "owner": "Jente",
       "group": "Resultaten",
       "repo": "engage",
@@ -225,22 +225,6 @@
         {
           "label": "Overzicht",
           "path": "prototypes/results-dashboard.html"
-        },
-        {
-          "label": "Scores",
-          "path": "prototypes/scores.html"
-        },
-        {
-          "label": "Thema's",
-          "path": "prototypes/themes.html"
-        },
-        {
-          "label": "Rapporten",
-          "path": "prototypes/reports.html"
-        },
-        {
-          "label": "Overzicht (variant)",
-          "path": "prototypes/results-dashboard-overview.html"
         },
         {
           "label": "Overzicht met terugknop",
@@ -450,23 +434,13 @@
     },
     {
       "name": "My Effectory · home",
-      "desc": "The platform homepage, in two versions.",
+      "desc": "The platform homepage.",
       "owner": "Jente",
       "group": "Platform",
       "repo": "engage",
       "path": "prototypes/my-effectory-home.html",
       "also": [
         "^prototypes/my-effectory-"
-      ],
-      "variants": [
-        {
-          "label": "Ontwerp",
-          "path": "prototypes/my-effectory-home.html"
-        },
-        {
-          "label": "Live-versie",
-          "path": "prototypes/my-effectory-home-live.html"
-        }
       ]
     },
     {
@@ -476,22 +450,6 @@
       "group": "Platform",
       "repo": "eray-ux",
       "path": "index.html"
-    },
-    {
-      "name": "Alle surveys",
-      "desc": "Overview of running and completed surveys.",
-      "owner": "Jente",
-      "group": "Platform",
-      "repo": "engage",
-      "path": "prototypes/all-surveys.html"
-    },
-    {
-      "name": "Projecten",
-      "desc": "Project overview inside My Effectory.",
-      "owner": "Jente",
-      "group": "Platform",
-      "repo": "engage",
-      "path": "prototypes/projects.html"
     },
     {
       "name": "App shell",
