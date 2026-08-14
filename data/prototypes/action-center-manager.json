@@ -1,0 +1,29 @@
+{
+  "name": "Action Center · manager",
+  "desc": "From result to action. Four directions, from focus view to multi-select and triage.",
+  "owner": "Jente",
+  "group": "Van resultaat naar actie",
+  "repo": "engage",
+  "path": "action-center-manager.html",
+  "also": [
+    "^action-center-"
+  ],
+  "variants": [
+    {
+      "label": "Focus view",
+      "path": "action-center-manager.html"
+    },
+    {
+      "label": "Stepper",
+      "path": "action-center-manager-stepper.html"
+    },
+    {
+      "label": "V4 · multi-select en triage",
+      "path": "action-center-manager-v4.html"
+    },
+    {
+      "label": "V5 · triage-pagina",
+      "path": "action-center-manager-v5.html"
+    }
+  ]
+}

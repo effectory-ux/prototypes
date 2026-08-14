@@ -1,0 +1,8 @@
+{
+  "name": "BambooHR integratie",
+  "desc": "Setting up a connection with an HR system.",
+  "owner": "Jente",
+  "group": "Platform",
+  "repo": "engage",
+  "path": "prototypes/integration-bamboohr.html"
+}

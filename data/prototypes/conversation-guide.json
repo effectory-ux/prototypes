@@ -1,0 +1,11 @@
+{
+  "name": "Conversation Guide",
+  "desc": "A guide for the team conversation after the survey.",
+  "owner": "Jente",
+  "group": "Van resultaat naar actie",
+  "repo": "engage",
+  "path": "conversation-guide.html",
+  "also": [
+    "^conversation-guide"
+  ]
+}

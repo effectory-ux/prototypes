@@ -1,0 +1,19 @@
+{
+  "repo": "effectory-ux/cyos",
+  "pages": "https://effectory-ux.github.io/cyos/",
+  "liveRewrite": [
+    [
+      "^site/",
+      ""
+    ]
+  ],
+  "repos": [
+    {
+      "org": "effectory-ux",
+      "name": "cyos"
+    }
+  ],
+  "ignore": [
+    "^404\\.html$"
+  ]
+}

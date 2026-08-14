@@ -1,0 +1,13 @@
+# Wie krijgt automatisch een review-verzoek. Dit blokkeert niets: je kunt je
+# eigen pull request mergen zodra de check groen is. Het zorgt er alleen voor
+# dat er iemand meekijkt als de machinerie zelf verandert.
+
+# De data is van iedereen. Geen eigenaar, geen review nodig.
+/data/
+
+# De generator, het template en de workflows raken alle kaarten tegelijk.
+/build-gallery.py   @N33G3K
+/template.html      @N33G3K
+/tokens.css         @N33G3K
+/foundation.css     @N33G3K
+/.github/           @N33G3K

@@ -1,0 +1,26 @@
+#!/bin/sh
+# Weigert een commit op main. Niet omdat commits op main gevaarlijk zijn --
+# GitHub weigert de push toch -- maar omdat je het dan pas merkt als je werk
+# er al op staat en je het moet gaan verplaatsen.
+#
+# Aanzetten met ./setup.sh (zet core.hooksPath naar deze map).
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$branch" = "main" ]; then
+  cat >&2 <<'EOF'
+
+✗ Je zit op main, en main is dicht.
+
+  Zet je werk op een eigen branch:
+
+      git switch -c mijn-wijziging
+
+  Je wijzigingen blijven staan, ze verhuizen mee. Daarna committen,
+  pushen en een pull request openen.
+
+EOF
+  exit 1
+fi
+
+exit 0

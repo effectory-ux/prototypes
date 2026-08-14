@@ -1,0 +1,29 @@
+{
+  "name": "Group linking",
+  "desc": "Link a previous survey to the new structure. Two real customer structures, the stepped flow, and a deep tree as a stress test.",
+  "owner": "Jente",
+  "group": "Survey opzetten",
+  "repo": "engage",
+  "path": "prototypes/group-linking-effectory.html",
+  "also": [
+    "^prototypes/group-linking"
+  ],
+  "variants": [
+    {
+      "label": "Effectory-structuur",
+      "path": "prototypes/group-linking-effectory.html"
+    },
+    {
+      "label": "bol.com-structuur",
+      "path": "prototypes/group-linking-bol.html"
+    },
+    {
+      "label": "Stapsgewijs",
+      "path": "prototypes/group-linking-stepped.html"
+    },
+    {
+      "label": "Diepe structuur (stresstest)",
+      "path": "prototypes/group-linking-deep.html"
+    }
+  ]
+}

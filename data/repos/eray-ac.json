@@ -1,0 +1,13 @@
+{
+  "repo": "eray-effectory/action-center",
+  "pages": null,
+  "repos": [
+    {
+      "org": "eray-effectory",
+      "name": "action-center"
+    }
+  ],
+  "ignore": [
+    "^404\\.html$"
+  ]
+}

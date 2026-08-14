@@ -1,0 +1,10 @@
+# De galerij wordt door GitHub Actions gebouwd, niet door ons gecommit.
+# Zo bestaat er geen gegenereerd bestand meer waarop twee mensen kunnen botsen.
+dist/
+index.html
+
+.DS_Store
+__pycache__/
+
+# lokale previewconfig
+.claude/

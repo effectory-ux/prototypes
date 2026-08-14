@@ -1,0 +1,13 @@
+{
+  "repo": "eray-effectory/ux",
+  "pages": "https://eray-effectory.github.io/ux/",
+  "repos": [
+    {
+      "org": "eray-effectory",
+      "name": "ux"
+    }
+  ],
+  "ignore": [
+    "^404\\.html$"
+  ]
+}

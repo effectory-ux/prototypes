@@ -1,0 +1,49 @@
+name: Bouwen en publiceren
+
+# De galerij wordt hier gebouwd, niet op je laptop. Daarom staat index.html
+# niet in git: er is geen gegenereerd bestand meer waarop we kunnen botsen.
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["README.md", ".github/pull_request_template.md"]
+  schedule:
+    # Elke werkdag om 05:00 UTC. Zo pikt de galerij nieuwe pagina's in de
+    # bronrepos zelf op zonder dat iemand hier iets hoeft te doen.
+    - cron: "0 5 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Twee mensen die kort na elkaar mergen kunnen elkaars deploy niet inhalen:
+# de tweede wacht op de eerste in plaats van hem af te breken.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bouwen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Galerij bouwen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./build-gallery.py
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publiceren:
+    needs: bouwen
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - id: pages
+        uses: actions/deploy-pages@v4
