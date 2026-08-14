@@ -30,6 +30,14 @@ plakken, commit, en binnen een minuut ziet iedereen de nieuwe namen. Zo blijft
 **Ongedaan maken** wist je lokale wijzigingen en zet de namen terug op wat er
 gepubliceerd is.
 
+### Zonder publiceerstap
+
+Zet je in `prototypes.json` een URL bij `sync.url`, dan slaat de galerij een naam
+direct op voor iedereen en verdwijnt de publiceerstap. `worker/` bevat het
+endpoint daarvoor plus uitrolstappen; het is één `GET` en één `PUT`, dus het kan
+net zo goed ergens anders draaien dan op Cloudflare. Zolang `sync.url` leeg is,
+merkt de pagina er niets van en blijft alles zoals hierboven.
+
 ## Een prototype toevoegen
 
 1. Voeg een entry toe aan `entries` in `prototypes.json`:

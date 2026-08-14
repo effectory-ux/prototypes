@@ -1,0 +1,12 @@
+name = "prototype-names"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+
+# Alleen de galerij mag schrijven vanuit de browser.
+[vars]
+ALLOW_ORIGIN = "https://effectory-ux.github.io"
+
+# De id hieronder vul je in met wat `wrangler kv namespace create NAMES` teruggeeft.
+[[kv_namespaces]]
+binding = "NAMES"
+id = "VUL_HIER_DE_KV_ID_IN"

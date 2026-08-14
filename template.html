@@ -418,16 +418,129 @@ const REPOS = /*__REPOS__*/;
 const CONFIG = /*__CONFIG__*/;
 const GALLERY_REPO = "effectory-ux/prototypes";
 
-/* Renames live in this browser until they are published to prototypes.json,
-   which stays the single source of truth for everyone. */
+/* Renames are shared through the worker in CONFIG.sync.url: a name typed here is
+   what the next visitor sees. Without that URL they stay in this browser and are
+   published to prototypes.json by hand. */
+const SYNC = (CONFIG.sync && CONFIG.sync.url) || "";
 const STORE = "effx-gallery-names";
+const KEYSTORE = "effx-gallery-key";
+
 let renames = {};
 try { renames = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { renames = {}; }
 
 const nameOf = d => renames[d.id] || d.name;
-function saveRenames() {
+
+function saveLocal() {
   try { localStorage.setItem(STORE, JSON.stringify(renames)); } catch (e) {}
+}
+
+function saveRenames() {
+  saveLocal();
+  if (SYNC) push();
   renderPub();
+}
+
+/* ── Sharing through the worker ── */
+let syncState = SYNC ? "idle" : "off";   // idle | saving | saved | failed | off
+let pushing = false, dirty = false;
+
+async function pull() {
+  if (!SYNC) return;
+  try {
+    const res = await fetch(SYNC + "/names", { cache: "no-store" });
+    if (!res.ok) throw new Error(res.status);
+    const shared = await res.json();
+    if (shared && typeof shared === "object") {
+      renames = shared;
+      saveLocal();
+      render();
+    }
+  } catch (e) {
+    // Offline or worker down: the names from localStorage stay on screen.
+  }
+}
+
+async function push() {
+  if (!SYNC) return;
+  if (pushing) { dirty = true; return; }
+  const key = await editKey();
+  if (!key) { syncState = "failed"; renderPub(); return; }
+
+  pushing = true;
+  syncState = "saving";
+  renderPub();
+  try {
+    const res = await fetch(SYNC + "/names", {
+      method: "PUT",
+      headers: { "content-type": "application/json", "x-edit-key": key },
+      body: JSON.stringify(renames),
+    });
+    if (res.status === 401) {
+      try { localStorage.removeItem(KEYSTORE); } catch (e) {}
+      throw new Error("unauthorized");
+    }
+    if (!res.ok) throw new Error(res.status);
+    syncState = "saved";
+    setTimeout(() => { if (syncState === "saved") { syncState = "idle"; renderPub(); } }, 2500);
+  } catch (e) {
+    syncState = "failed";
+  }
+  pushing = false;
+  renderPub();
+  if (dirty) { dirty = false; push(); }
+}
+
+/* The key is a shared passphrase, asked once per browser, so a random visitor
+   cannot rename things. Reading the gallery never needs it. */
+function editKey() {
+  let stored = null;
+  try { stored = localStorage.getItem(KEYSTORE); } catch (e) {}
+  if (stored) return Promise.resolve(stored);
+
+  return new Promise(resolve => {
+    document.getElementById("ov-title").textContent = "Sleutel invullen";
+    document.getElementById("ov-sub").textContent = "Eén keer per browser, daarna niet meer";
+    document.getElementById("ov-repos").innerHTML = "";
+    document.getElementById("ov-ft").textContent = "Vraag de sleutel na bij je team.";
+
+    const list = document.getElementById("ov-list");
+    list.innerHTML =
+      '<div class="steps">Om namen voor iedereen te wijzigen heb je de teamsleutel nodig. ' +
+      "Kijken en openen kan zonder.</div>";
+
+    const wrap = document.createElement("div");
+    wrap.className = "steps";
+    wrap.style.display = "flex";
+    wrap.style.gap = "8px";
+    wrap.style.paddingTop = "0";
+
+    const inp = document.createElement("input");
+    inp.type = "password";
+    inp.placeholder = "Teamsleutel";
+    inp.style.cssText =
+      "flex:1;height:34px;padding:0 10px;font:400 14px 'Poppins',system-ui,sans-serif;" +
+      "border:1px solid var(--border-base);border-radius:var(--radius-base);outline:none;";
+
+    const ok = document.createElement("button");
+    ok.className = "pages-btn";
+    ok.textContent = "Bewaren";
+
+    const done = value => {
+      if (value) { try { localStorage.setItem(KEYSTORE, value); } catch (e) {} }
+      closeModal();
+      resolve(value || null);
+    };
+    ok.onclick = () => done(inp.value.trim());
+    inp.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); done(inp.value.trim()); } };
+
+    wrap.append(inp, ok);
+    list.append(wrap);
+
+    lastFocus = document.activeElement;
+    ov.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    inp.focus();
+  });
 }
 
 const ICON = {
@@ -675,10 +788,32 @@ function renamedConfig() {
 }
 
 function renderPub() {
+  const bar = document.getElementById("pub");
+  const txt = document.getElementById("pub-txt");
+  const go = document.getElementById("pub-go");
+  const undo = document.getElementById("pub-undo");
   const n = Object.keys(renames).length;
-  document.getElementById("pub").classList.toggle("is-on", n > 0);
-  document.getElementById("pub-txt").textContent =
-    n === 1 ? "1 naam gewijzigd" : n + " namen gewijzigd";
+
+  if (SYNC) {
+    // Names save themselves; the bar only reports what happened.
+    go.hidden = true;
+    undo.hidden = syncState !== "failed";
+    undo.textContent = "Opnieuw proberen";
+    undo.onclick = () => push();
+    txt.textContent =
+      syncState === "saving" ? "Opslaan" :
+      syncState === "saved" ? "Opgeslagen voor iedereen" :
+      syncState === "failed" ? "Niet opgeslagen" : "";
+    bar.classList.toggle("is-on", syncState === "saving" || syncState === "saved" || syncState === "failed");
+    return;
+  }
+
+  go.hidden = false;
+  undo.hidden = false;
+  undo.textContent = "Ongedaan maken";
+  undo.onclick = () => { renames = {}; saveRenames(); render(); };
+  txt.textContent = n === 1 ? "1 naam gewijzigd" : n + " namen gewijzigd";
+  bar.classList.toggle("is-on", n > 0);
 }
 
 async function publish() {
@@ -810,15 +945,11 @@ document.getElementById("q").addEventListener("input", e => {
 window.addEventListener("resize", scale);
 
 document.getElementById("pub-go").onclick = publish;
-document.getElementById("pub-undo").onclick = () => {
-  renames = {};
-  saveRenames();
-  render();
-};
 
 renderHero();
 render();
 renderPub();
+pull();
 </script>
 </body>
 </html>

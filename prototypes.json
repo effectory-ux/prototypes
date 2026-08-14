@@ -1,4 +1,7 @@
 {
+  "sync": {
+    "url": ""
+  },
   "designSystem": {
     "docs": "https://effectory-ux.github.io/Engage-Design-system-/",
     "guide": "https://effectory-ux.github.io/Engage-Design-system-/prototypes-docs.html"
