@@ -238,69 +238,13 @@
     },
     {
       "name": "Effectiveness",
-      "desc": "Effectiveness scores and the group comparison.",
+      "desc": "Group comparison on the effectiveness matrix.",
       "owner": "Jente",
       "group": "Resultaten",
       "repo": "engage",
       "path": "prototypes/effectiveness-overview.html",
       "also": [
         "^prototypes/effectiveness-"
-      ],
-      "variants": [
-        {
-          "label": "Groepsvergelijking",
-          "path": "prototypes/effectiveness-overview.html"
-        },
-        {
-          "label": "Losse kaart",
-          "path": "prototypes/effectiveness-card.html"
-        }
-      ]
-    },
-    {
-      "name": "Dashboard kaarten",
-      "desc": "Standalone card demos: eNPS, response rate, highest and lowest scores, themes, topics, workload.",
-      "owner": "Jente",
-      "group": "Resultaten",
-      "repo": "engage",
-      "path": "prototypes/enps-card.html",
-      "also": [
-        "^prototypes/.*-card(s)?\\.html$",
-        "^prototypes/.*-cards\\.html$"
-      ],
-      "variants": [
-        {
-          "label": "eNPS",
-          "path": "prototypes/enps-card.html"
-        },
-        {
-          "label": "Respons",
-          "path": "prototypes/response-rate-card.html"
-        },
-        {
-          "label": "Hoogste scores",
-          "path": "prototypes/highest-scores-card.html"
-        },
-        {
-          "label": "Laagste scores",
-          "path": "prototypes/lowest-scores-card.html"
-        },
-        {
-          "label": "Thema's",
-          "path": "prototypes/themes-spiderweb-card.html"
-        },
-        {
-          "label": "Topics",
-          "path": "prototypes/topics-card.html"
-        },
-        {
-          "label": "Werkdruk en welzijn",
-          "path": "prototypes/workload-retention-wellbeing-card.html"
-        },
-        {
-          "label": "Effectiviteit",
-          "path": "prototypes/effectiveness-card.html"
-        }
       ]
     },
     {
