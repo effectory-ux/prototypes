@@ -104,7 +104,7 @@
   "entries": [
     {
       "name": "Group linking",
-      "desc": "Vorige survey koppelen aan de nieuwe structuur. De bovenste drie zijn de meest recente uitwerking, daaronder een stresstest, de eerste versie en drie vroege richtingen.",
+      "desc": "Link a previous survey to the new structure. The top three are the most recent work, followed by a stress test, the first version and three early directions.",
       "owner": "Jente",
       "group": "Survey opzetten",
       "repo": "engage",
@@ -149,7 +149,7 @@
     },
     {
       "name": "Group linking · eerste versie",
-      "desc": "De losse repo waarin group linking begon.",
+      "desc": "The standalone repo where group linking started.",
       "owner": "Jente",
       "group": "Survey opzetten",
       "repo": "gl-old",
@@ -157,7 +157,7 @@
     },
     {
       "name": "Approach picker",
-      "desc": "Keuze van de survey-aanpak, met de lege begintoestand.",
+      "desc": "Picking an approach for the survey, shown in its empty starting state.",
       "owner": "Jente",
       "group": "Survey opzetten",
       "repo": "engage",
@@ -165,7 +165,7 @@
     },
     {
       "name": "CYOS survey creation",
-      "desc": "Create your own survey, twee fases naast elkaar te bekijken.",
+      "desc": "Create your own survey, with both phases side by side.",
       "owner": "Jamal",
       "group": "Survey opzetten",
       "repo": "cyos",
@@ -186,7 +186,7 @@
     },
     {
       "name": "CYOS demo",
-      "desc": "Losse demo van de survey-creation flow.",
+      "desc": "Standalone demo of the survey creation flow.",
       "owner": "Jamal",
       "group": "Survey opzetten",
       "repo": "cyos-demo",
@@ -194,7 +194,7 @@
     },
     {
       "name": "CYOS research · central library sync",
-      "desc": "Onderzoeksnotitie over het synchroniseren van de centrale bibliotheek.",
+      "desc": "Research note on keeping the central library in sync.",
       "owner": "Jamal",
       "group": "Survey opzetten",
       "repo": "cyos",
@@ -202,7 +202,7 @@
     },
     {
       "name": "CYOS site",
-      "desc": "Overzichtspagina van het CYOS-project.",
+      "desc": "Landing page for the CYOS project.",
       "owner": "Jamal",
       "group": "Survey opzetten",
       "repo": "cyos",
@@ -210,7 +210,7 @@
     },
     {
       "name": "Results dashboard",
-      "desc": "Resultaten voor managers: overzicht, scores, thema's en rapporten.",
+      "desc": "Results for managers: overview, scores, themes and reports.",
       "owner": "Jente",
       "group": "Resultaten",
       "repo": "engage",
@@ -254,7 +254,7 @@
     },
     {
       "name": "Effectiveness",
-      "desc": "Effectiviteitsscores en de groepsvergelijking.",
+      "desc": "Effectiveness scores and the group comparison.",
       "owner": "Jente",
       "group": "Resultaten",
       "repo": "engage",
@@ -275,7 +275,7 @@
     },
     {
       "name": "Dashboard kaarten",
-      "desc": "Losse kaart-demo's: eNPS, respons, hoogste en laagste scores, thema's, topics, werkdruk.",
+      "desc": "Standalone card demos: eNPS, response rate, highest and lowest scores, themes, topics, workload.",
       "owner": "Jente",
       "group": "Resultaten",
       "repo": "engage",
@@ -321,7 +321,7 @@
     },
     {
       "name": "GTMA Prototype",
-      "desc": "De oude en nieuwe situatie naast elkaar, voor twee voorbeeldorganisaties. Elk moment heeft zijn eigen URL, met overview, scores, thema's, focus, rapporten en acties.",
+      "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
       "owner": "Jente",
       "group": "Resultaten",
       "repo": "engage",
@@ -353,7 +353,7 @@
     },
     {
       "name": "Action Center · manager",
-      "desc": "Van resultaat naar actie. Vier richtingen, van focus view tot multi-select en triage.",
+      "desc": "From result to action. Four directions, from focus view to multi-select and triage.",
       "owner": "Jente",
       "group": "Van resultaat naar actie",
       "repo": "engage",
@@ -382,7 +382,7 @@
     },
     {
       "name": "Action Center · Eray",
-      "desc": "Manager- en coordinator-schermen, action planner en drie opties voor het kiezen van acties.",
+      "desc": "Manager and coordinator screens, the action planner, and three options for choosing an action.",
       "owner": "Eray",
       "group": "Van resultaat naar actie",
       "repo": "eray-ac",
@@ -439,7 +439,7 @@
     },
     {
       "name": "Conversation Guide",
-      "desc": "Gespreksleidraad voor het teamgesprek na de survey.",
+      "desc": "A guide for the team conversation after the survey.",
       "owner": "Jente",
       "group": "Van resultaat naar actie",
       "repo": "engage",
@@ -450,7 +450,7 @@
     },
     {
       "name": "My Effectory · home",
-      "desc": "De homepage van het platform, in twee versies.",
+      "desc": "The platform homepage, in two versions.",
       "owner": "Jente",
       "group": "Platform",
       "repo": "engage",
@@ -471,7 +471,7 @@
     },
     {
       "name": "Platform design",
-      "desc": "Eray's volledige platform-designrepo.",
+      "desc": "Eray's full platform design repo.",
       "owner": "Eray",
       "group": "Platform",
       "repo": "eray-ux",
@@ -479,7 +479,7 @@
     },
     {
       "name": "Alle surveys",
-      "desc": "Overzicht van lopende en afgeronde surveys.",
+      "desc": "Overview of running and completed surveys.",
       "owner": "Jente",
       "group": "Platform",
       "repo": "engage",
@@ -487,7 +487,7 @@
     },
     {
       "name": "Projecten",
-      "desc": "Projectoverzicht binnen My Effectory.",
+      "desc": "Project overview inside My Effectory.",
       "owner": "Jente",
       "group": "Platform",
       "repo": "engage",
@@ -495,7 +495,7 @@
     },
     {
       "name": "App shell",
-      "desc": "Navigatie en raamwerk waarin de schermen hangen.",
+      "desc": "The navigation and frame the screens sit in.",
       "owner": "Jente",
       "group": "Platform",
       "repo": "engage",
@@ -503,7 +503,7 @@
     },
     {
       "name": "Instellingen",
-      "desc": "Account- en platforminstellingen, met een Nederlandse variant.",
+      "desc": "Account and platform settings, including a Dutch variant.",
       "owner": "Jente",
       "group": "Platform",
       "repo": "engage",
@@ -528,7 +528,7 @@
     },
     {
       "name": "BambooHR integratie",
-      "desc": "Koppeling met een HR-systeem opzetten.",
+      "desc": "Setting up a connection with an HR system.",
       "owner": "Jente",
       "group": "Platform",
       "repo": "engage",
@@ -536,7 +536,7 @@
     },
     {
       "name": "Onboarding kaart",
-      "desc": "Opties voor de onboarding-kaart op de homepage.",
+      "desc": "Options for the onboarding card on the homepage.",
       "owner": "Jente",
       "group": "Losse verkenningen",
       "repo": "engage",
@@ -544,7 +544,7 @@
     },
     {
       "name": "Announcement playground",
-      "desc": "Alle varianten van de announcement-component naast elkaar.",
+      "desc": "Every variant of the announcement component side by side.",
       "owner": "Jente",
       "group": "Losse verkenningen",
       "repo": "engage",
