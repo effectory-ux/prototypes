@@ -22,6 +22,10 @@ maar alleen bij jezelf: de wijziging staat in je eigen browser (`localStorage`).
 GitHub Pages serveert alleen statische bestanden, dus er is geen server die het
 voor iedereen kan bewaren.
 
+De namen worden bij het laden uit `prototypes.json` gelezen, niet uit de
+gegenereerde `index.html`. Een gepubliceerde naam is dus meteen zichtbaar zonder
+dat iemand `build-gallery.py` hoeft te draaien.
+
 Onderin verschijnt een balk met **Publiceren**. Die zet de bijgewerkte
 `prototypes.json` op je klembord en opent de GitHub-editor. Alles selecteren,
 plakken, commit, en binnen een minuut ziet iedereen de nieuwe namen. Zo blijft

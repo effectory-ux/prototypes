@@ -1287,6 +1287,36 @@ function saveRenames() {
 let syncState = SYNC ? "idle" : "off";   // idle | saving | saved | failed | off
 let pushing = false, dirty = false;
 
+/* index.html is generated, so a name committed to prototypes.json would not show
+   up until the next build. Read that file at load instead: publishing a rename is
+   then a single commit, no regeneration needed. */
+async function pullFile() {
+  try {
+    const res = await fetch("prototypes.json", { cache: "no-store" });
+    if (!res.ok) return;
+    const cfg = await res.json();
+    if (!cfg || !Array.isArray(cfg.entries)) return;
+
+    const published = {};
+    cfg.entries.forEach(e => { published[e.repo + "::" + e.path] = e.name; });
+
+    let changed = false;
+    DATA.forEach(d => {
+      const name = published[d.id];
+      if (!name || name === d.name) return;
+      d.name = name;                       // what everyone sees
+      if (renames[d.id] === name) {        // my local edit is now the published one
+        delete renames[d.id];
+        saveLocal();
+      }
+      changed = true;
+    });
+    if (changed) { render(); renderPub(); }
+  } catch (e) {
+    // Falls back to the names baked into the page.
+  }
+}
+
 async function pull() {
   if (!SYNC) return;
   try {
@@ -1792,6 +1822,7 @@ document.getElementById("pub-go").onclick = publish;
 renderHero();
 render();
 renderPub();
+pullFile();
 pull();
 </script>
 </body>
