@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prototypes · Effectory UX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="foundation.css" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-interface-body-secondary, var(--bg-secondary));
+    font-family: 'Poppins', system-ui, sans-serif;
+    color: var(--content-base);
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── Top bar ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 40;
+    display: flex; align-items: center; gap: var(--spacing-base);
+    padding: var(--spacing-base-tight) var(--spacing-loose);
+    background: var(--bg-base);
+    border-bottom: 1px solid var(--border-base);
+  }
+  .brand { display: flex; align-items: baseline; gap: var(--spacing-tight); margin-right: auto; }
+  .brand-name { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  .brand-count { font-size: 14px; color: var(--content-secondary); }
+
+  .search { width: 240px; }
+  .search input {
+    width: 100%; height: 36px;
+    padding: 0 var(--spacing-base-tight);
+    font: 400 14px 'Poppins', system-ui, sans-serif;
+    color: var(--content-base);
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-base);
+    outline: none;
+  }
+  .search input:hover { border-color: var(--border-action-hover); }
+  .search input:focus { border-color: var(--border-action); box-shadow: var(--sh-action); }
+  .search input::placeholder { color: var(--content-subtle); }
+
+  .ds-btn {
+    display: inline-flex; align-items: center; gap: var(--spacing-tight);
+    height: 36px; padding: 0 var(--spacing-base);
+    font-size: 14px; font-weight: 500;
+    color: var(--content-always-white);
+    background: var(--bg-brand);
+    border-radius: var(--radius-base);
+    white-space: nowrap;
+    transition: background .12s ease;
+  }
+  .ds-btn:hover { background: var(--bg-brand-hover); }
+  .ds-btn:active { background: var(--bg-brand-pressed); }
+  .ds-btn svg { width: 16px; height: 16px; flex: none; }
+
+  /* ── Filters ── */
+  .filters {
+    position: sticky; top: 61px; z-index: 30;
+    display: flex; flex-wrap: wrap; gap: var(--spacing-tight);
+    padding: var(--spacing-base-tight) var(--spacing-loose);
+    background: var(--bg-base);
+    border-bottom: 1px solid var(--border-base);
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 30px; padding: 0 var(--spacing-base-tight);
+    font: 500 12px 'Poppins', system-ui, sans-serif;
+    color: var(--content-secondary);
+    background: var(--bg-secondary);
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+  }
+  .chip:hover { background: var(--bg-secondary-hover); color: var(--content-base); }
+  .chip.is-on {
+    color: var(--content-brand);
+    background: var(--bg-brand-subtle);
+    border-color: var(--border-brand-subtle);
+  }
+  .chip-n { font-weight: 400; opacity: .7; }
+  .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
+
+  /* ── Hero ── */
+  .wrap { padding: var(--spacing-loose) var(--spacing-loose) var(--spacing-super-extra-loose); }
+  .hero { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--spacing-base-tight); margin-bottom: var(--spacing-extra-loose); }
+  .hero-card {
+    display: flex; align-items: center; gap: var(--spacing-base);
+    padding: var(--spacing-base);
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--sh-card);
+    transition: box-shadow .15s ease, transform .15s ease;
+  }
+  .hero-card:hover { box-shadow: var(--sh-card-hover); transform: translateY(-1px); }
+  .hero-icon {
+    display: grid; place-items: center; flex: none;
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--bg-brand-subtle);
+    color: var(--content-brand);
+  }
+  .hero-icon svg { width: 20px; height: 20px; }
+  .hero-icon.alt { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
+  .hero-t { display: block; font-size: 16px; font-weight: 600; }
+  .hero-d { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
+
+  /* ── Sections ── */
+  .sec { margin-bottom: var(--spacing-extra-loose); }
+  .sec-hd { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-base-tight); }
+  .sec-t { font-size: 16px; font-weight: 600; }
+  .sec-n { font-size: 12px; color: var(--content-secondary); }
+  .sec-line { flex: 1; height: 1px; background: var(--border-base); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-base); }
+
+  /* ── Card ── */
+  .card {
+    display: flex; flex-direction: column;
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--sh-card);
+    transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .card:hover { box-shadow: var(--sh-card-hover); transform: translateY(-2px); border-color: var(--border-base-hover); }
+
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-base);
+    overflow: hidden;
+    display: block;
+  }
+  .thumb iframe {
+    position: absolute; top: 0; left: 0;
+    width: 1440px; height: 900px;
+    border: 0;
+    transform-origin: 0 0;
+    transform: scale(var(--s, .22));
+    pointer-events: none;
+    background: var(--bg-base);
+  }
+  .thumb-skel {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    font-size: 12px; color: var(--content-subtle);
+    background: var(--bg-secondary);
+  }
+  .thumb.is-loaded .thumb-skel { display: none; }
+  .thumb-none {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    font-size: 12px; color: var(--content-subtle);
+    background: repeating-linear-gradient(45deg,
+      var(--bg-secondary) 0 10px, var(--bg-secondary-hover) 10px 20px);
+  }
+  .thumb-none svg { width: 20px; height: 20px; opacity: .5; }
+
+  .open-ov {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    background: rgba(25, 39, 67, .5);
+    opacity: 0; transition: opacity .15s ease;
+  }
+  .card:hover .open-ov { opacity: 1; }
+  .open-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 34px; padding: 0 var(--spacing-base);
+    font-size: 14px; font-weight: 600;
+    color: var(--content-base);
+    background: var(--bg-base);
+    border-radius: var(--radius-full);
+    box-shadow: var(--sh-popovers);
+  }
+  .open-pill svg { width: 14px; height: 14px; }
+
+  .card-body { padding: var(--spacing-base-tight); display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .card-hd { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
+  .card-t { font-size: 16px; font-weight: 600; line-height: 1.3; flex: 1; }
+  .card-d { font-size: 12px; color: var(--content-secondary); line-height: 1.45; }
+  /* ── Modal with every page of a prototype ── */
+  .ov {
+    position: fixed; inset: 0; z-index: 90;
+    display: none; align-items: center; justify-content: center;
+    padding: var(--spacing-loose);
+    background: rgba(25, 39, 67, .45);
+  }
+  .ov.is-open { display: flex; }
+  .modal {
+    display: flex; flex-direction: column;
+    width: 100%; max-width: 520px; max-height: 80vh;
+    background: var(--bg-base);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--sh-dialogs);
+    overflow: hidden;
+  }
+  .modal-hd {
+    display: flex; align-items: flex-start; gap: var(--spacing-base);
+    padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight);
+    border-bottom: 1px solid var(--border-base);
+  }
+  .modal-t { font-size: 18px; font-weight: 600; line-height: 1.3; }
+  .modal-sub { font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
+  .modal-x {
+    margin-left: auto; flex: none;
+    display: grid; place-items: center;
+    width: 32px; height: 32px;
+    border: 0; border-radius: var(--radius-base);
+    background: transparent; color: var(--content-secondary);
+    cursor: pointer;
+  }
+  .modal-x:hover { background: var(--bg-secondary); color: var(--content-base); }
+  .modal-x svg { width: 14px; height: 14px; }
+  .modal-repos {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: var(--spacing-base-tight) var(--spacing-base);
+    border-bottom: 1px solid var(--border-base);
+  }
+  .modal-repos:empty { display: none; }
+  .modal-list { overflow-y: auto; padding: var(--spacing-tight); }
+  .modal-row {
+    display: flex; align-items: center; gap: var(--spacing-base-tight);
+    padding: var(--spacing-tight) var(--spacing-base-tight);
+    border-radius: var(--radius-md);
+  }
+  .modal-row:hover { background: var(--bg-secondary); }
+  .modal-num {
+    flex: none; display: grid; place-items: center;
+    width: 22px; height: 22px;
+    font-size: 12px; font-weight: 600;
+    color: var(--content-secondary);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-full);
+  }
+  .modal-row:hover .modal-num { background: var(--bg-brand-subtle); color: var(--content-brand); }
+  .modal-lbl { font-size: 14px; font-weight: 500; }
+  .modal-path { font-size: 12px; color: var(--content-subtle); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .modal-open { margin-left: auto; flex: none; display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--content-action); }
+  .modal-open svg { width: 12px; height: 12px; }
+  .modal-ft { padding: var(--spacing-base-tight) var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); }
+
+  .pages-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px var(--spacing-tight);
+    font: 500 12px 'Poppins', system-ui, sans-serif;
+    color: var(--content-action);
+    background: transparent;
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+  .pages-btn:hover { border-color: var(--border-action-hover); background: var(--bg-secondary); }
+  .pages-btn svg { width: 12px; height: 12px; }
+
+  .card-meta { display: flex; flex-direction: column; gap: 6px; margin-top: var(--spacing-tight); }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px var(--spacing-tight);
+    font-size: 12px; font-weight: 500; line-height: 1.35;
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    color: var(--content-secondary);
+    max-width: 100%;
+  }
+  .tag.repo { align-items: baseline; word-break: break-word; text-align: left; }
+  .tag.org-ux { background: var(--bg-brand-subtle); color: var(--content-brand); }
+  .tag.org-design { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
+  .tag.org-eray { background: var(--bg-accent-purple-subtle); color: var(--content-base); }
+  .tag.org-jamal { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise); }
+  .tag-dot { width: 6px; height: 6px; border-radius: var(--radius-full); background: currentColor; flex: none; position: relative; top: 5px; }
+  .tag.who { background: var(--bg-highlight-subtle, var(--bg-secondary)); color: var(--content-base); font-weight: 600; }
+  .tag.code { margin-left: auto; background: transparent; color: var(--content-action); border: 1px solid var(--border-base); }
+  .tag.code:hover { border-color: var(--border-action-hover); background: var(--bg-secondary); }
+
+  /* ── Renaming ── */
+  .card-edit {
+    flex: none; display: grid; place-items: center;
+    width: 24px; height: 24px; margin: -2px -4px 0 0;
+    border: 0; border-radius: var(--radius-sm);
+    background: transparent; color: var(--content-subtle);
+    cursor: pointer; opacity: 0;
+    transition: opacity .12s ease;
+  }
+  .card:hover .card-edit, .card-edit:focus { opacity: 1; }
+  .card-edit:hover { background: var(--bg-secondary); color: var(--content-base); }
+  .card-edit svg { width: 13px; height: 13px; }
+
+  .card-t input {
+    width: 100%;
+    font: 600 16px 'Poppins', system-ui, sans-serif;
+    color: var(--content-base);
+    background: var(--bg-base);
+    border: 1px solid var(--border-action);
+    border-radius: var(--radius-sm);
+    padding: 2px 6px; margin: -3px -7px;
+    outline: none;
+    box-shadow: var(--sh-action);
+  }
+  .card.is-renamed .card-t::after {
+    content: "hernoemd";
+    display: inline-block; margin-left: 6px; vertical-align: middle;
+    padding: 1px 6px;
+    font-size: 12px; font-weight: 500;
+    color: var(--content-highlight);
+    background: var(--bg-highlight-subtle);
+    border-radius: var(--radius-full);
+  }
+
+  .pub {
+    position: fixed; left: 50%; bottom: var(--spacing-loose); z-index: 50;
+    transform: translateX(-50%) translateY(120%);
+    display: flex; align-items: center; gap: var(--spacing-base-tight);
+    padding: var(--spacing-base-tight) var(--spacing-base-tight) var(--spacing-base-tight) var(--spacing-base);
+    background: var(--bg-inverse);
+    color: var(--content-inverse);
+    border-radius: var(--radius-full);
+    box-shadow: var(--sh-dialogs);
+    transition: transform .2s ease;
+  }
+  .pub.is-on { transform: translateX(-50%) translateY(0); }
+  .pub-txt { font-size: 14px; font-weight: 500; }
+  .pub-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 32px; padding: 0 var(--spacing-base-tight);
+    font: 500 14px 'Poppins', system-ui, sans-serif;
+    border: 0; border-radius: var(--radius-full);
+    background: var(--bg-base); color: var(--content-base);
+    cursor: pointer;
+  }
+  .pub-btn:hover { background: var(--bg-secondary); }
+  .pub-btn.ghost { background: transparent; color: var(--content-inverse); opacity: .8; }
+  .pub-btn.ghost:hover { background: rgba(255,255,255,.14); opacity: 1; }
+
+  .steps { padding: var(--spacing-base); font-size: 14px; line-height: 1.6; }
+  .steps ol { margin: 0; padding-left: var(--spacing-base); }
+  .steps li { margin-bottom: 6px; }
+  .steps code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
+  .steps .done { color: var(--content-positive); font-weight: 500; }
+
+  /* One row per changed name, with the file it involves. */
+  .pub-rows { padding: 0 var(--spacing-base) var(--spacing-base); display: flex; flex-direction: column; gap: var(--spacing-tight); }
+  .pub-row {
+    display: flex; align-items: center; gap: var(--spacing-base-tight);
+    padding: var(--spacing-base-tight);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+  }
+  .pub-row-t { flex: 1; min-width: 0; font-size: 14px; line-height: 1.4; }
+  .pub-row-f { display: block; margin-top: 2px; }
+  .pub-row-f code { font-size: 12px; color: var(--content-subtle); background: transparent; padding: 0; }
+  .pub-row-b { flex: none; display: flex; gap: 6px; }
+
+  .empty { padding: var(--spacing-super-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
+
+  .foot { margin-top: var(--spacing-extra-loose); padding-top: var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); line-height: 1.7; }
+  .foot a { color: var(--content-action); }
+  .foot code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
+
+  @media (max-width: 720px) {
+    .topbar { flex-wrap: wrap; }
+    .search { width: 100%; order: 3; }
+    .filters { top: 105px; }
+    .wrap { padding: var(--spacing-base); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="brand-name">Prototypes</span>
+    <span class="brand-count" id="count">23</span>
+  </div>
+  <div class="search">
+    <input id="q" type="search" placeholder="Zoek op naam of repo" autocomplete="off" />
+  </div>
+  <a class="ds-btn" id="dsbtn" href="#" target="_blank" rel="noopener">
+    <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+    Design system
+  </a>
+</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ov-title">
+  <div class="modal" id="modal">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-t" id="ov-title"></div>
+        <div class="modal-sub" id="ov-sub"></div>
+      </div>
+      <button class="modal-x" id="ov-close" aria-label="Sluiten"></button>
+    </div>
+    <div class="modal-repos" id="ov-repos"></div>
+    <div class="modal-list" id="ov-list"></div>
+    <div class="modal-ft" id="ov-ft"></div>
+  </div>
+</div>
+
+<div class="pub" id="pub">
+  <span class="pub-txt" id="pub-txt"></span>
+  <button class="pub-btn" id="pub-go">Publiceren</button>
+  <button class="pub-btn ghost" id="pub-undo">Ongedaan maken</button>
+</div>
+
+<div class="wrap">
+  <div class="hero" id="hero"></div>
+  <div id="sections"></div>
+  <div class="foot">
+    Eén kaart per prototype. Een prototype met meerdere schermen opent op zijn beginpagina.<br />
+    Verversen na nieuwe prototypes: pas <code>prototypes.json</code> aan en draai <code>./build-gallery.py</code>.<br />
+    <span id="foot-src"></span>
+  </div>
+</div>
+
+<script>
+const DATA = [
+{
+"id": "engage::prototypes/approach-picker.html",
+"file": "data/prototypes/approach-picker.json",
+"source": {
+"name": "Approach picker",
+"desc": "Picking an approach for the survey, shown in its empty starting state.",
+"owner": "Jente",
+"group": "Survey opzetten",
+"repo": "engage",
+"path": "prototypes/approach-picker.html"
+},
+"name": "Approach picker",
+"variants": [],
+"desc": "Picking an approach for the survey, shown in its empty starting state.",
+"owner": "Jente",
+"group": "Survey opzetten",
+"path": "prototypes/approach-picker.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/approach-picker.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/approach-picker.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/approach-picker.html"
+]
+},
+{
+"id": "cyos-demo::index.html",
+"file": "data/prototypes/cyos-demo.json",
+"source": {
+"name": "CYOS demo",
+"desc": "Standalone demo of the survey creation flow.",
+"owner": "Jamal",
+"group": "Survey opzetten",
+"repo": "cyos-demo",
+"path": "index.html"
+},
+"name": "CYOS demo",
+"variants": [],
+"desc": "Standalone demo of the survey creation flow.",
+"owner": "Jamal",
+"group": "Survey opzetten",
+"path": "index.html",
+"repos": [
+{
+"org": "N33G3K",
+"name": "cyos-survey-creation-flow-demo"
+}
+],
+"live": "https://n33g3k.github.io/cyos-survey-creation-flow-demo/",
+"code": "https://github.com/N33G3K/cyos-survey-creation-flow-demo/blob/main/index.html",
+"tree": "https://github.com/N33G3K/cyos-survey-creation-flow-demo",
+"screens": 1,
+"pages": [
+"index.html"
+]
+},
+{
+"id": "cyos::site/research/central-library-sync/index.html",
+"file": "data/prototypes/cyos-research-central-library-sync.json",
+"source": {
+"name": "CYOS research · central library sync",
+"desc": "Research note on keeping the central library in sync.",
+"owner": "Jamal",
+"group": "Survey opzetten",
+"repo": "cyos",
+"path": "site/research/central-library-sync/index.html"
+},
+"name": "CYOS research · central library sync",
+"variants": [],
+"desc": "Research note on keeping the central library in sync.",
+"owner": "Jamal",
+"group": "Survey opzetten",
+"path": "site/research/central-library-sync/index.html",
+"repos": [
+{
+"org": "effectory-ux",
+"name": "cyos"
+}
+],
+"live": "https://effectory-ux.github.io/cyos/research/central-library-sync/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/site/research/central-library-sync/index.html",
+"tree": "https://github.com/effectory-ux/cyos",
+"screens": 1,
+"pages": [
+"site/research/central-library-sync/index.html"
+]
+},
+{
+"id": "cyos::site/index.html",
+"file": "data/prototypes/cyos-site.json",
+"source": {
+"name": "CYOS site",
+"desc": "Overzichtspagina van het CYOS-project.",
+"owner": "Jamal",
+"group": "Survey opzetten",
+"repo": "cyos",
+"path": "site/index.html"
+},
+"name": "CYOS site",
+"variants": [],
+"desc": "Overzichtspagina van het CYOS-project.",
+"owner": "Jamal",
+"group": "Survey opzetten",
+"path": "site/index.html",
+"repos": [
+{
+"org": "effectory-ux",
+"name": "cyos"
+}
+],
+"live": "https://effectory-ux.github.io/cyos/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/site/index.html",
+"tree": "https://github.com/effectory-ux/cyos",
+"screens": 1,
+"pages": [
+"site/index.html"
+]
+},
+{
+"id": "cyos::phase-1/index.html",
+"file": "data/prototypes/cyos-survey-creation.json",
+"source": {
+"name": "CYOS survey creation",
+"desc": "Create your own survey, with both phases side by side.",
+"owner": "Jamal",
+"group": "Survey opzetten",
+"repo": "cyos",
+"path": "phase-1/index.html",
+"also": [
+"^phase-"
+],
+"variants": [
+{
+"label": "Fase 1",
+"path": "phase-1/index.html"
+},
+{
+"label": "Fase 2",
+"path": "phase-2/index.html"
+}
+]
+},
+"name": "CYOS survey creation",
+"variants": [
+{
+"label": "Fase 1",
+"live": "https://effectory-ux.github.io/cyos/phase-1/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/phase-1/index.html"
+},
+{
+"label": "Fase 2",
+"live": "https://effectory-ux.github.io/cyos/phase-2/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/phase-2/index.html"
+}
+],
+"desc": "Create your own survey, with both phases side by side.",
+"owner": "Jamal",
+"group": "Survey opzetten",
+"path": "phase-1/index.html",
+"repos": [
+{
+"org": "effectory-ux",
+"name": "cyos"
+}
+],
+"live": "https://effectory-ux.github.io/cyos/phase-1/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/phase-1/index.html",
+"tree": "https://github.com/effectory-ux/cyos",
+"screens": 2,
+"pages": [
+"phase-1/index.html",
+"phase-2/index.html"
+]
+},
+{
+"id": "engage::prototypes/group-linking-effectory.html",
+"file": "data/prototypes/group-linking.json",
+"source": {
+"name": "Group linking",
+"desc": "Link a previous survey to the new structure. The top three are the most recent work, followed by a stress test, the first version and three early directions.",
+"owner": "Jente",
+"group": "Survey opzetten",
+"repo": "engage",
+"path": "prototypes/group-linking-effectory.html",
+"also": [
+"^prototypes/group-linking"
+],
+"variants": [
+{
+"label": "Effectory-structuur",
+"path": "prototypes/group-linking-effectory.html"
+},
+{
+"label": "bol.com-structuur",
+"path": "prototypes/group-linking-bol.html"
+},
+{
+"label": "Stapsgewijs",
+"path": "prototypes/group-linking-stepped.html"
+},
+{
+"label": "Diepe structuur (stresstest)",
+"path": "prototypes/group-linking-deep.html"
+},
+{
+"label": "Eerste versie",
+"path": "prototypes/group-linking.html"
+},
+{
+"label": "Richting: hybride",
+"path": "prototypes/group-linking-hybrid-mockup.html"
+},
+{
+"label": "Richting: Qualtrics-stijl",
+"path": "prototypes/group-linking-qualtrics-mockup.html"
+},
+{
+"label": "Richting: substructuur",
+"path": "prototypes/group-linking-subtree-mockup.html"
+}
+]
+},
+"name": "Group linking",
+"variants": [
+{
+"label": "Effectory-structuur",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking-effectory.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking-effectory.html"
+},
+{
+"label": "bol.com-structuur",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking-bol.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking-bol.html"
+},
+{
+"label": "Stapsgewijs",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking-stepped.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking-stepped.html"
+},
+{
+"label": "Diepe structuur (stresstest)",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking-deep.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking-deep.html"
+},
+{
+"label": "Eerste versie",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking.html"
+},
+{
+"label": "Richting: hybride",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking-hybrid-mockup.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking-hybrid-mockup.html"
+},
+{
+"label": "Richting: Qualtrics-stijl",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking-qualtrics-mockup.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking-qualtrics-mockup.html"
+},
+{
+"label": "Richting: substructuur",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking-subtree-mockup.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking-subtree-mockup.html"
+}
+],
+"desc": "Link a previous survey to the new structure. The top three are the most recent work, followed by a stress test, the first version and three early directions.",
+"owner": "Jente",
+"group": "Survey opzetten",
+"path": "prototypes/group-linking-effectory.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/group-linking-effectory.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/group-linking-effectory.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 8,
+"pages": [
+"prototypes/group-linking-bol.html",
+"prototypes/group-linking-deep.html",
+"prototypes/group-linking-effectory.html",
+"prototypes/group-linking-hybrid-mockup.html",
+"prototypes/group-linking-qualtrics-mockup.html",
+"prototypes/group-linking-stepped.html",
+"prototypes/group-linking-subtree-mockup.html",
+"prototypes/group-linking.html"
+]
+},
+{
+"id": "gl-old::index.html",
+"file": "data/prototypes/group-linking-eerste-versie.json",
+"source": {
+"name": "Group linking · eerste versie",
+"desc": "The standalone repo where group linking started.",
+"owner": "Jente",
+"group": "Survey opzetten",
+"repo": "gl-old",
+"path": "index.html"
+},
+"name": "Group linking · eerste versie",
+"variants": [],
+"desc": "The standalone repo where group linking started.",
+"owner": "Jente",
+"group": "Survey opzetten",
+"path": "index.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "group-linking"
+}
+],
+"live": null,
+"code": "https://github.com/effectory-design/group-linking/blob/main/index.html",
+"tree": "https://github.com/effectory-design/group-linking",
+"screens": 1,
+"pages": [
+"index.html"
+]
+},
+{
+"id": "engage::novanta-before-overview.html",
+"file": "data/prototypes/before-after.json",
+"source": {
+"name": "GTMA Prototype",
+"desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
+"owner": "Jente",
+"group": "Resultaten",
+"repo": "engage",
+"path": "novanta-before-overview.html",
+"also": [
+"^novanta-",
+"^team-it-",
+"^before-",
+"^after-"
+],
+"variants": [
+{
+"label": "Novanta · Q2",
+"path": "novanta-before-overview.html"
+},
+{
+"label": "Novanta · Q3",
+"path": "novanta-after-overview.html"
+},
+{
+"label": "Team IT · Q2",
+"path": "team-it-before-overview.html"
+},
+{
+"label": "Team IT · Q3",
+"path": "team-it-after-overview.html"
+}
+]
+},
+"name": "GTMA Prototype",
+"variants": [
+{
+"label": "Novanta · Q2",
+"live": "https://effectory-design.github.io/effectory-design-documentation/novanta-before-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/novanta-before-overview.html"
+},
+{
+"label": "Novanta · Q3",
+"live": "https://effectory-design.github.io/effectory-design-documentation/novanta-after-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/novanta-after-overview.html"
+},
+{
+"label": "Team IT · Q2",
+"live": "https://effectory-design.github.io/effectory-design-documentation/team-it-before-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/team-it-before-overview.html"
+},
+{
+"label": "Team IT · Q3",
+"live": "https://effectory-design.github.io/effectory-design-documentation/team-it-after-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/team-it-after-overview.html"
+}
+],
+"desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
+"owner": "Jente",
+"group": "Resultaten",
+"path": "novanta-before-overview.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/novanta-before-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/novanta-before-overview.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 34,
+"pages": [
+"after-actions.html",
+"after-focus.html",
+"after-overview.html",
+"after-reports.html",
+"after-scores.html",
+"before-actions.html",
+"before-focus.html",
+"before-overview.html",
+"before-reports.html",
+"before-scores.html",
+"novanta-after-actions.html",
+"novanta-after-focus.html",
+"novanta-after-overview.html",
+"novanta-after-reports.html",
+"novanta-after-scores.html",
+"novanta-after-themes.html",
+"novanta-before-actions.html",
+"novanta-before-focus.html",
+"novanta-before-overview.html",
+"novanta-before-reports.html",
+"novanta-before-scores.html",
+"novanta-before-themes.html",
+"team-it-after-actions.html",
+"team-it-after-focus.html",
+"team-it-after-overview.html",
+"team-it-after-reports.html",
+"team-it-after-scores.html",
+"team-it-after-themes.html",
+"team-it-before-actions.html",
+"team-it-before-focus.html",
+"team-it-before-overview.html",
+"team-it-before-reports.html",
+"team-it-before-scores.html",
+"team-it-before-themes.html"
+]
+},
+{
+"id": "engage::prototypes/results-dashboard.html",
+"file": "data/prototypes/results-dashboard.json",
+"source": {
+"name": "Results dashboard",
+"desc": "Results for managers: overview, scores, themes and reports.",
+"owner": "Jente",
+"group": "Resultaten",
+"repo": "engage",
+"path": "prototypes/results-dashboard.html",
+"also": [
+"^prototypes/results-",
+"^prototypes/scores\\.",
+"^prototypes/themes\\.",
+"^prototypes/reports\\."
+],
+"variants": [
+{
+"label": "Overzicht",
+"path": "prototypes/results-dashboard.html"
+},
+{
+"label": "Scores",
+"path": "prototypes/scores.html"
+},
+{
+"label": "Thema's",
+"path": "prototypes/themes.html"
+},
+{
+"label": "Rapporten",
+"path": "prototypes/reports.html"
+},
+{
+"label": "Overzicht (variant)",
+"path": "prototypes/results-dashboard-overview.html"
+},
+{
+"label": "Overzicht met terugknop",
+"path": "prototypes/results-dashboard-panel-back.html"
+},
+{
+"label": "Effectiviteit-overzicht",
+"path": "prototypes/results-overview.html"
+}
+]
+},
+"name": "Results dashboard",
+"variants": [
+{
+"label": "Overzicht",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html"
+},
+{
+"label": "Overzicht met terugknop",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard-panel-back.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard-panel-back.html"
+},
+{
+"label": "Effectiviteit-overzicht",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-overview.html"
+}
+],
+"desc": "Results for managers: overview, scores, themes and reports.",
+"owner": "Jente",
+"group": "Resultaten",
+"path": "prototypes/results-dashboard.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 3,
+"pages": [
+"prototypes/results-dashboard-panel-back.html",
+"prototypes/results-dashboard.html",
+"prototypes/results-overview.html"
+]
+},
+{
+"id": "engage::prototypes/enps-card.html",
+"file": "data/prototypes/dashboard-kaarten.json",
+"source": {
+"name": "Dashboard kaarten",
+"desc": "Standalone card demos: eNPS, response rate, highest and lowest scores, themes, topics, workload.",
+"owner": "Jente",
+"group": "Resultaten",
+"repo": "engage",
+"path": "prototypes/enps-card.html",
+"also": [
+"^prototypes/.*-card(s)?\\.html$",
+"^prototypes/.*-cards\\.html$"
+],
+"variants": [
+{
+"label": "eNPS",
+"path": "prototypes/enps-card.html"
+},
+{
+"label": "Respons",
+"path": "prototypes/response-rate-card.html"
+},
+{
+"label": "Hoogste scores",
+"path": "prototypes/highest-scores-card.html"
+},
+{
+"label": "Laagste scores",
+"path": "prototypes/lowest-scores-card.html"
+},
+{
+"label": "Thema's",
+"path": "prototypes/themes-spiderweb-card.html"
+},
+{
+"label": "Topics",
+"path": "prototypes/topics-card.html"
+},
+{
+"label": "Werkdruk en welzijn",
+"path": "prototypes/workload-retention-wellbeing-card.html"
+},
+{
+"label": "Effectiviteit",
+"path": "prototypes/effectiveness-card.html"
+}
+]
+},
+"name": "Dashboard kaarten",
+"variants": [],
+"desc": "Standalone card demos: eNPS, response rate, highest and lowest scores, themes, topics, workload.",
+"owner": "Jente",
+"group": "Resultaten",
+"path": "prototypes/enps-card.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": null,
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/enps-card.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/enps-card.html"
+]
+},
+{
+"id": "engage::prototypes/effectiveness-overview.html",
+"file": "data/prototypes/effectiveness.json",
+"source": {
+"name": "Effectiveness",
+"desc": "Effectiveness scores and the group comparison.",
+"owner": "Jente",
+"group": "Resultaten",
+"repo": "engage",
+"path": "prototypes/effectiveness-overview.html",
+"also": [
+"^prototypes/effectiveness-"
+],
+"variants": [
+{
+"label": "Groepsvergelijking",
+"path": "prototypes/effectiveness-overview.html"
+},
+{
+"label": "Losse kaart",
+"path": "prototypes/effectiveness-card.html"
+}
+]
+},
+"name": "Effectiveness",
+"variants": [],
+"desc": "Effectiveness scores and the group comparison.",
+"owner": "Jente",
+"group": "Resultaten",
+"path": "prototypes/effectiveness-overview.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": null,
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/effectiveness-overview.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/effectiveness-overview.html"
+]
+},
+{
+"id": "engage::action-center-manager.html",
+"file": "data/prototypes/action-center-manager.json",
+"source": {
+"name": "Action Center · manager",
+"desc": "From result to action. Four directions, from focus view to multi-select and triage.",
+"owner": "Jente",
+"group": "Van resultaat naar actie",
+"repo": "engage",
+"path": "action-center-manager.html",
+"also": [
+"^action-center-"
+],
+"variants": [
+{
+"label": "Focus view",
+"path": "action-center-manager.html"
+},
+{
+"label": "Stepper",
+"path": "action-center-manager-stepper.html"
+},
+{
+"label": "V4 · multi-select en triage",
+"path": "action-center-manager-v4.html"
+},
+{
+"label": "V5 · triage-pagina",
+"path": "action-center-manager-v5.html"
+}
+]
+},
+"name": "Action Center · manager",
+"variants": [
+{
+"label": "Focus view",
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager.html"
+},
+{
+"label": "Stepper",
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-stepper.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-stepper.html"
+},
+{
+"label": "V4 · multi-select en triage",
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-v4.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-v4.html"
+},
+{
+"label": "V5 · triage-pagina",
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-v5.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-v5.html"
+}
+],
+"desc": "From result to action. Four directions, from focus view to multi-select and triage.",
+"owner": "Jente",
+"group": "Van resultaat naar actie",
+"path": "action-center-manager.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 4,
+"pages": [
+"action-center-manager-stepper.html",
+"action-center-manager-v4.html",
+"action-center-manager-v5.html",
+"action-center-manager.html"
+]
+},
+{
+"id": "engage::conversation-guide.html",
+"file": "data/prototypes/conversation-guide.json",
+"source": {
+"name": "Conversation Guide",
+"desc": "A guide for the team conversation after the survey.",
+"owner": "Jente",
+"group": "Van resultaat naar actie",
+"repo": "engage",
+"path": "conversation-guide.html",
+"also": [
+"^conversation-guide"
+]
+},
+"name": "Conversation Guide",
+"variants": [],
+"desc": "A guide for the team conversation after the survey.",
+"owner": "Jente",
+"group": "Van resultaat naar actie",
+"path": "conversation-guide.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/conversation-guide.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/conversation-guide.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"conversation-guide.html"
+]
+},
+{
+"id": "eray-ac::index.html",
+"file": "data/prototypes/action-center-eray.json",
+"source": {
+"name": "Action Center · Eray",
+"desc": "Manager and coordinator screens, the action planner, and three options for choosing an action.",
+"owner": "Eray",
+"group": "Van resultaat naar actie",
+"repo": "eray-ac",
+"path": "index.html",
+"also": [
+".*"
+],
+"variants": [
+{
+"label": "Overzicht",
+"path": "index.html"
+},
+{
+"label": "Manager",
+"path": "action-center/action-center-manager-standalone.html"
+},
+{
+"label": "Action planner",
+"path": "action-planner/index.html"
+},
+{
+"label": "Action planner · org-view",
+"path": "action-planner/org-view.html"
+},
+{
+"label": "Conversation guide",
+"path": "conversation-guide/conversation-guide.html"
+},
+{
+"label": "Coordinator home",
+"path": "coordinator-home.html"
+},
+{
+"label": "Home activity feed",
+"path": "home-activity-feed.html"
+},
+{
+"label": "Optie A: inline uitklappen",
+"path": "option-a-inline-expand.html"
+},
+{
+"label": "Optie B: chips en drawer",
+"path": "option-b-chips-drawer.html"
+},
+{
+"label": "Optie C: keuzedialoog",
+"path": "option-c-choose-dialog.html"
+},
+{
+"label": "Group linking preview",
+"path": "group-linking-preview/prototypes/group-linking-stepped.html"
+}
+]
+},
+"name": "Action Center · Eray",
+"variants": [
+{
+"label": "Overzicht",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/index.html"
+},
+{
+"label": "Manager",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/action-center/action-center-manager-standalone.html"
+},
+{
+"label": "Action planner",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/action-planner/index.html"
+},
+{
+"label": "Action planner · org-view",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/action-planner/org-view.html"
+},
+{
+"label": "Conversation guide",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/conversation-guide/conversation-guide.html"
+},
+{
+"label": "Coordinator home",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/coordinator-home.html"
+},
+{
+"label": "Home activity feed",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/home-activity-feed.html"
+},
+{
+"label": "Optie A: inline uitklappen",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/option-a-inline-expand.html"
+},
+{
+"label": "Optie B: chips en drawer",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/option-b-chips-drawer.html"
+},
+{
+"label": "Optie C: keuzedialoog",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/option-c-choose-dialog.html"
+},
+{
+"label": "Group linking preview",
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/group-linking-preview/prototypes/group-linking-stepped.html"
+}
+],
+"desc": "Manager and coordinator screens, the action planner, and three options for choosing an action.",
+"owner": "Eray",
+"group": "Van resultaat naar actie",
+"path": "index.html",
+"repos": [
+{
+"org": "eray-effectory",
+"name": "action-center"
+}
+],
+"live": null,
+"code": "https://github.com/eray-effectory/action-center/blob/main/index.html",
+"tree": "https://github.com/eray-effectory/action-center",
+"screens": 11,
+"pages": [
+"action-center/action-center-manager-standalone.html",
+"action-planner/index.html",
+"action-planner/org-view.html",
+"conversation-guide/conversation-guide.html",
+"coordinator-home.html",
+"group-linking-preview/prototypes/group-linking-stepped.html",
+"home-activity-feed.html",
+"index.html",
+"option-a-inline-expand.html",
+"option-b-chips-drawer.html",
+"option-c-choose-dialog.html"
+]
+},
+{
+"id": "engage::prototypes/integration-bamboohr.html",
+"file": "data/prototypes/bamboohr-integratie.json",
+"source": {
+"name": "BambooHR integratie",
+"desc": "Setting up a connection with an HR system.",
+"owner": "Jente",
+"group": "Platform",
+"repo": "engage",
+"path": "prototypes/integration-bamboohr.html"
+},
+"name": "BambooHR integratie",
+"variants": [],
+"desc": "Setting up a connection with an HR system.",
+"owner": "Jente",
+"group": "Platform",
+"path": "prototypes/integration-bamboohr.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/integration-bamboohr.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/integration-bamboohr.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/integration-bamboohr.html"
+]
+},
+{
+"id": "engage::prototypes/my-effectory-home.html",
+"file": "data/prototypes/my-effectory-home.json",
+"source": {
+"name": "My Effectory · home",
+"desc": "The platform homepage, in two versions.",
+"owner": "Jente",
+"group": "Platform",
+"repo": "engage",
+"path": "prototypes/my-effectory-home.html",
+"also": [
+"^prototypes/my-effectory-"
+],
+"variants": [
+{
+"label": "Ontwerp",
+"path": "prototypes/my-effectory-home.html"
+},
+{
+"label": "Live-versie",
+"path": "prototypes/my-effectory-home-live.html"
+}
+]
+},
+"name": "My Effectory · home",
+"variants": [
+{
+"label": "Ontwerp",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/my-effectory-home.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/my-effectory-home.html"
+}
+],
+"desc": "The platform homepage, in two versions.",
+"owner": "Jente",
+"group": "Platform",
+"path": "prototypes/my-effectory-home.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/my-effectory-home.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/my-effectory-home.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/my-effectory-home.html"
+]
+},
+{
+"id": "eray-ux::index.html",
+"file": "data/prototypes/platform-design.json",
+"source": {
+"name": "Platform design",
+"desc": "Eray's full platform design repo.",
+"owner": "Eray",
+"group": "Platform",
+"repo": "eray-ux",
+"path": "index.html"
+},
+"name": "Platform design",
+"variants": [],
+"desc": "Eray's full platform design repo.",
+"owner": "Eray",
+"group": "Platform",
+"path": "index.html",
+"repos": [
+{
+"org": "eray-effectory",
+"name": "ux"
+}
+],
+"live": "https://eray-effectory.github.io/ux/",
+"code": "https://github.com/eray-effectory/ux/blob/main/index.html",
+"tree": "https://github.com/eray-effectory/ux",
+"screens": 1,
+"pages": [
+"index.html"
+]
+},
+{
+"id": "engage::prototypes/all-surveys.html",
+"file": "data/prototypes/alle-surveys.json",
+"source": {
+"name": "Alle surveys",
+"desc": "Overview of running and completed surveys.",
+"owner": "Jente",
+"group": "Platform",
+"repo": "engage",
+"path": "prototypes/all-surveys.html"
+},
+"name": "Alle surveys",
+"variants": [],
+"desc": "Overview of running and completed surveys.",
+"owner": "Jente",
+"group": "Platform",
+"path": "prototypes/all-surveys.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": null,
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/all-surveys.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/all-surveys.html"
+]
+},
+{
+"id": "engage::prototypes/app-shell.html",
+"file": "data/prototypes/app-shell.json",
+"source": {
+"name": "App shell",
+"desc": "The navigation and frame the screens sit in.",
+"owner": "Jente",
+"group": "Platform",
+"repo": "engage",
+"path": "prototypes/app-shell.html"
+},
+"name": "App shell",
+"variants": [],
+"desc": "The navigation and frame the screens sit in.",
+"owner": "Jente",
+"group": "Platform",
+"path": "prototypes/app-shell.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": null,
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/app-shell.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/app-shell.html"
+]
+},
+{
+"id": "engage::prototypes/settings.html",
+"file": "data/prototypes/instellingen.json",
+"source": {
+"name": "Instellingen",
+"desc": "Account and platform settings, including a Dutch variant.",
+"owner": "Jente",
+"group": "Platform",
+"repo": "engage",
+"path": "prototypes/settings.html",
+"also": [
+"^prototypes/(instellingen|account-settings)\\.html$"
+],
+"variants": [
+{
+"label": "Platform (EN)",
+"path": "prototypes/settings.html"
+},
+{
+"label": "Platform (NL)",
+"path": "prototypes/instellingen.html"
+},
+{
+"label": "Account",
+"path": "prototypes/account-settings.html"
+}
+]
+},
+"name": "Instellingen",
+"variants": [],
+"desc": "Account and platform settings, including a Dutch variant.",
+"owner": "Jente",
+"group": "Platform",
+"path": "prototypes/settings.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": null,
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/settings.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/settings.html"
+]
+},
+{
+"id": "engage::prototypes/projects.html",
+"file": "data/prototypes/projecten.json",
+"source": {
+"name": "Projecten",
+"desc": "Project overview inside My Effectory.",
+"owner": "Jente",
+"group": "Platform",
+"repo": "engage",
+"path": "prototypes/projects.html"
+},
+"name": "Projecten",
+"variants": [],
+"desc": "Project overview inside My Effectory.",
+"owner": "Jente",
+"group": "Platform",
+"path": "prototypes/projects.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": null,
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/projects.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/projects.html"
+]
+},
+{
+"id": "engage::prototypes/announcement-playground.html",
+"file": "data/prototypes/announcement-playground.json",
+"source": {
+"name": "Announcement playground",
+"desc": "Every variant of the announcement component side by side.",
+"owner": "Jente",
+"group": "Losse verkenningen",
+"repo": "engage",
+"path": "prototypes/announcement-playground.html"
+},
+"name": "Announcement playground",
+"variants": [],
+"desc": "Every variant of the announcement component side by side.",
+"owner": "Jente",
+"group": "Losse verkenningen",
+"path": "prototypes/announcement-playground.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/announcement-playground.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/announcement-playground.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/announcement-playground.html"
+]
+},
+{
+"id": "engage::prototypes/onboarding-card-options.html",
+"file": "data/prototypes/onboarding-kaart.json",
+"source": {
+"name": "Onboarding kaart",
+"desc": "Options for the onboarding card on the homepage.",
+"owner": "Jente",
+"group": "Losse verkenningen",
+"repo": "engage",
+"path": "prototypes/onboarding-card-options.html"
+},
+"name": "Onboarding kaart",
+"variants": [],
+"desc": "Options for the onboarding card on the homepage.",
+"owner": "Jente",
+"group": "Losse verkenningen",
+"path": "prototypes/onboarding-card-options.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/onboarding-card-options.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/onboarding-card-options.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/onboarding-card-options.html"
+]
+}
+];
+const DS = {"docs": "https://effectory-ux.github.io/Engage-Design-system-/", "guide": "https://effectory-ux.github.io/Engage-Design-system-/prototypes-docs.html"};
+const REPOS = [{"repo": "effectory-design/effectory-design-documentation", "pages": "https://effectory-design.github.io/effectory-design-documentation/"}, {"repo": "N33G3K/cyos-survey-creation-flow-demo", "pages": "https://n33g3k.github.io/cyos-survey-creation-flow-demo/"}, {"repo": "effectory-ux/cyos", "pages": "https://effectory-ux.github.io/cyos/"}, {"repo": "effectory-design/group-linking", "pages": null}, {"repo": "eray-effectory/action-center", "pages": null}, {"repo": "eray-effectory/ux", "pages": "https://eray-effectory.github.io/ux/"}];
+const SYNC_CFG = {"url": ""};
+const GALLERY_REPO = "effectory-ux/prototypes";
+
+/* Renames are shared through the worker in sync.url: a name typed here is what
+   the next visitor sees. Without that URL they stay in this browser and are
+   published one prototype at a time, one small file per name. */
+const SYNC = (SYNC_CFG && SYNC_CFG.url) || "";
+const STORE = "effx-gallery-names";
+const KEYSTORE = "effx-gallery-key";
+
+let renames = {};
+try { renames = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { renames = {}; }
+
+const nameOf = d => renames[d.id] || d.name;
+
+function saveLocal() {
+  try { localStorage.setItem(STORE, JSON.stringify(renames)); } catch (e) {}
+}
+
+function saveRenames() {
+  saveLocal();
+  if (SYNC) push();
+  renderPub();
+}
+
+/* ── Sharing through the worker ── */
+let syncState = SYNC ? "idle" : "off";   // idle | saving | saved | failed | off
+let pushing = false, dirty = false;
+
+async function pull() {
+  if (!SYNC) return;
+  try {
+    const res = await fetch(SYNC + "/names", { cache: "no-store" });
+    if (!res.ok) throw new Error(res.status);
+    const shared = await res.json();
+    if (shared && typeof shared === "object") {
+      renames = shared;
+      saveLocal();
+      render();
+    }
+  } catch (e) {
+    // Offline or worker down: the names from localStorage stay on screen.
+  }
+}
+
+async function push() {
+  if (!SYNC) return;
+  if (pushing) { dirty = true; return; }
+  const key = await editKey();
+  if (!key) { syncState = "failed"; renderPub(); return; }
+
+  pushing = true;
+  syncState = "saving";
+  renderPub();
+  try {
+    const res = await fetch(SYNC + "/names", {
+      method: "PUT",
+      headers: { "content-type": "application/json", "x-edit-key": key },
+      body: JSON.stringify(renames),
+    });
+    if (res.status === 401) {
+      try { localStorage.removeItem(KEYSTORE); } catch (e) {}
+      throw new Error("unauthorized");
+    }
+    if (!res.ok) throw new Error(res.status);
+    syncState = "saved";
+    setTimeout(() => { if (syncState === "saved") { syncState = "idle"; renderPub(); } }, 2500);
+  } catch (e) {
+    syncState = "failed";
+  }
+  pushing = false;
+  renderPub();
+  if (dirty) { dirty = false; push(); }
+}
+
+/* The key is a shared passphrase, asked once per browser, so a random visitor
+   cannot rename things. Reading the gallery never needs it. */
+function editKey() {
+  let stored = null;
+  try { stored = localStorage.getItem(KEYSTORE); } catch (e) {}
+  if (stored) return Promise.resolve(stored);
+
+  return new Promise(resolve => {
+    document.getElementById("ov-title").textContent = "Sleutel invullen";
+    document.getElementById("ov-sub").textContent = "Eén keer per browser, daarna niet meer";
+    document.getElementById("ov-repos").innerHTML = "";
+    document.getElementById("ov-ft").textContent = "Vraag de sleutel na bij je team.";
+
+    const list = document.getElementById("ov-list");
+    list.innerHTML =
+      '<div class="steps">Om namen voor iedereen te wijzigen heb je de teamsleutel nodig. ' +
+      "Kijken en openen kan zonder.</div>";
+
+    const wrap = document.createElement("div");
+    wrap.className = "steps";
+    wrap.style.display = "flex";
+    wrap.style.gap = "8px";
+    wrap.style.paddingTop = "0";
+
+    const inp = document.createElement("input");
+    inp.type = "password";
+    inp.placeholder = "Teamsleutel";
+    inp.style.cssText =
+      "flex:1;height:34px;padding:0 10px;font:400 14px 'Poppins',system-ui,sans-serif;" +
+      "border:1px solid var(--border-base);border-radius:var(--radius-base);outline:none;";
+
+    const ok = document.createElement("button");
+    ok.className = "pages-btn";
+    ok.textContent = "Bewaren";
+
+    const done = value => {
+      if (value) { try { localStorage.setItem(KEYSTORE, value); } catch (e) {} }
+      closeModal();
+      resolve(value || null);
+    };
+    ok.onclick = () => done(inp.value.trim());
+    inp.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); done(inp.value.trim()); } };
+
+    wrap.append(inp, ok);
+    list.append(wrap);
+
+    lastFocus = document.activeElement;
+    ov.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    inp.focus();
+  });
+}
+
+const ICON = {
+  ext: '<svg viewBox="0 0 16 16" fill="none"><path d="M6 3H3.5A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14h8a1.5 1.5 0 001.5-1.5V10M9.5 2H14v4.5M14 2L7.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  none: '<svg viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M8 3.5c3.2 0 5.6 2.4 6.5 4.5-.4 1-1.2 2.1-2.2 2.9M4.6 4.7C3.3 5.6 2.3 6.9 1.5 8c.9 2.1 3.3 4.5 6.5 4.5 1 0 1.9-.2 2.7-.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  book: '<svg viewBox="0 0 20 20" fill="none"><path d="M3 4.5A1.5 1.5 0 014.5 3H9v14H4.5A1.5 1.5 0 013 15.5v-11zM17 4.5A1.5 1.5 0 0015.5 3H11v14h4.5A1.5 1.5 0 0017 15.5v-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+  wrench: '<svg viewBox="0 0 20 20" fill="none"><path d="M12.5 3a4 4 0 00-3.8 5.2L3 13.9V17h3l5.7-5.7A4 4 0 1012.5 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+  pages: '<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 4V3.5A1.5 1.5 0 016.5 2h6A1.5 1.5 0 0114 3.5v6a1.5 1.5 0 01-1.5 1.5H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  close: '<svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  pencil: '<svg viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5l2 2L6 12l-2.5.5L4 10l7.5-7.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 4l2 2" stroke="currentColor" stroke-width="1.5"/></svg>'
+};
+
+function orgClass(org) {
+  if (org === "effectory-ux") return "org-ux";
+  if (org === "effectory-design") return "org-design";
+  if (org === "eray-effectory") return "org-eray";
+  return "org-jamal";
+}
+
+const owners = [...new Set(DATA.map(d => d.owner))].sort();
+const groups = [...new Set(DATA.map(d => d.group))];
+let activeOwner = null, activeGroup = null, query = "";
+
+function matches(d) {
+  if (activeOwner && d.owner !== activeOwner) return false;
+  if (activeGroup && d.group !== activeGroup) return false;
+  if (query) {
+    const hay = (nameOf(d) + " " + d.name + " " + d.desc + " " + d.path + " " + d.owner + " " + d.group + " " +
+      d.pages.join(" ") + " " + d.repos.map(r => r.org + "/" + r.name).join(" ")).toLowerCase();
+    if (!query.split(/\s+/).every(t => hay.includes(t))) return false;
+  }
+  return true;
+}
+
+function chip(label, n, on, onClick) {
+  const b = document.createElement("button");
+  b.className = "chip" + (on ? " is-on" : "");
+  b.innerHTML = label + ' <span class="chip-n">' + n + "</span>";
+  b.onclick = onClick;
+  return b;
+}
+
+function renderFilters() {
+  const f = document.getElementById("filters");
+  f.innerHTML = "";
+  f.appendChild(chip("Alles", DATA.length, !activeOwner && !activeGroup, () => {
+    activeOwner = activeGroup = null; render();
+  }));
+  const s1 = document.createElement("div"); s1.className = "filters-sep"; f.appendChild(s1);
+  owners.forEach(o => f.appendChild(chip(o, DATA.filter(d => d.owner === o).length, activeOwner === o, () => {
+    activeOwner = activeOwner === o ? null : o; render();
+  })));
+  const s2 = document.createElement("div"); s2.className = "filters-sep"; f.appendChild(s2);
+  groups.forEach(g => f.appendChild(chip(g, DATA.filter(d => d.group === g).length, activeGroup === g, () => {
+    activeGroup = activeGroup === g ? null : g; render();
+  })));
+}
+
+/* Thumbnails only load once their card comes near the viewport. */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const t = e.target, url = t.dataset.live;
+    if (!url || t.dataset.done) return;
+    t.dataset.done = "1";
+    const fr = document.createElement("iframe");
+    fr.loading = "lazy";
+    // Scripts may run so the page renders, but without allow-top-navigation an
+    // embedded prototype cannot take over this window.
+    fr.setAttribute("sandbox", "allow-scripts allow-same-origin");
+    fr.setAttribute("scrolling", "no");
+    fr.setAttribute("tabindex", "-1");
+    fr.setAttribute("aria-hidden", "true");
+    fr.src = url;
+    fr.onload = () => t.classList.add("is-loaded");
+    t.prepend(fr);
+    io.unobserve(t);
+  });
+}, { rootMargin: "400px 0px" });
+
+function card(d) {
+  const el = document.createElement("div");
+  el.className = "card";
+
+  const thumb = document.createElement("a");
+  thumb.className = "thumb";
+  thumb.href = d.live || d.code;
+  thumb.target = "_blank";
+  thumb.rel = "noopener";
+  if (d.live) {
+    thumb.dataset.live = d.live;
+    thumb.innerHTML =
+      '<div class="thumb-skel">Laden</div>' +
+      '<div class="open-ov"><span class="open-pill">' + ICON.ext + " Openen</span></div>";
+    io.observe(thumb);
+  } else {
+    thumb.innerHTML =
+      '<div class="thumb-none">' + ICON.none + "<span>Geen live preview</span></div>" +
+      '<div class="open-ov"><span class="open-pill">' + ICON.ext + " Bekijk code</span></div>";
+  }
+
+  const body = document.createElement("div");
+  body.className = "card-body";
+
+  const hd = document.createElement("div");
+  hd.className = "card-hd";
+  const t = document.createElement("span");
+  t.className = "card-t";
+  t.textContent = nameOf(d);
+  const pen = document.createElement("button");
+  pen.className = "card-edit";
+  pen.title = "Naam wijzigen";
+  pen.setAttribute("aria-label", "Naam wijzigen");
+  pen.innerHTML = ICON.pencil;
+  pen.onclick = () => startRename(el, t, d);
+  hd.append(t, pen);
+  if (renames[d.id]) el.classList.add("is-renamed");
+
+  const desc = document.createElement("div");
+  desc.className = "card-d";
+  desc.textContent = d.desc;
+
+  const meta = document.createElement("div");
+  meta.className = "card-meta";
+  const row1 = document.createElement("div");
+  row1.className = "meta-row";
+  row1.innerHTML = '<span class="tag who">' + d.owner + "</span>";
+
+  // One button per card, also when there is a single page: the modal is where the
+  // repo lives, so it has to stay reachable from every card.
+  const n = d.variants && d.variants.length ? d.variants.length : 1;
+  const btn = document.createElement("button");
+  btn.className = "pages-btn";
+  btn.innerHTML = ICON.pages + (n === 1 ? "1 pagina" : n + " pagina's");
+  btn.onclick = () => openModal(d);
+  row1.append(btn);
+
+  const code = document.createElement("a");
+  code.className = "tag code";
+  code.href = d.code;
+  code.target = "_blank";
+  code.rel = "noopener";
+  code.textContent = "Code";
+  row1.append(code);
+  meta.append(row1);
+
+  body.append(hd, desc, meta);
+  el.append(thumb, body);
+  return el;
+}
+
+function render() {
+  renderFilters();
+  const shown = DATA.filter(matches);
+  document.getElementById("count").textContent =
+    shown.length === DATA.length
+      ? DATA.length + " prototypes"
+      : shown.length + " van " + DATA.length + " prototypes";
+
+  const host = document.getElementById("sections");
+  host.innerHTML = "";
+  if (!shown.length) {
+    host.innerHTML = '<div class="empty">Niets gevonden. Pas je zoekterm of filter aan.</div>';
+    return;
+  }
+  const secs = [];
+  shown.forEach(d => {
+    let g = secs.find(x => x.name === d.group);
+    if (!g) secs.push(g = { name: d.group, items: [] });
+    g.items.push(d);
+  });
+  secs.forEach(g => {
+    const sec = document.createElement("div");
+    sec.className = "sec";
+    const hd = document.createElement("div");
+    hd.className = "sec-hd";
+    hd.innerHTML = '<span class="sec-t">' + g.name + '</span><span class="sec-n">' +
+      g.items.length + '</span><span class="sec-line"></span>';
+    const grid = document.createElement("div");
+    grid.className = "grid";
+    g.items.forEach(d => grid.appendChild(card(d)));
+    sec.append(hd, grid);
+    host.appendChild(sec);
+  });
+  scale();
+}
+
+function renderHero() {
+  document.getElementById("dsbtn").href = DS.docs;
+  document.getElementById("hero").innerHTML =
+    '<a class="hero-card" href="' + DS.docs + '" target="_blank" rel="noopener">' +
+      '<span class="hero-icon">' + ICON.book + "</span>" +
+      '<span><span class="hero-t">Design system documentatie</span>' +
+      '<span class="hero-d">Componenten, tokens, iconen en richtlijnen</span></span></a>' +
+    '<a class="hero-card" href="' + DS.guide + '" target="_blank" rel="noopener">' +
+      '<span class="hero-icon alt">' + ICON.wrench + "</span>" +
+      '<span><span class="hero-t">Zelf een prototype bouwen</span>' +
+      '<span class="hero-d">Skill installeren en aan de slag met Claude</span></span></a>';
+  document.getElementById("foot-src").innerHTML = "Bronnen: " + REPOS.map(r =>
+    '<a href="https://github.com/' + r.repo + '" target="_blank" rel="noopener">' + r.repo + "</a>"
+  ).join(" · ");
+}
+
+/* ── Renaming a card ── */
+function startRename(cardEl, titleEl, d) {
+  if (titleEl.querySelector("input")) return;
+  const before = nameOf(d);
+  const inp = document.createElement("input");
+  inp.value = before;
+  inp.setAttribute("aria-label", "Nieuwe naam");
+  titleEl.textContent = "";
+  titleEl.append(inp);
+  inp.focus();
+  inp.select();
+
+  let done = false;
+  const finish = commit => {
+    if (done) return;
+    done = true;
+    const next = inp.value.trim();
+    if (commit) {
+      if (next && next !== d.name) renames[d.id] = next;
+      else delete renames[d.id];
+      saveRenames();
+    }
+    titleEl.textContent = nameOf(d);
+    cardEl.classList.toggle("is-renamed", !!renames[d.id]);
+  };
+
+  inp.onblur = () => finish(true);
+  inp.onkeydown = e => {
+    if (e.key === "Enter") { e.preventDefault(); finish(true); }
+    if (e.key === "Escape") { e.preventDefault(); finish(false); }
+  };
+}
+
+/* ── Publishing renames, one prototype at a time ──
+   Every card carries its own data/prototypes/*.json and the entry it was built
+   from. Publishing writes only that file, with only the name changed, so a name
+   you publish can never touch a prototype of someone else's — not even when this
+   page has been open for an hour and cards have been added meanwhile. */
+function renamedFile(d) {
+  return JSON.stringify({ ...d.source, name: nameOf(d) }, null, 2) + "\n";
+}
+
+const renamedCards = () => DATA.filter(d => renames[d.id]);
+
+function renderPub() {
+  const bar = document.getElementById("pub");
+  const txt = document.getElementById("pub-txt");
+  const go = document.getElementById("pub-go");
+  const undo = document.getElementById("pub-undo");
+  const n = Object.keys(renames).length;
+
+  if (SYNC) {
+    // Names save themselves; the bar only reports what happened.
+    go.hidden = true;
+    undo.hidden = syncState !== "failed";
+    undo.textContent = "Opnieuw proberen";
+    undo.onclick = () => push();
+    txt.textContent =
+      syncState === "saving" ? "Opslaan" :
+      syncState === "saved" ? "Opgeslagen voor iedereen" :
+      syncState === "failed" ? "Niet opgeslagen" : "";
+    bar.classList.toggle("is-on", syncState === "saving" || syncState === "saved" || syncState === "failed");
+    return;
+  }
+
+  go.hidden = false;
+  undo.hidden = false;
+  undo.textContent = "Ongedaan maken";
+  undo.onclick = () => { renames = {}; saveRenames(); render(); };
+  txt.textContent = n === 1 ? "1 naam gewijzigd" : n + " namen gewijzigd";
+  bar.classList.toggle("is-on", n > 0);
+}
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (e) { return false; }
+}
+
+/* One row per changed name: copy that file, open the editor on it. */
+function pubRow(d, i, total) {
+  const row = document.createElement("div");
+  row.className = "pub-row";
+
+  const label = document.createElement("div");
+  label.className = "pub-row-t";
+  const naar = document.createElement("strong");
+  naar.textContent = nameOf(d);
+  const file = document.createElement("span");
+  file.className = "pub-row-f";
+  const code = document.createElement("code");
+  code.textContent = d.file;
+  file.append(code);
+  label.append(
+    document.createTextNode((total > 1 ? i + 1 + ". " : "") + d.name + " → "),
+    naar,
+    file
+  );
+
+  const copy = document.createElement("button");
+  copy.className = "pages-btn";
+  copy.textContent = "Kopieer";
+  copy.onclick = async () => {
+    copy.textContent = (await copyText(renamedFile(d))) ? "Gekopieerd" : "Kopiëren mislukt";
+  };
+
+  const open = document.createElement("a");
+  open.className = "pages-btn";
+  open.href = "https://github.com/" + GALLERY_REPO + "/edit/main/" + d.file;
+  open.target = "_blank";
+  open.rel = "noopener";
+  open.textContent = "Editor openen";
+
+  const btns = document.createElement("div");
+  btns.className = "pub-row-b";
+  btns.append(copy, open);
+  row.append(label, btns);
+  return row;
+}
+
+async function publish() {
+  const cards = renamedCards();
+  if (!cards.length) return;
+
+  // With one change the file is already on the clipboard, so the first step in
+  // the list is ticked off before the modal even opens.
+  const copied = cards.length === 1 ? await copyText(renamedFile(cards[0])) : false;
+
+  document.getElementById("ov-title").textContent = "Publiceren voor iedereen";
+  document.getElementById("ov-sub").textContent =
+    (cards.length === 1 ? "1 gewijzigde naam" : cards.length + " gewijzigde namen") +
+    " · " + (cards.length === 1 ? cards[0].file : "één bestand per naam");
+  document.getElementById("ov-repos").innerHTML = "";
+  document.getElementById("ov-ft").textContent =
+    "Je wijzigingen blijven in deze browser staan tot je ze publiceert.";
+
+  const list = document.getElementById("ov-list");
+  list.innerHTML =
+    '<div class="steps"><ol>' +
+      "<li>" + (copied
+        ? '<span class="done">Het bestand staat op je klembord.</span>'
+        : "Klik op <strong>Kopieer</strong> bij de naam die je wilt publiceren.") + "</li>" +
+      "<li><strong>Editor openen</strong> opent dat ene bestand op GitHub, in een nieuw tabblad.</li>" +
+      "<li>Alles selecteren (<code>Cmd + A</code>) en plakken (<code>Cmd + V</code>).</li>" +
+      "<li><strong>Commit changes</strong>. GitHub maakt er een pull request van, omdat " +
+        "<code>main</code> op slot zit. Merge die en binnen een minuut ziet iedereen de nieuwe naam.</li>" +
+    "</ol></div>";
+
+  const rows = document.createElement("div");
+  rows.className = "pub-rows";
+  cards.forEach((d, i) => rows.append(pubRow(d, i, cards.length)));
+  list.append(rows);
+
+  lastFocus = document.activeElement;
+  ov.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("ov-close").focus();
+}
+
+/* ── Modal listing every page of one prototype ── */
+const ov = document.getElementById("ov");
+let lastFocus = null;
+
+function openModal(d) {
+  lastFocus = document.activeElement;
+  const pages = d.variants && d.variants.length
+    ? d.variants
+    : [{ label: d.name, live: d.live, code: d.code }];
+
+  document.getElementById("ov-title").textContent = nameOf(d);
+  document.getElementById("ov-sub").textContent =
+    (pages.length === 1 ? "1 pagina" : pages.length + " pagina's") + " · " + d.owner;
+
+  document.getElementById("ov-repos").innerHTML = d.repos.map(r =>
+    '<span class="tag repo ' + orgClass(r.org) + '">' +
+    '<span class="tag-dot"></span><span>' + r.org + "/" + r.name + "</span></span>"
+  ).join("");
+
+  document.getElementById("ov-ft").textContent = "Elke pagina opent in een nieuw tabblad.";
+
+  const list = document.getElementById("ov-list");
+  list.innerHTML = "";
+  pages.forEach((v, i) => {
+    const a = document.createElement("a");
+    a.className = "modal-row";
+    a.href = v.live || v.code;
+    a.target = "_blank";
+    a.rel = "noopener";
+    const label = document.createElement("div");
+    label.innerHTML = '<div class="modal-lbl"></div><div class="modal-path"></div>';
+    label.querySelector(".modal-lbl").textContent = v.label;
+    label.querySelector(".modal-path").textContent =
+      (v.live || v.code).split("/").pop() || v.label;
+    a.innerHTML = '<span class="modal-num">' + (i + 1) + "</span>";
+    a.append(label);
+    const open = document.createElement("span");
+    open.className = "modal-open";
+    open.innerHTML = ICON.ext + (v.live ? "Openen" : "Code");
+    a.append(open);
+    list.append(a);
+  });
+
+  ov.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("ov-close").focus();
+}
+
+function closeModal() {
+  ov.classList.remove("is-open");
+  document.body.style.overflow = "";
+  if (lastFocus) lastFocus.focus();
+}
+
+document.getElementById("ov-close").innerHTML = ICON.close;
+document.getElementById("ov-close").onclick = closeModal;
+ov.addEventListener("click", e => { if (e.target === ov) closeModal(); });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && ov.classList.contains("is-open")) closeModal();
+});
+
+/* Each thumbnail renders a 1440px-wide viewport, scaled down to the card width. */
+function scale() {
+  const t = document.querySelector(".thumb");
+  if (!t) return;
+  document.documentElement.style.setProperty("--s", (t.clientWidth / 1440).toFixed(4));
+}
+
+document.getElementById("q").addEventListener("input", e => {
+  query = e.target.value.trim().toLowerCase();
+  render();
+});
+window.addEventListener("resize", scale);
+
+document.getElementById("pub-go").onclick = publish;
+
+renderHero();
+render();
+renderPub();
+pull();
+</script>
+</body>
+</html>

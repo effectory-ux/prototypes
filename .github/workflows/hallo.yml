@@ -1,0 +1,7 @@
+name: hallo
+on: [pull_request]
+jobs:
+  hallo:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo hallo
