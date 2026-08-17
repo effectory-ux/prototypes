@@ -86,36 +86,53 @@
       "ignore": [
         "^404\\.html$"
       ]
+    },
+    "gl": {
+      "repo": "effectory-ux/group-linking",
+      "pages": "https://effectory-ux.github.io/group-linking/",
+      "repos": [
+        {
+          "org": "effectory-ux",
+          "name": "group-linking"
+        }
+      ],
+      "ignore": [
+        "^404\\.html$"
+      ]
     }
   },
   "entries": [
     {
       "name": "Group linking",
-      "desc": "Link a previous survey to the new structure. Two real customer structures, the stepped flow, and a deep tree as a stress test.",
+      "desc": "Link a previous survey to the new structure. Three real customer structures, the stepped base flow, and a deep tree as a stress test.",
       "owner": "Jente",
       "group": "Survey opzetten",
-      "repo": "engage",
-      "path": "prototypes/group-linking-effectory.html",
+      "repo": "gl",
+      "path": "index.html",
       "variants": [
         {
-          "label": "Effectory-structuur",
-          "path": "prototypes/group-linking-effectory.html"
+          "label": "ROC van Amsterdam",
+          "path": "index.html"
         },
         {
-          "label": "bol.com-structuur",
-          "path": "prototypes/group-linking-bol.html"
+          "label": "Effectory",
+          "path": "effectory.html"
+        },
+        {
+          "label": "bol.com",
+          "path": "bol.html"
         },
         {
           "label": "Stapsgewijs",
-          "path": "prototypes/group-linking-stepped.html"
+          "path": "stepped.html"
         },
         {
           "label": "Diepe structuur (stresstest)",
-          "path": "prototypes/group-linking-deep.html"
+          "path": "deep.html"
         }
       ],
       "also": [
-        "^prototypes/group-linking"
+        "\\.html$"
       ]
     },
     {
