@@ -1,0 +1,27 @@
+name: Data controleren
+
+# Draait op elke pull request. Gaat dit groen, dan bouwt de galerij en bestaat
+# elke pagina waar jouw wijziging naar verwijst.
+#
+# Verwijst een prototype dat jij niet hebt aangeraakt naar een pagina die iemand
+# anders net verplaatst heeft, dan wordt dat een waarschuwing en geen fout. Jouw
+# wijziging hoort niet stil te staan door het opruimwerk van een ander.
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controleren:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Data en proefbouw
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./build-gallery.py --check --base origin/${{ github.base_ref || 'main' }}

@@ -1,0 +1,21 @@
+{
+  "name": "CYOS survey creation",
+  "desc": "Create your own survey, with both phases side by side.",
+  "owner": "Jamal",
+  "group": "Survey opzetten",
+  "repo": "cyos",
+  "path": "phase-1/index.html",
+  "also": [
+    "^phase-"
+  ],
+  "variants": [
+    {
+      "label": "Fase 1",
+      "path": "phase-1/index.html"
+    },
+    {
+      "label": "Fase 2",
+      "path": "phase-2/index.html"
+    }
+  ]
+}

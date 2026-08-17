@@ -1,0 +1,13 @@
+{
+  "repo": "N33G3K/cyos-survey-creation-flow-demo",
+  "pages": "https://n33g3k.github.io/cyos-survey-creation-flow-demo/",
+  "repos": [
+    {
+      "org": "N33G3K",
+      "name": "cyos-survey-creation-flow-demo"
+    }
+  ],
+  "ignore": [
+    "^404\\.html$"
+  ]
+}

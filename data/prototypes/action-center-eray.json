@@ -1,0 +1,57 @@
+{
+  "name": "Action Center · Eray",
+  "desc": "Manager and coordinator screens, the action planner, and three options for choosing an action.",
+  "owner": "Eray",
+  "group": "Van resultaat naar actie",
+  "repo": "eray-ac",
+  "path": "index.html",
+  "also": [
+    ".*"
+  ],
+  "variants": [
+    {
+      "label": "Overzicht",
+      "path": "index.html"
+    },
+    {
+      "label": "Manager",
+      "path": "action-center/action-center-manager-standalone.html"
+    },
+    {
+      "label": "Action planner",
+      "path": "action-planner/index.html"
+    },
+    {
+      "label": "Action planner · org-view",
+      "path": "action-planner/org-view.html"
+    },
+    {
+      "label": "Conversation guide",
+      "path": "conversation-guide/conversation-guide.html"
+    },
+    {
+      "label": "Coordinator home",
+      "path": "coordinator-home.html"
+    },
+    {
+      "label": "Home activity feed",
+      "path": "home-activity-feed.html"
+    },
+    {
+      "label": "Optie A: inline uitklappen",
+      "path": "option-a-inline-expand.html"
+    },
+    {
+      "label": "Optie B: chips en drawer",
+      "path": "option-b-chips-drawer.html"
+    },
+    {
+      "label": "Optie C: keuzedialoog",
+      "path": "option-c-choose-dialog.html"
+    },
+    {
+      "label": "Group linking preview",
+      "path": "group-linking-preview/prototypes/group-linking-stepped.html"
+    }
+  ]
+}

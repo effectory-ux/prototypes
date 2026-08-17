@@ -1,0 +1,32 @@
+{
+  "name": "GTMA Prototype",
+  "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
+  "owner": "Jente",
+  "group": "Resultaten",
+  "repo": "engage",
+  "path": "novanta-before-overview.html",
+  "also": [
+    "^novanta-",
+    "^team-it-",
+    "^before-",
+    "^after-"
+  ],
+  "variants": [
+    {
+      "label": "Novanta · Q2",
+      "path": "novanta-before-overview.html"
+    },
+    {
+      "label": "Novanta · Q3",
+      "path": "novanta-after-overview.html"
+    },
+    {
+      "label": "Team IT · Q2",
+      "path": "team-it-before-overview.html"
+    },
+    {
+      "label": "Team IT · Q3",
+      "path": "team-it-after-overview.html"
+    }
+  ]
+}

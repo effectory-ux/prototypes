@@ -1,0 +1,11 @@
+{
+  "name": "My Effectory · home",
+  "desc": "The platform homepage.",
+  "owner": "Jente",
+  "group": "Platform",
+  "repo": "engage",
+  "path": "prototypes/my-effectory-home.html",
+  "also": [
+    "^prototypes/my-effectory-"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "designSystem": {
+    "docs": "https://effectory-ux.github.io/Engage-Design-system-/",
+    "guide": "https://effectory-ux.github.io/Engage-Design-system-/prototypes-docs.html"
+  },
+  "groups": [
+    "Survey opzetten",
+    "Resultaten",
+    "Van resultaat naar actie",
+    "Platform",
+    "Losse verkenningen"
+  ],
+  "sync": {
+    "url": ""
+  }
+}

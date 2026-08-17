@@ -1,0 +1,22 @@
+{
+  "repo": "effectory-design/effectory-design-documentation",
+  "pages": "https://effectory-design.github.io/effectory-design-documentation/",
+  "repos": [
+    {
+      "org": "effectory-design",
+      "name": "effectory-design-documentation"
+    }
+  ],
+  "ignore": [
+    "-docs\\.html$",
+    "^index\\.html$",
+    "^nav\\.html$",
+    "^changelog\\.html$",
+    "^404\\.html$",
+    "embed\\.html$",
+    "^skill-source/",
+    "^\\.claude/",
+    "^dist/",
+    "^ci/"
+  ]
+}

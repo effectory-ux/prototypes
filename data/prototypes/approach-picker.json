@@ -1,0 +1,8 @@
+{
+  "name": "Approach picker",
+  "desc": "Picking an approach for the survey, shown in its empty starting state.",
+  "owner": "Jente",
+  "group": "Survey opzetten",
+  "repo": "engage",
+  "path": "prototypes/approach-picker.html"
+}

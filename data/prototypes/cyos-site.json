@@ -1,0 +1,8 @@
+{
+  "name": "CYOS site",
+  "desc": "Landing page for the CYOS project.",
+  "owner": "Jamal",
+  "group": "Survey opzetten",
+  "repo": "cyos",
+  "path": "site/index.html"
+}

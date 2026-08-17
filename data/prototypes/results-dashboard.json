@@ -1,0 +1,28 @@
+{
+  "name": "Results dashboard",
+  "desc": "Results for managers: the overview, a variant with a back button, and the effectiveness overview.",
+  "owner": "Jente",
+  "group": "Resultaten",
+  "repo": "engage",
+  "path": "prototypes/results-dashboard.html",
+  "also": [
+    "^prototypes/results-",
+    "^prototypes/scores\\.",
+    "^prototypes/themes\\.",
+    "^prototypes/reports\\."
+  ],
+  "variants": [
+    {
+      "label": "Overzicht",
+      "path": "prototypes/results-dashboard.html"
+    },
+    {
+      "label": "Overzicht met terugknop",
+      "path": "prototypes/results-dashboard-panel-back.html"
+    },
+    {
+      "label": "Effectiviteit-overzicht",
+      "path": "prototypes/results-overview.html"
+    }
+  ]
+}

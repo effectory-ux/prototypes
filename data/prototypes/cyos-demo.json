@@ -1,0 +1,8 @@
+{
+  "name": "CYOS demo",
+  "desc": "Standalone demo of the survey creation flow.",
+  "owner": "Jamal",
+  "group": "Survey opzetten",
+  "repo": "cyos-demo",
+  "path": "index.html"
+}

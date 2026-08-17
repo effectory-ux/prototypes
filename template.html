@@ -348,6 +348,19 @@
   .steps code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
   .steps .done { color: var(--content-positive); font-weight: 500; }
 
+  /* One row per changed name, with the file it involves. */
+  .pub-rows { padding: 0 var(--spacing-base) var(--spacing-base); display: flex; flex-direction: column; gap: var(--spacing-tight); }
+  .pub-row {
+    display: flex; align-items: center; gap: var(--spacing-base-tight);
+    padding: var(--spacing-base-tight);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+  }
+  .pub-row-t { flex: 1; min-width: 0; font-size: 14px; line-height: 1.4; }
+  .pub-row-f { display: block; margin-top: 2px; }
+  .pub-row-f code { font-size: 12px; color: var(--content-subtle); background: transparent; padding: 0; }
+  .pub-row-b { flex: none; display: flex; gap: 6px; }
+
   .empty { padding: var(--spacing-super-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
 
   .foot { margin-top: var(--spacing-extra-loose); padding-top: var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); line-height: 1.7; }
@@ -415,13 +428,13 @@
 const DATA = /*__DATA__*/;
 const DS = /*__DS__*/;
 const REPOS = /*__REPOS__*/;
-const CONFIG = /*__CONFIG__*/;
+const SYNC_CFG = /*__SYNC__*/;
 const GALLERY_REPO = "effectory-ux/prototypes";
 
-/* Renames are shared through the worker in CONFIG.sync.url: a name typed here is
-   what the next visitor sees. Without that URL they stay in this browser and are
-   published to prototypes.json by hand. */
-const SYNC = (CONFIG.sync && CONFIG.sync.url) || "";
+/* Renames are shared through the worker in sync.url: a name typed here is what
+   the next visitor sees. Without that URL they stay in this browser and are
+   published one prototype at a time, one small file per name. */
+const SYNC = (SYNC_CFG && SYNC_CFG.url) || "";
 const STORE = "effx-gallery-names";
 const KEYSTORE = "effx-gallery-key";
 
@@ -443,36 +456,6 @@ function saveRenames() {
 /* ── Sharing through the worker ── */
 let syncState = SYNC ? "idle" : "off";   // idle | saving | saved | failed | off
 let pushing = false, dirty = false;
-
-/* index.html is generated, so a name committed to prototypes.json would not show
-   up until the next build. Read that file at load instead: publishing a rename is
-   then a single commit, no regeneration needed. */
-async function pullFile() {
-  try {
-    const res = await fetch("prototypes.json", { cache: "no-store" });
-    if (!res.ok) return;
-    const cfg = await res.json();
-    if (!cfg || !Array.isArray(cfg.entries)) return;
-
-    const published = {};
-    cfg.entries.forEach(e => { published[e.repo + "::" + e.path] = e.name; });
-
-    let changed = false;
-    DATA.forEach(d => {
-      const name = published[d.id];
-      if (!name || name === d.name) return;
-      d.name = name;                       // what everyone sees
-      if (renames[d.id] === name) {        // my local edit is now the published one
-        delete renames[d.id];
-        saveLocal();
-      }
-      changed = true;
-    });
-    if (changed) { render(); renderPub(); }
-  } catch (e) {
-    // Falls back to the names baked into the page.
-  }
-}
 
 async function pull() {
   if (!SYNC) return;
@@ -807,15 +790,16 @@ function startRename(cardEl, titleEl, d) {
   };
 }
 
-/* ── Publishing renames back to prototypes.json ── */
-function renamedConfig() {
-  const cfg = JSON.parse(JSON.stringify(CONFIG));
-  cfg.entries.forEach(e => {
-    const id = e.repo + "::" + e.path;
-    if (renames[id]) e.name = renames[id];
-  });
-  return JSON.stringify(cfg, null, 2) + "\n";
+/* ── Publishing renames, one prototype at a time ──
+   Every card carries its own data/prototypes/*.json and the entry it was built
+   from. Publishing writes only that file, with only the name changed, so a name
+   you publish can never touch a prototype of someone else's — not even when this
+   page has been open for an hour and cards have been added meanwhile. */
+function renamedFile(d) {
+  return JSON.stringify({ ...d.source, name: nameOf(d) }, null, 2) + "\n";
 }
+
+const renamedCards = () => DATA.filter(d => renames[d.id]);
 
 function renderPub() {
   const bar = document.getElementById("pub");
@@ -846,15 +830,63 @@ function renderPub() {
   bar.classList.toggle("is-on", n > 0);
 }
 
-async function publish() {
-  const json = renamedConfig();
-  let copied = false;
-  try { await navigator.clipboard.writeText(json); copied = true; } catch (e) {}
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (e) { return false; }
+}
 
-  const n = Object.keys(renames).length;
+/* One row per changed name: copy that file, open the editor on it. */
+function pubRow(d, i, total) {
+  const row = document.createElement("div");
+  row.className = "pub-row";
+
+  const label = document.createElement("div");
+  label.className = "pub-row-t";
+  const naar = document.createElement("strong");
+  naar.textContent = nameOf(d);
+  const file = document.createElement("span");
+  file.className = "pub-row-f";
+  const code = document.createElement("code");
+  code.textContent = d.file;
+  file.append(code);
+  label.append(
+    document.createTextNode((total > 1 ? i + 1 + ". " : "") + d.name + " → "),
+    naar,
+    file
+  );
+
+  const copy = document.createElement("button");
+  copy.className = "pages-btn";
+  copy.textContent = "Kopieer";
+  copy.onclick = async () => {
+    copy.textContent = (await copyText(renamedFile(d))) ? "Gekopieerd" : "Kopiëren mislukt";
+  };
+
+  const open = document.createElement("a");
+  open.className = "pages-btn";
+  open.href = "https://github.com/" + GALLERY_REPO + "/edit/main/" + d.file;
+  open.target = "_blank";
+  open.rel = "noopener";
+  open.textContent = "Editor openen";
+
+  const btns = document.createElement("div");
+  btns.className = "pub-row-b";
+  btns.append(copy, open);
+  row.append(label, btns);
+  return row;
+}
+
+async function publish() {
+  const cards = renamedCards();
+  if (!cards.length) return;
+
+  // With one change the file is already on the clipboard, so the first step in
+  // the list is ticked off before the modal even opens.
+  const copied = cards.length === 1 ? await copyText(renamedFile(cards[0])) : false;
+
   document.getElementById("ov-title").textContent = "Publiceren voor iedereen";
   document.getElementById("ov-sub").textContent =
-    (n === 1 ? "1 gewijzigde naam" : n + " gewijzigde namen") + " · prototypes.json";
+    (cards.length === 1 ? "1 gewijzigde naam" : cards.length + " gewijzigde namen") +
+    " · " + (cards.length === 1 ? cards[0].file : "één bestand per naam");
   document.getElementById("ov-repos").innerHTML = "";
   document.getElementById("ov-ft").textContent =
     "Je wijzigingen blijven in deze browser staan tot je ze publiceert.";
@@ -863,36 +895,18 @@ async function publish() {
   list.innerHTML =
     '<div class="steps"><ol>' +
       "<li>" + (copied
-        ? '<span class="done">De nieuwe prototypes.json staat op je klembord.</span>'
-        : 'Kopieer de nieuwe <code>prototypes.json</code> met de knop hieronder.') + "</li>" +
-      "<li>Klik op <strong>GitHub-editor openen</strong>. Die opent in een nieuw tabblad.</li>" +
-      "<li>Selecteer alles in het bestand (<code>Cmd + A</code>) en plak (<code>Cmd + V</code>).</li>" +
-      "<li>Klik op <strong>Commit changes</strong>. Binnen een minuut ziet iedereen de nieuwe namen.</li>" +
+        ? '<span class="done">Het bestand staat op je klembord.</span>'
+        : "Klik op <strong>Kopieer</strong> bij de naam die je wilt publiceren.") + "</li>" +
+      "<li><strong>Editor openen</strong> opent dat ene bestand op GitHub, in een nieuw tabblad.</li>" +
+      "<li>Alles selecteren (<code>Cmd + A</code>) en plakken (<code>Cmd + V</code>).</li>" +
+      "<li><strong>Commit changes</strong>. GitHub maakt er een pull request van, omdat " +
+        "<code>main</code> op slot zit. Merge die en binnen een minuut ziet iedereen de nieuwe naam.</li>" +
     "</ol></div>";
 
-  const bar = document.createElement("div");
-  bar.className = "steps";
-  bar.style.display = "flex";
-  bar.style.gap = "8px";
-  bar.style.paddingTop = "0";
-
-  const copy = document.createElement("button");
-  copy.className = "pages-btn";
-  copy.textContent = copied ? "Nogmaals kopiëren" : "Kopieer JSON";
-  copy.onclick = async () => {
-    try { await navigator.clipboard.writeText(json); copy.textContent = "Gekopieerd"; }
-    catch (e) { copy.textContent = "Kopiëren mislukt"; }
-  };
-
-  const open = document.createElement("a");
-  open.className = "pages-btn";
-  open.href = "https://github.com/" + GALLERY_REPO + "/edit/main/prototypes.json";
-  open.target = "_blank";
-  open.rel = "noopener";
-  open.textContent = "GitHub-editor openen";
-
-  bar.append(copy, open);
-  list.append(bar);
+  const rows = document.createElement("div");
+  rows.className = "pub-rows";
+  cards.forEach((d, i) => rows.append(pubRow(d, i, cards.length)));
+  list.append(rows);
 
   lastFocus = document.activeElement;
   ov.classList.add("is-open");
@@ -979,7 +993,6 @@ document.getElementById("pub-go").onclick = publish;
 renderHero();
 render();
 renderPub();
-pullFile();
 pull();
 </script>
 </body>
