@@ -237,17 +237,6 @@
       ]
     },
     {
-      "name": "Effectiveness",
-      "desc": "Group comparison on the effectiveness matrix.",
-      "owner": "Jente",
-      "group": "Resultaten",
-      "repo": "engage",
-      "path": "prototypes/effectiveness-overview.html",
-      "also": [
-        "^prototypes/effectiveness-"
-      ]
-    },
-    {
       "name": "GTMA Prototype",
       "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
       "owner": "Jente",
@@ -394,39 +383,6 @@
       "group": "Platform",
       "repo": "eray-ux",
       "path": "index.html"
-    },
-    {
-      "name": "App shell",
-      "desc": "The navigation and frame the screens sit in.",
-      "owner": "Jente",
-      "group": "Platform",
-      "repo": "engage",
-      "path": "prototypes/app-shell.html"
-    },
-    {
-      "name": "Instellingen",
-      "desc": "Account and platform settings, including a Dutch variant.",
-      "owner": "Jente",
-      "group": "Platform",
-      "repo": "engage",
-      "path": "prototypes/settings.html",
-      "also": [
-        "^prototypes/(instellingen|account-settings)\\.html$"
-      ],
-      "variants": [
-        {
-          "label": "Platform (EN)",
-          "path": "prototypes/settings.html"
-        },
-        {
-          "label": "Platform (NL)",
-          "path": "prototypes/instellingen.html"
-        },
-        {
-          "label": "Account",
-          "path": "prototypes/account-settings.html"
-        }
-      ]
     },
     {
       "name": "BambooHR integratie",
