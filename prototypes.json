@@ -86,19 +86,6 @@
       "ignore": [
         "^404\\.html$"
       ]
-    },
-    "gl-old": {
-      "repo": "effectory-design/group-linking",
-      "pages": null,
-      "repos": [
-        {
-          "org": "effectory-design",
-          "name": "group-linking"
-        }
-      ],
-      "ignore": [
-        "^404\\.html$"
-      ]
     }
   },
   "entries": [
@@ -130,14 +117,6 @@
       "also": [
         "^prototypes/group-linking"
       ]
-    },
-    {
-      "name": "Group linking · eerste versie",
-      "desc": "The standalone repo where group linking started.",
-      "owner": "Jente",
-      "group": "Survey opzetten",
-      "repo": "gl-old",
-      "path": "index.html"
     },
     {
       "name": "Approach picker",
