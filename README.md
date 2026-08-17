@@ -1,78 +1,75 @@
-# Prototypes · Effectory UX
+# Projects · Effectory UX
 
-Centrale ingang voor alle prototypes van het UX-team, over meerdere repos en accounts heen.
-Eén kaart per prototype, met een live thumbnail. De knop op de kaart opent een
-modal met alle pagina's van dat prototype en de repo waar het staat.
+Central entry point for every prototype the UX team builds, across repos and accounts.
+One card per prototype, with a live thumbnail. The button on a card opens a dialog
+listing all its pages and the repo it lives in.
 
 **Live:** https://effectory-ux.github.io/prototypes/
 
-## Hoe het werkt
+## How it works
 
-- `prototypes.json` is de lijst. Per prototype staat er één entry met de beginpagina,
-  de eigenaar en in welke repo het leeft.
-- `build-gallery.py` leest die lijst, haalt via de GitHub API op welke pagina's er in
-  elke repo staan, en schrijft `index.html` uit `template.html`.
-- Thumbnails zijn geen plaatjes maar de echte pagina in een verkleinde iframe, pas
-  geladen als de kaart in beeld komt. Ze zijn dus altijd actueel.
+- `prototypes.json` is the list. One entry per prototype, naming its entry page, its
+  owner and the repo it lives in.
+- `build-gallery.py` reads that list, asks the GitHub API which pages each repo holds,
+  and writes `index.html` from `template.html`.
+- Thumbnails are not images but the real page in a scaled-down iframe, loaded only once
+  the card comes near the viewport, so they are never stale.
+- Styling comes from the [design system](https://effectory-ux.github.io/Engage-Design-system-/):
+  tokens, components and the icon library are loaded from its site, not copied.
 
-## Een naam wijzigen vanaf de pagina
+## Sections
 
-Klik op het potloodje naast een kaartnaam en typ een nieuwe. Je ziet het meteen,
-maar alleen bij jezelf: de wijziging staat in je eigen browser (`localStorage`).
-GitHub Pages serveert alleen statische bestanden, dus er is geen server die het
-voor iedereen kan bewaren.
+Sections follow the three Product & Tech tracks: **Surveying**, **Leadership enablement**
+and **Reporting**. Anything that touches none of them sits under **Platform**. A prototype
+belongs to the track it is about, not the track of whoever made it: group linking is
+Jente's but belongs to Surveying.
 
-De namen worden bij het laden uit `prototypes.json` gelezen, niet uit de
-gegenereerde `index.html`. Een gepubliceerde naam is dus meteen zichtbaar zonder
-dat iemand `build-gallery.py` hoeft te draaien.
+## Renaming from the page
 
-Onderin verschijnt een balk met **Publiceren**. Die zet de bijgewerkte
-`prototypes.json` op je klembord en opent de GitHub-editor. Alles selecteren,
-plakken, commit, en binnen een minuut ziet iedereen de nieuwe namen. Zo blijft
-`prototypes.json` de enige bron en staat elke naamswijziging in de historie.
+Click the pencil next to a card name and type a new one. You see it immediately, but only
+you do: the change lives in your browser (`localStorage`). GitHub Pages serves static files
+only, so there is no server to keep it for everyone.
 
-**Ongedaan maken** wist je lokale wijzigingen en zet de namen terug op wat er
-gepubliceerd is.
+Names are read from `prototypes.json` at load, not from the generated `index.html`, so a
+published name shows up without anyone running `build-gallery.py`.
 
-### Zonder publiceerstap
+A bar appears at the bottom with **Publish**. It copies the updated `prototypes.json` to
+your clipboard and opens the GitHub editor. Select all, paste, commit, and everyone sees
+the new names within a minute. That keeps `prototypes.json` the single source of truth and
+puts every rename in the history.
 
-Zet je in `prototypes.json` een URL bij `sync.url`, dan slaat de galerij een naam
-direct op voor iedereen en verdwijnt de publiceerstap. `worker/` bevat het
-endpoint daarvoor plus uitrolstappen; het is één `GET` en één `PUT`, dus het kan
-net zo goed ergens anders draaien dan op Cloudflare. Zolang `sync.url` leeg is,
-merkt de pagina er niets van en blijft alles zoals hierboven.
+**Undo** clears your local changes and puts the published names back.
 
-## Indeling
+### Without the publish step
 
-De secties volgen de drie tracks uit Product & Tech: **Surveying**, **Leadership
-enablement** en **Reporting**. Wat geen enkele track raakt, zoals de homepage of een
-integratie, staat onder **Platform**. Een prototype hoort bij de track waar het over
-gaat, niet bij de track van degene die het maakte: group linking is van Jente maar
-hoort bij Surveying.
+Set a URL in `sync.url` in `prototypes.json` and a rename saves straight away for everyone,
+dropping the publish step. `worker/` holds that endpoint plus deploy notes; it is one `GET`
+and one `PUT`, so it can run somewhere other than Cloudflare. While `sync.url` is empty the
+page never calls it and behaves as described above.
 
-## Een prototype toevoegen
+## Adding a prototype
 
-1. Voeg een entry toe aan `entries` in `prototypes.json`:
+1. Add an entry to `entries` in `prototypes.json`:
 
 ```json
 {
-  "name": "Mijn prototype",
-  "desc": "Eén regel over wat het laat zien.",
+  "name": "My prototype",
+  "desc": "One line about what it shows.",
   "owner": "Jente",
   "group": "Reporting",
   "repo": "engage",
-  "path": "prototypes/mijn-prototype.html",
-  "also": ["^prototypes/mijn-prototype-"]
+  "path": "prototypes/my-prototype.html",
+  "also": ["^prototypes/my-prototype-"]
 }
 ```
 
-`path` is de pagina die de kaart opent. Zet hier de nieuwste versie, want dat is wat
-iemand ziet als hij op de thumbnail klikt. `also` claimt de overige schermen van
-hetzelfde prototype, zodat het één kaart blijft in plaats van vijf losse.
+`path` is the page the card opens; point it at the newest version, because that is what
+someone sees when they click the thumbnail. `also` claims the prototype's other screens so
+it stays one card instead of five.
 
-Heeft één prototype meerdere ingangen, bijvoorbeeld dezelfde flow met andere data
-of een andere ontwerprichting, dan zet je die als `variants`. De kaart opent altijd
-de eerste, en een knopje "N pagina's" opent een modal met de hele lijst:
+Does one prototype have several entry points, the same flow with different data or another
+design direction? List them as `variants`. The card opens the first, and an "N pages" button
+opens a dialog with the full list:
 
 ```json
 "variants": [
@@ -81,48 +78,43 @@ de eerste, en een knopje "N pagina's" opent een modal met de hele lijst:
 ]
 ```
 
-2. Draai het script en commit het resultaat:
+2. Run the script and commit the result:
 
 ```bash
-./build-gallery.py && git commit -am "Nieuw prototype toegevoegd" && git push
+./build-gallery.py && git commit -am "Add a prototype" && git push
 ```
 
-Het script meldt aan het eind welke pagina's nog door geen enkele kaart worden
-opgeëist. Zo blijft er niets onbedoeld buiten de galerij vallen.
+At the end the script reports any page no card claims yet, so nothing quietly stays out of
+the gallery.
 
-## Een repo toevoegen
+## Adding a repo
 
-Zet hem in `repos` in `prototypes.json`, met de Pages-URL als die er is:
+Put it in `repos` in `prototypes.json`, with its Pages URL if it has one:
 
 ```json
-"mijn-repo": {
-  "repo": "effectory-ux/mijn-repo",
-  "pages": "https://effectory-ux.github.io/mijn-repo/",
-  "repos": [{ "org": "effectory-ux", "name": "mijn-repo" }],
+"my-repo": {
+  "repo": "effectory-ux/my-repo",
+  "pages": "https://effectory-ux.github.io/my-repo/",
+  "repos": [{ "org": "effectory-ux", "name": "my-repo" }],
   "ignore": ["^404\\.html$"]
 }
 ```
 
-Laat je `variants` weg terwijl een prototype meer pagina's heeft, dan verzint de
-generator de labels uit de bestandsnamen: het deel dat alle namen delen gaat eraf,
-dus `group-linking-bol.html` wordt "Bol".
+Leave `variants` out and the generator derives labels from the filenames, dropping the part
+they all share, so `group-linking-bol.html` becomes "Bol".
 
-Zonder Pages krijgt de kaart geen thumbnail maar een link naar de code.
-Gebruik `liveRewrite` als de repo een submap als site-root publiceert, zoals `cyos` doet
-met `site/`.
+Without Pages a card gets no thumbnail, just a link to the code. Use `liveRewrite` when a
+repo publishes a subfolder as its site root, the way `cyos` does with `site/`.
 
-## Waar staat wat
+## Where things live
 
-| Repo | Inhoud |
+| Repo | Content |
 |---|---|
-| [effectory-ux/Engage-Design-system-](https://github.com/effectory-ux/Engage-Design-system-) | het design system: componenten, tokens, iconen, documentatie, skill |
-| [effectory-ux/group-linking](https://github.com/effectory-ux/group-linking) | de vijf group-linking-varianten, ROC inbegrepen |
-| [effectory-ux/gtma](https://github.com/effectory-ux/gtma) | het GTMA before/after-prototype, 24 schermen |
-| [effectory-design/effectory-design-documentation](https://github.com/effectory-design/effectory-design-documentation) | wat nog niet verhuisd is: zes prototypes plus Eray's Action Center en Conversation Guide |
-| [eray-effectory/action-center](https://github.com/eray-effectory/action-center) | Action Center van Eray, nog zonder Pages |
-| [eray-effectory/ux](https://github.com/eray-effectory/ux) | platform design van Eray |
-| [effectory-ux/cyos](https://github.com/effectory-ux/cyos) | CYOS survey creation, fase 1 en 2 |
-| [N33G3K/cyos-survey-creation-flow-demo](https://github.com/N33G3K/cyos-survey-creation-flow-demo) | losse CYOS-demo van Jamal |
-
-`tokens.css` en `foundation.css` zijn kopieën uit het design system, zodat deze pagina
-dezelfde kleuren en spacing gebruikt.
+| [effectory-ux/Engage-Design-system-](https://github.com/effectory-ux/Engage-Design-system-) | the design system: components, tokens, icons, documentation, skill |
+| [effectory-ux/group-linking](https://github.com/effectory-ux/group-linking) | the five group linking variants, ROC included |
+| [effectory-ux/gtma](https://github.com/effectory-ux/gtma) | the GTMA before/after prototype, 24 screens |
+| [effectory-design/effectory-design-documentation](https://github.com/effectory-design/effectory-design-documentation) | what has not moved yet: six prototypes plus Eray's Action Center and Conversation Guide |
+| [eray-effectory/action-center](https://github.com/eray-effectory/action-center) | Eray's Action Center, no Pages yet |
+| [eray-effectory/ux](https://github.com/eray-effectory/ux) | Eray's platform design |
+| [effectory-ux/cyos](https://github.com/effectory-ux/cyos) | CYOS survey creation, phase 1 and 2 |
+| [N33G3K/cyos-survey-creation-flow-demo](https://github.com/N33G3K/cyos-survey-creation-flow-demo) | Jamal's standalone CYOS demo |

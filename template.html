@@ -25,7 +25,7 @@
   }
   a { color: inherit; text-decoration: none; }
 
-  /* ── Paginakop, in de pagina zelf zoals Figma ── */
+  /* ── Page head, inside the page the way Figma does it ── */
   .page-head {
     display: flex; align-items: center; gap: var(--spacing-base);
     margin-bottom: var(--spacing-loose);
@@ -285,7 +285,7 @@
 
 <div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ov-title">
   <div class="dialog dialog-s">
-    <button class="dialog-close" id="ov-close" aria-label="Sluiten"><i data-icon="cross"></i></button>
+    <button class="dialog-close" id="ov-close" aria-label="Close"><i data-icon="cross"></i></button>
     <div class="dialog-header">
       <h3 class="dialog-title" id="ov-title"></h3>
       <p class="dialog-subtitle" id="ov-sub"></p>
@@ -297,8 +297,8 @@
 
 <div class="pub" id="pub">
   <span class="pub-txt" id="pub-txt"></span>
-  <button class="pub-btn" id="pub-go">Publiceren</button>
-  <button class="pub-btn ghost" id="pub-undo">Ongedaan maken</button>
+  <button class="pub-btn" id="pub-go">Publish</button>
+  <button class="pub-btn ghost" id="pub-undo">Undo</button>
 </div>
 
 <div class="wrap">
@@ -308,7 +308,7 @@
     </div>
     <div class="search-wrap">
       <div class="search-icon"><i data-icon="search"></i></div>
-      <input id="q" type="search" class="srch" placeholder="Zoek op naam of repo" autocomplete="off" />
+      <input id="q" type="search" class="srch" placeholder="Search by name or repo" autocomplete="off" />
     </div>
     <a class="btn btn-primary" id="dsbtn" href="#" target="_blank" rel="noopener">
       <i data-icon="book-open"></i>
@@ -436,14 +436,14 @@ function editKey() {
   if (stored) return Promise.resolve(stored);
 
   return new Promise(resolve => {
-    document.getElementById("ov-title").textContent = "Sleutel invullen";
-    document.getElementById("ov-sub").textContent = "Eén keer per browser, daarna niet meer";
-    document.getElementById("ov-ft").textContent = "Vraag de sleutel na bij je team.";
+    document.getElementById("ov-title").textContent = "Enter the key";
+    document.getElementById("ov-sub").textContent = "Once per browser, then never again";
+    document.getElementById("ov-ft").textContent = "Ask your team for the key.";
 
     const list = document.getElementById("ov-list");
     list.innerHTML =
-      '<div class="steps">Om namen voor iedereen te wijzigen heb je de teamsleutel nodig. ' +
-      "Kijken en openen kan zonder.</div>";
+      '<div class="steps">Changing names for everyone needs the team key. ' +
+      "Viewing and opening works without it.</div>";
 
     const wrap = document.createElement("div");
     wrap.className = "steps";
@@ -453,14 +453,14 @@ function editKey() {
 
     const inp = document.createElement("input");
     inp.type = "password";
-    inp.placeholder = "Teamsleutel";
+    inp.placeholder = "Team key";
     inp.style.cssText =
       "flex:1;height:34px;padding:0 10px;font:400 14px 'Poppins',system-ui,sans-serif;" +
       "border:1px solid var(--border-base);border-radius:var(--radius-base);outline:none;";
 
     const ok = document.createElement("button");
     ok.className = "pages-btn";
-    ok.textContent = "Bewaren";
+    ok.textContent = "Save";
 
     const done = value => {
       if (value) { try { localStorage.setItem(KEYSTORE, value); } catch (e) {} }
@@ -517,7 +517,7 @@ function filterPill(label, n, on, onClick) {
 function renderFilters() {
   const f = document.getElementById("filters");
   f.innerHTML = "";
-  f.appendChild(filterPill("Alles", DATA.length, !activeOwner && !activeGroup, () => {
+  f.appendChild(filterPill("All", DATA.length, !activeOwner && !activeGroup, () => {
     activeOwner = activeGroup = null; render();
   }));
   const s1 = document.createElement("div"); s1.className = "filters-sep"; f.appendChild(s1);
@@ -564,13 +564,13 @@ function card(d) {
   if (d.live) {
     thumb.dataset.live = d.live;
     thumb.innerHTML =
-      '<div class="thumb-skel">Laden</div>' +
-      '<div class="open-ov"><span class="open-pill"><i data-icon="external-link"></i>Openen</span></div>';
+      '<div class="thumb-skel">Loading</div>' +
+      '<div class="open-ov"><span class="open-pill"><i data-icon="external-link"></i>Open</span></div>';
     io.observe(thumb);
   } else {
     thumb.innerHTML =
-      '<div class="thumb-none"><i data-icon="eye-off"></i><span>Geen live preview</span></div>' +
-      '<div class="open-ov"><span class="open-pill"><i data-icon="external-link"></i>Bekijk code</span></div>';
+      '<div class="thumb-none"><i data-icon="eye-off"></i><span>No live preview</span></div>' +
+      '<div class="open-ov"><span class="open-pill"><i data-icon="external-link"></i>View code</span></div>';
   }
 
   const body = document.createElement("div");
@@ -583,8 +583,8 @@ function card(d) {
   t.textContent = nameOf(d);
   const pen = document.createElement("button");
   pen.className = "card-edit";
-  pen.title = "Naam wijzigen";
-  pen.setAttribute("aria-label", "Naam wijzigen");
+  pen.title = "Rename";
+  pen.setAttribute("aria-label", "Rename");
   pen.innerHTML = '<i data-icon="edit"></i>';
   pen.onclick = () => startRename(el, t, d);
   hd.append(t, pen);
@@ -603,7 +603,7 @@ function card(d) {
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
   btn.className = "card-pages";
-  btn.textContent = n === 1 ? "1 pagina" : n + " pagina's";
+  btn.textContent = n === 1 ? "1 page" : n + " pages";
   btn.onclick = () => openModal(d);
   meta.append(btn);
 
@@ -619,7 +619,7 @@ function render() {
   const host = document.getElementById("sections");
   host.innerHTML = "";
   if (!shown.length) {
-    host.innerHTML = '<div class="empty">Niets gevonden. Pas je zoekterm of filter aan.</div>';
+    host.innerHTML = '<div class="empty">Nothing found. Adjust your search or filter.</div>';
     return;
   }
   const secs = [];
@@ -655,7 +655,7 @@ function startRename(cardEl, titleEl, d) {
   const before = nameOf(d);
   const inp = document.createElement("input");
   inp.value = before;
-  inp.setAttribute("aria-label", "Nieuwe naam");
+  inp.setAttribute("aria-label", "New name");
   titleEl.textContent = "";
   titleEl.append(inp);
   inp.focus();
@@ -703,21 +703,21 @@ function renderPub() {
     // Names save themselves; the bar only reports what happened.
     go.hidden = true;
     undo.hidden = syncState !== "failed";
-    undo.textContent = "Opnieuw proberen";
+    undo.textContent = "Try again";
     undo.onclick = () => push();
     txt.textContent =
-      syncState === "saving" ? "Opslaan" :
-      syncState === "saved" ? "Opgeslagen voor iedereen" :
-      syncState === "failed" ? "Niet opgeslagen" : "";
+      syncState === "saving" ? "Saving" :
+      syncState === "saved" ? "Saved for everyone" :
+      syncState === "failed" ? "Not saved" : "";
     bar.classList.toggle("is-on", syncState === "saving" || syncState === "saved" || syncState === "failed");
     return;
   }
 
   go.hidden = false;
   undo.hidden = false;
-  undo.textContent = "Ongedaan maken";
+  undo.textContent = "Undo";
   undo.onclick = () => { renames = {}; saveRenames(); render(); };
-  txt.textContent = n === 1 ? "1 naam gewijzigd" : n + " namen gewijzigd";
+  txt.textContent = n === 1 ? "1 name changed" : n + " names changed";
   bar.classList.toggle("is-on", n > 0);
 }
 
@@ -727,22 +727,22 @@ async function publish() {
   try { await navigator.clipboard.writeText(json); copied = true; } catch (e) {}
 
   const n = Object.keys(renames).length;
-  document.getElementById("ov-title").textContent = "Publiceren voor iedereen";
+  document.getElementById("ov-title").textContent = "Publish for everyone";
   document.getElementById("ov-sub").textContent =
-    (n === 1 ? "1 gewijzigde naam" : n + " gewijzigde namen") + " · prototypes.json";
+    (n === 1 ? "1 changed name" : n + " changed names") + " · prototypes.json";
   document.getElementById("ov-ft").textContent =
-    "Je wijzigingen blijven in deze browser staan tot je ze publiceert.";
+    "Your changes stay in this browser until you publish them.";
 
   const list = document.getElementById("ov-list");
   list.className = "dialog-body steps-wrap";
   list.innerHTML =
     '<div class="steps"><ol>' +
       "<li>" + (copied
-        ? '<span class="done">De nieuwe prototypes.json staat op je klembord.</span>'
-        : 'Kopieer de nieuwe <code>prototypes.json</code> met de knop hieronder.') + "</li>" +
-      "<li>Klik op <strong>GitHub-editor openen</strong>. Die opent in een nieuw tabblad.</li>" +
-      "<li>Selecteer alles in het bestand (<code>Cmd + A</code>) en plak (<code>Cmd + V</code>).</li>" +
-      "<li>Klik op <strong>Commit changes</strong>. Binnen een minuut ziet iedereen de nieuwe namen.</li>" +
+        ? '<span class="done">The new prototypes.json is on your clipboard.</span>'
+        : 'Copy the new <code>prototypes.json</code> with the button below.') + "</li>" +
+      "<li>Click <strong>Open the GitHub editor</strong>. It opens in a new tab.</li>" +
+      "<li>Select everything in the file (<code>Cmd + A</code>) and paste (<code>Cmd + V</code>).</li>" +
+      "<li>Click <strong>Commit changes</strong>. Everyone sees the new names within a minute.</li>" +
     "</ol></div>";
 
   const bar = document.createElement("div");
@@ -753,10 +753,10 @@ async function publish() {
 
   const copy = document.createElement("button");
   copy.className = "pages-btn";
-  copy.textContent = copied ? "Nogmaals kopiëren" : "Kopieer JSON";
+  copy.textContent = copied ? "Copy again" : "Copy JSON";
   copy.onclick = async () => {
-    try { await navigator.clipboard.writeText(json); copy.textContent = "Gekopieerd"; }
-    catch (e) { copy.textContent = "Kopiëren mislukt"; }
+    try { await navigator.clipboard.writeText(json); copy.textContent = "Copied"; }
+    catch (e) { copy.textContent = "Copy failed"; }
   };
 
   const open = document.createElement("a");
@@ -764,7 +764,7 @@ async function publish() {
   open.href = "https://github.com/" + GALLERY_REPO + "/edit/main/prototypes.json";
   open.target = "_blank";
   open.rel = "noopener";
-  open.textContent = "GitHub-editor openen";
+  open.textContent = "Open the GitHub editor";
 
   bar.append(copy, open);
   list.append(bar);
@@ -789,7 +789,7 @@ function openModal(d) {
   document.getElementById("ov-sub").textContent =
     "in repository " + d.repos.map(r => r.org + "/" + r.name).join(", ");
 
-  document.getElementById("ov-ft").textContent = "Elke pagina opent in een nieuw tabblad.";
+  document.getElementById("ov-ft").textContent = "Every page opens in a new tab.";
 
   const list = document.getElementById("ov-list");
   list.className = "dialog-body list-frame";

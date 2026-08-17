@@ -163,11 +163,11 @@
       ],
       "variants": [
         {
-          "label": "Fase 1",
+          "label": "Phase 1",
           "path": "phase-1/index.html"
         },
         {
-          "label": "Fase 2",
+          "label": "Phase 2",
           "path": "phase-2/index.html"
         }
       ]
@@ -193,11 +193,11 @@
           "path": "bol.html"
         },
         {
-          "label": "Stapsgewijs",
+          "label": "Stepped",
           "path": "stepped.html"
         },
         {
-          "label": "Diepe structuur (stresstest)",
+          "label": "Deep structure (stress test)",
           "path": "deep.html"
         }
       ],
@@ -217,7 +217,7 @@
       ],
       "variants": [
         {
-          "label": "Overzicht",
+          "label": "Overview",
           "path": "index.html"
         },
         {
@@ -229,7 +229,7 @@
           "path": "action-planner/index.html"
         },
         {
-          "label": "Action planner · org-view",
+          "label": "Action planner · org view",
           "path": "action-planner/org-view.html"
         },
         {
@@ -245,15 +245,15 @@
           "path": "home-activity-feed.html"
         },
         {
-          "label": "Optie A: inline uitklappen",
+          "label": "Option A: inline expand",
           "path": "option-a-inline-expand.html"
         },
         {
-          "label": "Optie B: chips en drawer",
+          "label": "Option B: chips and drawer",
           "path": "option-b-chips-drawer.html"
         },
         {
-          "label": "Optie C: keuzedialoog",
+          "label": "Option C: choice dialog",
           "path": "option-c-choose-dialog.html"
         },
         {
@@ -282,11 +282,11 @@
           "path": "action-center-manager-stepper.html"
         },
         {
-          "label": "V4 · multi-select en triage",
+          "label": "V4 · multi-select and triage",
           "path": "action-center-manager-v4.html"
         },
         {
-          "label": "V5 · triage-pagina",
+          "label": "V5 · triage page",
           "path": "action-center-manager-v5.html"
         }
       ]
@@ -347,11 +347,11 @@
       ],
       "variants": [
         {
-          "label": "Overzicht",
+          "label": "Overview",
           "path": "prototypes/results-dashboard.html"
         },
         {
-          "label": "Overzicht met terugknop",
+          "label": "Overview with back button",
           "path": "prototypes/results-dashboard-panel-back.html"
         }
       ]
@@ -365,7 +365,7 @@
       "path": "prototypes/announcement-playground.html"
     },
     {
-      "name": "BambooHR integratie",
+      "name": "BambooHR integration",
       "desc": "Setting up a connection with an HR system.",
       "owner": "Jente",
       "group": "Platform",
