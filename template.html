@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Prototypes · Effectory UX</title>
+<title>Projects · Effectory UX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://effectory-ux.github.io/Engage-Design-system-/tokens.css" />
@@ -117,7 +117,7 @@
     background: repeating-linear-gradient(45deg,
       var(--bg-secondary) 0 10px, var(--bg-secondary-hover) 10px 20px);
   }
-  .thumb-none svg { width: 20px; height: 20px; opacity: .5; }
+  .thumb-none i { display: flex; width: 20px; height: 20px; opacity: .5; }
 
   .open-ov {
     position: absolute; inset: 0;
@@ -135,7 +135,7 @@
     border-radius: var(--radius-full);
     box-shadow: var(--sh-popovers);
   }
-  .open-pill svg { width: 14px; height: 14px; }
+  .open-pill i { display: flex; width: 14px; height: 14px; }
 
   .card-body { padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight); display: flex; flex-direction: column; gap: 2px; flex: 1; }
   .card-hd { display: flex; align-items: flex-start; gap: 6px; }
@@ -152,9 +152,18 @@
   }
   .card-meta .av { cursor: default; }
 
-  .meta-right { margin-left: auto; }
+  /* Geen design-system-knop: die is 14px en kent geen kleine variant. Dit is een
+     eigen tekstknop op 12px, zodat er niets aan het component wordt overschreven. */
+  .card-pages {
+    margin-left: auto;
+    padding: 0; border: 0; background: none;
+    font: 500 12px 'Poppins', system-ui, sans-serif;
+    color: var(--content-action);
+    cursor: pointer;
+  }
+  .card-pages:hover { color: var(--content-action-hover); text-decoration: underline; }
 
-  /* ── Modal with every page of a prototype ── */
+  /* Alleen de laag eromheen; het paneel zelf is het .dialog-component. */
   .ov {
     position: fixed; inset: 0; z-index: 90;
     display: none; align-items: center; justify-content: center;
@@ -162,47 +171,23 @@
     background: rgba(25, 39, 67, .45);
   }
   .ov.is-open { display: flex; }
-  .modal {
-    display: flex; flex-direction: column;
-    width: 100%; max-width: 520px; max-height: 80vh;
-    background: var(--bg-base);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--sh-dialogs);
-    overflow: hidden;
-  }
-  .modal-hd {
-    display: flex; align-items: flex-start; gap: var(--spacing-base);
-    padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight);
-    border-bottom: 1px solid var(--border-base);
-  }
-  .modal-t { font-size: 18px; font-weight: 600; line-height: 1.3; }
-  .modal-sub { font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
-  .modal-x {
-    margin-left: auto; flex: none;
-    display: grid; place-items: center;
-    width: 32px; height: 32px;
-    border: 0; border-radius: var(--radius-base);
-    background: transparent; color: var(--content-secondary);
-    cursor: pointer;
-  }
-  .modal-x:hover { background: var(--bg-secondary); color: var(--content-base); }
-  .modal-x svg { width: 14px; height: 14px; }
-  .modal-repos {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    padding: var(--spacing-base-tight) var(--spacing-base);
-    border-bottom: 1px solid var(--border-base);
-  }
+  .ov .dialog { max-height: 80vh; gap: var(--spacing-base); }
+
+  .modal-repos { display: flex; flex-wrap: wrap; gap: 6px; }
   .modal-repos:empty { display: none; }
-  .modal-list { overflow-y: auto; padding: var(--spacing-tight); }
+
+  .modal-list { overflow-y: auto; margin: 0 calc(var(--spacing-extra-loose) * -1); padding: 0 var(--spacing-extra-loose); }
   .modal-row {
     display: flex; align-items: center; gap: var(--spacing-base-tight);
     padding: var(--spacing-tight) var(--spacing-base-tight);
+    margin: 0 calc(var(--spacing-base-tight) * -1);
     border-radius: var(--radius-md);
+    color: var(--content-base);
   }
   .modal-row:hover { background: var(--bg-secondary); }
   .modal-num {
     flex: none; display: grid; place-items: center;
-    width: 22px; height: 22px;
+    width: 24px; height: 24px;
     font-size: 12px; font-weight: 600;
     color: var(--content-secondary);
     background: var(--bg-secondary);
@@ -211,9 +196,14 @@
   .modal-row:hover .modal-num { background: var(--bg-brand-subtle); color: var(--content-brand); }
   .modal-lbl { font-size: 14px; font-weight: 500; }
   .modal-path { font-size: 12px; color: var(--content-subtle); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .modal-open { margin-left: auto; flex: none; display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--content-action); }
-  .modal-open svg { width: 12px; height: 12px; }
-  .modal-ft { padding: var(--spacing-base-tight) var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); }
+  .modal-open { margin-left: auto; flex: none; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--content-action); }
+  .modal-open i { display: flex; width: 12px; height: 12px; }
+
+  .steps { font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
+  .steps ol { margin: 0; padding-left: var(--spacing-base); }
+  .steps li { margin-bottom: 6px; }
+  .steps code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
+  .steps .done { color: var(--content-positive); font-weight: 500; }
 
   /* Repo-chip in de modal, kleur per org. */
   .tag {
@@ -242,7 +232,7 @@
   }
   .card:hover .card-edit, .card-edit:focus { opacity: 1; }
   .card-edit:hover { background: var(--bg-secondary); color: var(--content-base); }
-  .card-edit svg { width: 13px; height: 13px; }
+  .card-edit i { display: flex; width: 13px; height: 13px; }
 
   .card-t input {
     width: 100%;
@@ -299,9 +289,6 @@
 
   .empty { padding: var(--spacing-super-loose); text-align: center; color: var(--content-secondary); font-size: 14px; }
 
-  .foot { margin-top: var(--spacing-extra-loose); padding-top: var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); line-height: 1.7; }
-  .foot a { color: var(--content-action); }
-  .foot code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
 
   @media (max-width: 1100px) {
     .wrap { padding: var(--spacing-loose) var(--spacing-extra-loose) var(--spacing-super-loose); }
@@ -317,17 +304,15 @@
 <body>
 
 <div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ov-title">
-  <div class="modal" id="modal">
-    <div class="modal-hd">
-      <div>
-        <div class="modal-t" id="ov-title"></div>
-        <div class="modal-sub" id="ov-sub"></div>
-      </div>
-      <button class="modal-x" id="ov-close" aria-label="Sluiten"></button>
+  <div class="dialog dialog-s">
+    <button class="dialog-close" id="ov-close" aria-label="Sluiten"><i data-icon="cross"></i></button>
+    <div class="dialog-header">
+      <h3 class="dialog-title" id="ov-title"></h3>
+      <p class="dialog-subtitle" id="ov-sub"></p>
     </div>
     <div class="modal-repos" id="ov-repos"></div>
-    <div class="modal-list" id="ov-list"></div>
-    <div class="modal-ft" id="ov-ft"></div>
+    <div class="dialog-body modal-list" id="ov-list"></div>
+    <p class="dialog-subtitle" id="ov-ft"></p>
   </div>
 </div>
 
@@ -340,7 +325,7 @@
 <div class="wrap">
   <div class="page-head">
     <div class="page-title">
-      <h1>Prototypes</h1>
+      <h1>Projects</h1>
     </div>
     <div class="search-wrap">
       <div class="search-icon"><i data-icon="search"></i></div>
@@ -353,11 +338,6 @@
   </div>
   <div class="filters" id="filters"></div>
   <div id="sections"></div>
-  <div class="foot">
-    Eén kaart per prototype. Een prototype met meerdere schermen opent op zijn beginpagina.<br />
-    Verversen na nieuwe prototypes: pas <code>prototypes.json</code> aan en draai <code>./build-gallery.py</code>.<br />
-    <span id="foot-src"></span>
-  </div>
 </div>
 
 <script>
@@ -522,15 +502,6 @@ function editKey() {
   });
 }
 
-const ICON = {
-  ext: '<svg viewBox="0 0 16 16" fill="none"><path d="M6 3H3.5A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14h8a1.5 1.5 0 001.5-1.5V10M9.5 2H14v4.5M14 2L7.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  none: '<svg viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M8 3.5c3.2 0 5.6 2.4 6.5 4.5-.4 1-1.2 2.1-2.2 2.9M4.6 4.7C3.3 5.6 2.3 6.9 1.5 8c.9 2.1 3.3 4.5 6.5 4.5 1 0 1.9-.2 2.7-.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  book: '<svg viewBox="0 0 20 20" fill="none"><path d="M3 4.5A1.5 1.5 0 014.5 3H9v14H4.5A1.5 1.5 0 013 15.5v-11zM17 4.5A1.5 1.5 0 0015.5 3H11v14h4.5A1.5 1.5 0 0017 15.5v-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-  wrench: '<svg viewBox="0 0 20 20" fill="none"><path d="M12.5 3a4 4 0 00-3.8 5.2L3 13.9V17h3l5.7-5.7A4 4 0 1012.5 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-  pages: '<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 4V3.5A1.5 1.5 0 016.5 2h6A1.5 1.5 0 0114 3.5v6a1.5 1.5 0 01-1.5 1.5H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  close: '<svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
-  pencil: '<svg viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5l2 2L6 12l-2.5.5L4 10l7.5-7.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 4l2 2" stroke="currentColor" stroke-width="1.5"/></svg>'
-};
 
 const PEOPLE = {
   Jente: { initials: "JI", full: "Jente Insing", av: "av-blue" },
@@ -623,12 +594,12 @@ function card(d) {
     thumb.dataset.live = d.live;
     thumb.innerHTML =
       '<div class="thumb-skel">Laden</div>' +
-      '<div class="open-ov"><span class="open-pill">' + ICON.ext + " Openen</span></div>";
+      '<div class="open-ov"><span class="open-pill"><i data-icon="external-link"></i>Openen</span></div>';
     io.observe(thumb);
   } else {
     thumb.innerHTML =
-      '<div class="thumb-none">' + ICON.none + "<span>Geen live preview</span></div>" +
-      '<div class="open-ov"><span class="open-pill">' + ICON.ext + " Bekijk code</span></div>";
+      '<div class="thumb-none"><i data-icon="eye-off"></i><span>Geen live preview</span></div>' +
+      '<div class="open-ov"><span class="open-pill"><i data-icon="external-link"></i>Bekijk code</span></div>';
   }
 
   const body = document.createElement("div");
@@ -643,7 +614,7 @@ function card(d) {
   pen.className = "card-edit";
   pen.title = "Naam wijzigen";
   pen.setAttribute("aria-label", "Naam wijzigen");
-  pen.innerHTML = ICON.pencil;
+  pen.innerHTML = '<i data-icon="edit"></i>';
   pen.onclick = () => startRename(el, t, d);
   hd.append(t, pen);
   if (renames[d.id]) el.classList.add("is-renamed");
@@ -660,7 +631,7 @@ function card(d) {
   // repo lives, so it has to stay reachable from every card.
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
-  btn.className = "btn btn-link meta-right";
+  btn.className = "card-pages";
   btn.textContent = n === 1 ? "1 pagina" : n + " pagina's";
   btn.onclick = () => openModal(d);
   meta.append(btn);
@@ -705,11 +676,6 @@ function render() {
 
 function renderHero() {
   document.getElementById("dsbtn").href = DS.docs;
-  document.getElementById("foot-src").innerHTML =
-    'Zelf een prototype bouwen? <a href="' + DS.guide + '" target="_blank" rel="noopener">' +
-    'installeer de skill</a>.<br />Bronnen: ' + REPOS.map(r =>
-    '<a href="https://github.com/' + r.repo + '" target="_blank" rel="noopener">' + r.repo + "</a>"
-  ).join(" · ");
 }
 
 /* ── Renaming a card ── */
@@ -876,13 +842,14 @@ function openModal(d) {
     a.append(label);
     const open = document.createElement("span");
     open.className = "modal-open";
-    open.innerHTML = ICON.ext + (v.live ? "Openen" : "Code");
+    open.innerHTML = '<i data-icon="external-link"></i>' + (v.live ? "Openen" : "Code");
     a.append(open);
     list.append(a);
   });
 
   ov.classList.add("is-open");
   document.body.style.overflow = "hidden";
+  if (window.Icons) window.Icons.render(ov);   // rijen zijn net aangemaakt
   document.getElementById("ov-close").focus();
 }
 
@@ -892,7 +859,6 @@ function closeModal() {
   if (lastFocus) lastFocus.focus();
 }
 
-document.getElementById("ov-close").innerHTML = ICON.close;
 document.getElementById("ov-close").onclick = closeModal;
 ov.addEventListener("click", e => { if (e.target === ov) closeModal(); });
 document.addEventListener("keydown", e => {
