@@ -26,7 +26,8 @@
         "^skill-source/",
         "^\\.claude/",
         "^dist/",
-        "^ci/"
+        "^ci/",
+        "^prototypes/group-linking-"
       ]
     },
     "eray-ac": {
@@ -190,7 +191,7 @@
     },
     {
       "name": "Results dashboard",
-      "desc": "Results for managers: the overview, a variant with a back button, and the effectiveness overview.",
+      "desc": "Results for managers: the overview and a variant with a back button.",
       "owner": "Jente",
       "group": "Resultaten",
       "repo": "engage",
@@ -209,10 +210,6 @@
         {
           "label": "Overzicht met terugknop",
           "path": "prototypes/results-dashboard-panel-back.html"
-        },
-        {
-          "label": "Effectiviteit-overzicht",
-          "path": "prototypes/results-overview.html"
         }
       ]
     },
@@ -371,14 +368,6 @@
       "group": "Platform",
       "repo": "engage",
       "path": "prototypes/integration-bamboohr.html"
-    },
-    {
-      "name": "Onboarding kaart",
-      "desc": "Options for the onboarding card on the homepage.",
-      "owner": "Jente",
-      "group": "Losse verkenningen",
-      "repo": "engage",
-      "path": "prototypes/onboarding-card-options.html"
     },
     {
       "name": "Announcement playground",
