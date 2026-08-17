@@ -42,6 +42,14 @@ endpoint daarvoor plus uitrolstappen; het is één `GET` en één `PUT`, dus het
 net zo goed ergens anders draaien dan op Cloudflare. Zolang `sync.url` leeg is,
 merkt de pagina er niets van en blijft alles zoals hierboven.
 
+## Indeling
+
+De secties volgen de drie tracks uit Product & Tech: **Surveying**, **Leadership
+enablement** en **Reporting**. Wat geen enkele track raakt, zoals de homepage of een
+integratie, staat onder **Platform**. Een prototype hoort bij de track waar het over
+gaat, niet bij de track van degene die het maakte: group linking is van Jente maar
+hoort bij Surveying.
+
 ## Een prototype toevoegen
 
 1. Voeg een entry toe aan `entries` in `prototypes.json`:
@@ -51,7 +59,7 @@ merkt de pagina er niets van en blijft alles zoals hierboven.
   "name": "Mijn prototype",
   "desc": "Eén regel over wat het laat zien.",
   "owner": "Jente",
-  "group": "Platform",
+  "group": "Reporting",
   "repo": "engage",
   "path": "prototypes/mijn-prototype.html",
   "also": ["^prototypes/mijn-prototype-"]

@@ -120,10 +120,63 @@
   },
   "entries": [
     {
+      "name": "Approach picker",
+      "desc": "Picking an approach for the survey, shown in its empty starting state.",
+      "owner": "Jente",
+      "group": "Surveying",
+      "repo": "engage",
+      "path": "prototypes/approach-picker.html"
+    },
+    {
+      "name": "CYOS demo",
+      "desc": "Standalone demo of the survey creation flow.",
+      "owner": "Jamal",
+      "group": "Surveying",
+      "repo": "cyos-demo",
+      "path": "index.html"
+    },
+    {
+      "name": "CYOS research · central library sync",
+      "desc": "Research note on keeping the central library in sync.",
+      "owner": "Jamal",
+      "group": "Surveying",
+      "repo": "cyos",
+      "path": "site/research/central-library-sync/index.html"
+    },
+    {
+      "name": "CYOS site",
+      "desc": "Landing page for the CYOS project.",
+      "owner": "Jamal",
+      "group": "Surveying",
+      "repo": "cyos",
+      "path": "site/index.html"
+    },
+    {
+      "name": "CYOS survey creation",
+      "desc": "Create your own survey, with both phases side by side.",
+      "owner": "Jamal",
+      "group": "Surveying",
+      "repo": "cyos",
+      "path": "phase-1/index.html",
+      "also": [
+        "^phase-"
+      ],
+      "variants": [
+        {
+          "label": "Fase 1",
+          "path": "phase-1/index.html"
+        },
+        {
+          "label": "Fase 2",
+          "path": "phase-2/index.html"
+        }
+      ]
+    },
+    {
       "name": "Group linking",
       "desc": "Link a previous survey to the new structure. Three real customer structures, the stepped base flow, and a deep tree as a stress test.",
       "owner": "Jente",
-      "group": "Survey opzetten",
+      "group": "Surveying",
       "repo": "gl",
       "path": "index.html",
       "variants": [
@@ -153,146 +206,10 @@
       ]
     },
     {
-      "name": "Approach picker",
-      "desc": "Picking an approach for the survey, shown in its empty starting state.",
-      "owner": "Jente",
-      "group": "Survey opzetten",
-      "repo": "engage",
-      "path": "prototypes/approach-picker.html"
-    },
-    {
-      "name": "CYOS survey creation",
-      "desc": "Create your own survey, with both phases side by side.",
-      "owner": "Jamal",
-      "group": "Survey opzetten",
-      "repo": "cyos",
-      "path": "phase-1/index.html",
-      "also": [
-        "^phase-"
-      ],
-      "variants": [
-        {
-          "label": "Fase 1",
-          "path": "phase-1/index.html"
-        },
-        {
-          "label": "Fase 2",
-          "path": "phase-2/index.html"
-        }
-      ]
-    },
-    {
-      "name": "CYOS demo",
-      "desc": "Standalone demo of the survey creation flow.",
-      "owner": "Jamal",
-      "group": "Survey opzetten",
-      "repo": "cyos-demo",
-      "path": "index.html"
-    },
-    {
-      "name": "CYOS research · central library sync",
-      "desc": "Research note on keeping the central library in sync.",
-      "owner": "Jamal",
-      "group": "Survey opzetten",
-      "repo": "cyos",
-      "path": "site/research/central-library-sync/index.html"
-    },
-    {
-      "name": "CYOS site",
-      "desc": "Landing page for the CYOS project.",
-      "owner": "Jamal",
-      "group": "Survey opzetten",
-      "repo": "cyos",
-      "path": "site/index.html"
-    },
-    {
-      "name": "Results dashboard",
-      "desc": "Results for managers: the overview and a variant with a back button.",
-      "owner": "Jente",
-      "group": "Resultaten",
-      "repo": "engage",
-      "path": "prototypes/results-dashboard.html",
-      "also": [
-        "^prototypes/results-",
-        "^prototypes/scores\\.",
-        "^prototypes/themes\\.",
-        "^prototypes/reports\\."
-      ],
-      "variants": [
-        {
-          "label": "Overzicht",
-          "path": "prototypes/results-dashboard.html"
-        },
-        {
-          "label": "Overzicht met terugknop",
-          "path": "prototypes/results-dashboard-panel-back.html"
-        }
-      ]
-    },
-    {
-      "name": "GTMA Prototype",
-      "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
-      "owner": "Jente",
-      "group": "Resultaten",
-      "repo": "gtma",
-      "path": "novanta-before-overview.html",
-      "variants": [
-        {
-          "label": "Novanta · Q2",
-          "path": "novanta-before-overview.html"
-        },
-        {
-          "label": "Novanta · Q3",
-          "path": "novanta-after-overview.html"
-        },
-        {
-          "label": "Team IT · Q2",
-          "path": "team-it-before-overview.html"
-        },
-        {
-          "label": "Team IT · Q3",
-          "path": "team-it-after-overview.html"
-        }
-      ],
-      "also": [
-        "^novanta-",
-        "^team-it-"
-      ]
-    },
-    {
-      "name": "Action Center · manager",
-      "desc": "From result to action. Four directions, from focus view to multi-select and triage.",
-      "owner": "Jente",
-      "group": "Van resultaat naar actie",
-      "repo": "engage",
-      "path": "action-center-manager.html",
-      "also": [
-        "^action-center-"
-      ],
-      "variants": [
-        {
-          "label": "Focus view",
-          "path": "action-center-manager.html"
-        },
-        {
-          "label": "Stepper",
-          "path": "action-center-manager-stepper.html"
-        },
-        {
-          "label": "V4 · multi-select en triage",
-          "path": "action-center-manager-v4.html"
-        },
-        {
-          "label": "V5 · triage-pagina",
-          "path": "action-center-manager-v5.html"
-        }
-      ]
-    },
-    {
       "name": "Action Center · Eray",
       "desc": "Manager and coordinator screens, the action planner, and three options for choosing an action.",
       "owner": "Eray",
-      "group": "Van resultaat naar actie",
+      "group": "Leadership enablement",
       "repo": "eray-ac",
       "path": "index.html",
       "also": [
@@ -346,15 +263,114 @@
       ]
     },
     {
+      "name": "Action Center · manager",
+      "desc": "From result to action. Four directions, from focus view to multi-select and triage.",
+      "owner": "Jente",
+      "group": "Leadership enablement",
+      "repo": "engage",
+      "path": "action-center-manager.html",
+      "also": [
+        "^action-center-"
+      ],
+      "variants": [
+        {
+          "label": "Focus view",
+          "path": "action-center-manager.html"
+        },
+        {
+          "label": "Stepper",
+          "path": "action-center-manager-stepper.html"
+        },
+        {
+          "label": "V4 · multi-select en triage",
+          "path": "action-center-manager-v4.html"
+        },
+        {
+          "label": "V5 · triage-pagina",
+          "path": "action-center-manager-v5.html"
+        }
+      ]
+    },
+    {
       "name": "Conversation Guide",
       "desc": "A guide for the team conversation after the survey.",
       "owner": "Jente",
-      "group": "Van resultaat naar actie",
+      "group": "Leadership enablement",
       "repo": "engage",
       "path": "conversation-guide.html",
       "also": [
         "^conversation-guide"
       ]
+    },
+    {
+      "name": "GTMA Prototype",
+      "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
+      "owner": "Jente",
+      "group": "Reporting",
+      "repo": "gtma",
+      "path": "novanta-before-overview.html",
+      "variants": [
+        {
+          "label": "Novanta · Q2",
+          "path": "novanta-before-overview.html"
+        },
+        {
+          "label": "Novanta · Q3",
+          "path": "novanta-after-overview.html"
+        },
+        {
+          "label": "Team IT · Q2",
+          "path": "team-it-before-overview.html"
+        },
+        {
+          "label": "Team IT · Q3",
+          "path": "team-it-after-overview.html"
+        }
+      ],
+      "also": [
+        "^novanta-",
+        "^team-it-"
+      ]
+    },
+    {
+      "name": "Results dashboard",
+      "desc": "Results for managers: the overview and a variant with a back button.",
+      "owner": "Jente",
+      "group": "Reporting",
+      "repo": "engage",
+      "path": "prototypes/results-dashboard.html",
+      "also": [
+        "^prototypes/results-",
+        "^prototypes/scores\\.",
+        "^prototypes/themes\\.",
+        "^prototypes/reports\\."
+      ],
+      "variants": [
+        {
+          "label": "Overzicht",
+          "path": "prototypes/results-dashboard.html"
+        },
+        {
+          "label": "Overzicht met terugknop",
+          "path": "prototypes/results-dashboard-panel-back.html"
+        }
+      ]
+    },
+    {
+      "name": "Announcement playground",
+      "desc": "Every variant of the announcement component side by side.",
+      "owner": "Jente",
+      "group": "Platform",
+      "repo": "engage",
+      "path": "prototypes/announcement-playground.html"
+    },
+    {
+      "name": "BambooHR integratie",
+      "desc": "Setting up a connection with an HR system.",
+      "owner": "Jente",
+      "group": "Platform",
+      "repo": "engage",
+      "path": "prototypes/integration-bamboohr.html"
     },
     {
       "name": "My Effectory · home",
@@ -374,22 +390,6 @@
       "group": "Platform",
       "repo": "eray-ux",
       "path": "index.html"
-    },
-    {
-      "name": "BambooHR integratie",
-      "desc": "Setting up a connection with an HR system.",
-      "owner": "Jente",
-      "group": "Platform",
-      "repo": "engage",
-      "path": "prototypes/integration-bamboohr.html"
-    },
-    {
-      "name": "Announcement playground",
-      "desc": "Every variant of the announcement component side by side.",
-      "owner": "Jente",
-      "group": "Losse verkenningen",
-      "repo": "engage",
-      "path": "prototypes/announcement-playground.html"
     }
   ]
 }
