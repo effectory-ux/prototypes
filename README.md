@@ -107,8 +107,10 @@ met `site/`.
 
 | Repo | Inhoud |
 |---|---|
-| [effectory-ux/Engage-Design-system-](https://github.com/effectory-ux/Engage-Design-system-) | het design system: componenten, tokens, iconen, skill |
-| [effectory-design/effectory-design-documentation](https://github.com/effectory-design/effectory-design-documentation) | de prototypes van Jente |
+| [effectory-ux/Engage-Design-system-](https://github.com/effectory-ux/Engage-Design-system-) | het design system: componenten, tokens, iconen, documentatie, skill |
+| [effectory-ux/group-linking](https://github.com/effectory-ux/group-linking) | de vijf group-linking-varianten, ROC inbegrepen |
+| [effectory-ux/gtma](https://github.com/effectory-ux/gtma) | het GTMA before/after-prototype, 24 schermen |
+| [effectory-design/effectory-design-documentation](https://github.com/effectory-design/effectory-design-documentation) | wat nog niet verhuisd is: zes prototypes plus Eray's Action Center en Conversation Guide |
 | [eray-effectory/action-center](https://github.com/eray-effectory/action-center) | Action Center van Eray, nog zonder Pages |
 | [eray-effectory/ux](https://github.com/eray-effectory/ux) | platform design van Eray |
 | [effectory-ux/cyos](https://github.com/effectory-ux/cyos) | CYOS survey creation, fase 1 en 2 |
