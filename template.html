@@ -20,59 +20,42 @@
   }
   a { color: inherit; text-decoration: none; }
 
-  /* ── Top bar ── */
-  .topbar {
-    position: sticky; top: 0; z-index: 40;
+  /* ── Paginakop, in de pagina zelf zoals Figma ── */
+  .page-head {
     display: flex; align-items: center; gap: var(--spacing-base);
-    padding: 10px var(--spacing-loose);
-    background: var(--bg-base);
-    border-bottom: 1px solid var(--border-base);
+    margin-bottom: var(--spacing-base);
   }
-  .topbar::before {
-    content: ""; position: absolute; inset: 0 0 auto; height: 2px;
-    background: linear-gradient(90deg, var(--bg-brand), var(--bg-accent-blue));
-  }
-  .brand { display: flex; align-items: center; gap: var(--spacing-tight); margin-right: auto; }
-  .brand-mark {
-    display: grid; place-items: center; width: 28px; height: 28px;
-    border-radius: var(--radius-md);
-    background: var(--bg-brand-subtle); color: var(--content-brand);
-  }
-  .brand-mark i { display: flex; width: 16px; height: 16px; }
-  #dsbtn i { display: flex; width: 16px; height: 16px; }
-  .brand-name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
-  .brand-count {
-    font-size: 12px; font-weight: 500; color: var(--content-secondary);
-    background: var(--bg-secondary); padding: 2px 8px; border-radius: var(--radius-full);
-  }
+  .page-title { display: flex; align-items: baseline; gap: var(--spacing-tight); margin-right: auto; }
+  .page-title h1 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+  .page-count { font-size: 14px; color: var(--content-secondary); }
 
-  .search { position: relative; width: 260px; }
+  .search { position: relative; width: 240px; }
   .search i {
     position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
     display: flex; width: 16px; height: 16px; color: var(--content-subtle);
     pointer-events: none;
   }
   .search input {
-    width: 100%; height: 36px;
+    width: 100%; height: 32px;
     padding: 0 var(--spacing-base-tight) 0 32px;
     font: 400 14px 'Poppins', system-ui, sans-serif;
     color: var(--content-base);
-    background: var(--bg-secondary);
-    border: 1px solid transparent;
-    border-radius: var(--radius-full);
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-base);
     outline: none;
-    transition: background .12s ease, border-color .12s ease;
   }
   .search input:hover { border-color: var(--border-action-hover); }
-  .search input:focus { background: var(--bg-base); border-color: var(--border-action); box-shadow: var(--sh-action); }
+  .search input:focus { border-color: var(--border-action); box-shadow: var(--sh-action); }
   .search input::placeholder { color: var(--content-subtle); }
+  #dsbtn { height: 32px; }
+  #dsbtn i { display: flex; width: 16px; height: 16px; }
 
   /* ── Filters ── */
   .filters {
-    position: sticky; top: 57px; z-index: 30;
     display: flex; flex-wrap: wrap; gap: 6px;
-    padding: 10px var(--spacing-loose);
-    background: var(--bg-base);
+    padding-bottom: var(--spacing-base);
+    margin-bottom: var(--spacing-loose);
     border-bottom: 1px solid var(--border-base);
   }
   .chip {
@@ -80,12 +63,12 @@
     height: 28px; padding: 0 10px;
     font: 500 12px 'Poppins', system-ui, sans-serif;
     color: var(--content-secondary);
-    background: var(--bg-secondary);
-    border: 1px solid transparent;
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
     border-radius: var(--radius-full);
     cursor: pointer;
   }
-  .chip:hover { background: var(--bg-secondary-hover); color: var(--content-base); }
+  .chip:hover { background: var(--bg-secondary); color: var(--content-base); }
   .chip.is-on {
     color: var(--content-brand);
     background: var(--bg-brand-subtle);
@@ -339,32 +322,14 @@
   .foot code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
 
   @media (max-width: 720px) {
-    .topbar { flex-wrap: wrap; }
-    .search { width: 100%; order: 3; }
-    .filters { top: 105px; }
+    .page-head { flex-wrap: wrap; }
+    .page-title { width: 100%; }
+    .search { flex: 1; width: auto; }
     .wrap { padding: var(--spacing-base); }
   }
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <div class="brand">
-    <span class="brand-mark"><i data-icon="layout"></i></span>
-    <span class="brand-name">Prototypes</span>
-    <span class="brand-count" id="count">__COUNT__</span>
-  </div>
-  <div class="search">
-    <i data-icon="search"></i>
-    <input id="q" type="search" placeholder="Zoek op naam of repo" autocomplete="off" />
-  </div>
-  <a class="btn btn-primary" id="dsbtn" href="#" target="_blank" rel="noopener">
-    <i data-icon="book-open"></i>
-    Design system
-  </a>
-</div>
-
-<div class="filters" id="filters"></div>
 
 <div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ov-title">
   <div class="modal" id="modal">
@@ -388,6 +353,21 @@
 </div>
 
 <div class="wrap">
+  <div class="page-head">
+    <div class="page-title">
+      <h1>Prototypes</h1>
+      <span class="page-count" id="count">__COUNT__</span>
+    </div>
+    <div class="search">
+      <i data-icon="search"></i>
+      <input id="q" type="search" placeholder="Zoek op naam of repo" autocomplete="off" />
+    </div>
+    <a class="btn btn-primary" id="dsbtn" href="#" target="_blank" rel="noopener">
+      <i data-icon="book-open"></i>
+      Design system
+    </a>
+  </div>
+  <div class="filters" id="filters"></div>
   <div id="sections"></div>
   <div class="foot">
     Eén kaart per prototype. Een prototype met meerdere schermen opent op zijn beginpagina.<br />
