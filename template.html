@@ -14,7 +14,12 @@
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: var(--bg-interface-body-secondary, var(--bg-secondary));
+    /* Dezelfde gele gradient als de homepage van het design system. */
+    background:
+      radial-gradient(80% 60% at 95% 0%, rgba(255,216,87,0.55) 0%, rgba(255,224,120,0.32) 22%, rgba(254,231,153,0.16) 42%, rgba(254,242,203,0.06) 65%, rgba(253,253,252,0) 85%),
+      #fdfdfc;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     font-family: 'Poppins', system-ui, sans-serif;
     color: var(--content-base);
   }
@@ -107,7 +112,7 @@
   .thumb {
     position: relative;
     aspect-ratio: 16 / 10;
-    background: var(--bg-secondary);
+    background: var(--bg-subtle, var(--bg-secondary));
     border-bottom: 1px solid var(--border-base);
     overflow: hidden;
     display: block;
@@ -155,16 +160,17 @@
   }
   .open-pill svg { width: 14px; height: 14px; }
 
-  .card-body { padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight); display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .card-body { padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight); display: flex; flex-direction: column; gap: 2px; flex: 1; }
   .card-hd { display: flex; align-items: flex-start; gap: 6px; }
-  .card-t { font-size: 16px; font-weight: 600; line-height: 1.3; flex: 1; letter-spacing: -0.01em; }
+  .card-t { font-size: 14px; font-weight: 600; line-height: 1.35; flex: 1; }
   .card-d {
     font-size: 12px; color: var(--content-secondary); line-height: 1.5;
+    margin-bottom: 10px;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
   .card-meta {
     display: flex; align-items: center; gap: 8px;
-    margin-top: auto; padding-top: var(--spacing-base-tight);
+    margin-top: auto; padding-top: var(--spacing-base);
     border-top: 1px solid var(--border-base);
   }
   .card-meta .av { cursor: default; }
@@ -684,7 +690,7 @@ function card(d) {
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
   btn.className = "btn btn-link btn-xs meta-right";
-  btn.innerHTML = '<i data-icon="copy"></i>' + (n === 1 ? "1 pagina" : n + " pagina's");
+  btn.textContent = n === 1 ? "1 pagina" : n + " pagina's";
   btn.onclick = () => openModal(d);
   meta.append(btn);
 
