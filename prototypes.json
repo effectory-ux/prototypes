@@ -27,7 +27,9 @@
         "^\\.claude/",
         "^dist/",
         "^ci/",
-        "^prototypes/group-linking-"
+        "^prototypes/group-linking-",
+        "^novanta-",
+        "^team-it-"
       ]
     },
     "eray-ac": {
@@ -99,6 +101,20 @@
       ],
       "ignore": [
         "^404\\.html$"
+      ]
+    },
+    "gtma": {
+      "repo": "effectory-ux/gtma",
+      "pages": "https://effectory-ux.github.io/gtma/",
+      "repos": [
+        {
+          "org": "effectory-ux",
+          "name": "gtma"
+        }
+      ],
+      "ignore": [
+        "^404\\.html$",
+        "^index\\.html$"
       ]
     }
   },
@@ -218,7 +234,7 @@
       "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
       "owner": "Jente",
       "group": "Resultaten",
-      "repo": "engage",
+      "repo": "gtma",
       "path": "novanta-before-overview.html",
       "variants": [
         {
