@@ -32,36 +32,15 @@
   }
   .page-title { display: flex; align-items: baseline; gap: var(--spacing-tight); margin-right: auto; }
   .page-title h1 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
-  .page-count { font-size: 14px; color: var(--content-secondary); }
 
-  .search { position: relative; width: 240px; }
-  .search i {
-    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-    display: flex; width: 16px; height: 16px; color: var(--content-subtle);
-    pointer-events: none;
-  }
-  .search input {
-    width: 100%; height: 32px;
-    padding: 0 var(--spacing-base-tight) 0 32px;
-    font: 400 14px 'Poppins', system-ui, sans-serif;
-    color: var(--content-base);
-    background: var(--bg-base);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-base);
-    outline: none;
-  }
-  .search input:hover { border-color: var(--border-action-hover); }
-  .search input:focus { border-color: var(--border-action); box-shadow: var(--sh-action); }
-  .search input::placeholder { color: var(--content-subtle); }
-  #dsbtn { height: 32px; }
-  #dsbtn i { display: flex; width: 16px; height: 16px; }
+  .search-wrap { width: 260px; flex: none; }
 
   /* ── Filters ── */
   .filters {
     display: flex; flex-wrap: wrap; gap: var(--spacing-tight);
     margin-bottom: var(--spacing-extra-loose);
   }
-  .chip {
+  .fpill {
     display: inline-flex; align-items: center; gap: 6px;
     height: 34px; padding: 0 var(--spacing-base-tight);
     font: 500 14px 'Poppins', system-ui, sans-serif;
@@ -71,13 +50,13 @@
     border-radius: var(--radius-full);
     cursor: pointer;
   }
-  .chip:hover { background: var(--bg-secondary); color: var(--content-base); }
-  .chip.is-on {
+  .fpill:hover { background: var(--bg-secondary); color: var(--content-base); }
+  .fpill.is-on {
     color: var(--content-brand);
     background: var(--bg-brand-subtle);
     border-color: var(--border-brand-subtle);
   }
-  .chip-n { font-weight: 400; color: var(--content-subtle); }
+  .fpill-n { font-weight: 400; color: var(--content-subtle); }
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
   .wrap {
@@ -173,11 +152,6 @@
   }
   .card-meta .av { cursor: default; }
 
-  /* Compacte varianten van de design-system-knop, voor in een kaartvoet. */
-  .btn.btn-xs { height: 28px; padding: 0 8px; font-size: 12px; gap: 6px; }
-  .btn.btn-xs i { display: flex; width: 13px; height: 13px; }
-  .btn.btn-quiet { color: var(--content-secondary); }
-  .btn.btn-quiet:hover { color: var(--content-base); }
   .meta-right { margin-left: auto; }
 
   /* ── Modal with every page of a prototype ── */
@@ -367,11 +341,10 @@
   <div class="page-head">
     <div class="page-title">
       <h1>Prototypes</h1>
-      <span class="page-count" id="count">15</span>
     </div>
-    <div class="search">
-      <i data-icon="search"></i>
-      <input id="q" type="search" placeholder="Zoek op naam of repo" autocomplete="off" />
+    <div class="search-wrap">
+      <div class="search-icon"><i data-icon="search"></i></div>
+      <input id="q" type="search" class="srch" placeholder="Zoek op naam of repo" autocomplete="off" />
     </div>
     <a class="btn btn-primary" id="dsbtn" href="#" target="_blank" rel="noopener">
       <i data-icon="book-open"></i>
@@ -1111,10 +1084,10 @@ function matches(d) {
   return true;
 }
 
-function chip(label, n, on, onClick) {
+function filterPill(label, n, on, onClick) {
   const b = document.createElement("button");
-  b.className = "chip" + (on ? " is-on" : "");
-  b.innerHTML = label + ' <span class="chip-n">' + n + "</span>";
+  b.className = "fpill" + (on ? " is-on" : "");
+  b.innerHTML = label + ' <span class="fpill-n">' + n + "</span>";
   b.onclick = onClick;
   return b;
 }
@@ -1122,15 +1095,15 @@ function chip(label, n, on, onClick) {
 function renderFilters() {
   const f = document.getElementById("filters");
   f.innerHTML = "";
-  f.appendChild(chip("Alles", DATA.length, !activeOwner && !activeGroup, () => {
+  f.appendChild(filterPill("Alles", DATA.length, !activeOwner && !activeGroup, () => {
     activeOwner = activeGroup = null; render();
   }));
   const s1 = document.createElement("div"); s1.className = "filters-sep"; f.appendChild(s1);
-  owners.forEach(o => f.appendChild(chip(o, DATA.filter(d => d.owner === o).length, activeOwner === o, () => {
+  owners.forEach(o => f.appendChild(filterPill(o, DATA.filter(d => d.owner === o).length, activeOwner === o, () => {
     activeOwner = activeOwner === o ? null : o; render();
   })));
   const s2 = document.createElement("div"); s2.className = "filters-sep"; f.appendChild(s2);
-  groups.forEach(g => f.appendChild(chip(g, DATA.filter(d => d.group === g).length, activeGroup === g, () => {
+  groups.forEach(g => f.appendChild(filterPill(g, DATA.filter(d => d.group === g).length, activeGroup === g, () => {
     activeGroup = activeGroup === g ? null : g; render();
   })));
 }
@@ -1207,7 +1180,7 @@ function card(d) {
   // repo lives, so it has to stay reachable from every card.
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
-  btn.className = "btn btn-link btn-xs meta-right";
+  btn.className = "btn btn-link meta-right";
   btn.textContent = n === 1 ? "1 pagina" : n + " pagina's";
   btn.onclick = () => openModal(d);
   meta.append(btn);
@@ -1221,11 +1194,6 @@ function card(d) {
 function render() {
   renderFilters();
   const shown = DATA.filter(matches);
-  document.getElementById("count").textContent =
-    shown.length === DATA.length
-      ? DATA.length + " prototypes"
-      : shown.length + " van " + DATA.length + " prototypes";
-
   const host = document.getElementById("sections");
   host.innerHTML = "";
   if (!shown.length) {
