@@ -104,7 +104,7 @@
   "entries": [
     {
       "name": "Group linking",
-      "desc": "Link a previous survey to the new structure. The top three are the most recent work, followed by a stress test, the first version and three early directions.",
+      "desc": "Link a previous survey to the new structure. Two real customer structures, the stepped flow, and a deep tree as a stress test.",
       "owner": "Jente",
       "group": "Survey opzetten",
       "repo": "engage",
@@ -125,22 +125,6 @@
         {
           "label": "Diepe structuur (stresstest)",
           "path": "prototypes/group-linking-deep.html"
-        },
-        {
-          "label": "Eerste versie",
-          "path": "prototypes/group-linking.html"
-        },
-        {
-          "label": "Richting: hybride",
-          "path": "prototypes/group-linking-hybrid-mockup.html"
-        },
-        {
-          "label": "Richting: Qualtrics-stijl",
-          "path": "prototypes/group-linking-qualtrics-mockup.html"
-        },
-        {
-          "label": "Richting: substructuur",
-          "path": "prototypes/group-linking-subtree-mockup.html"
         }
       ],
       "also": [
