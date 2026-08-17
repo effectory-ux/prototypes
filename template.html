@@ -94,30 +94,7 @@
   .chip-n { font-weight: 400; opacity: .7; }
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
-  /* ── Hero ── */
   .wrap { padding: var(--spacing-loose) var(--spacing-loose) var(--spacing-super-extra-loose); }
-  .hero { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--spacing-base-tight); margin-bottom: var(--spacing-extra-loose); }
-  .hero-card {
-    display: flex; align-items: center; gap: var(--spacing-base);
-    padding: var(--spacing-base);
-    background: var(--bg-base);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--sh-card);
-    transition: box-shadow .15s ease, transform .15s ease;
-  }
-  .hero-card:hover { box-shadow: var(--sh-card-hover); transform: translateY(-1px); }
-  .hero-icon {
-    display: grid; place-items: center; flex: none;
-    width: 40px; height: 40px;
-    border-radius: var(--radius-md);
-    background: var(--bg-brand-subtle);
-    color: var(--content-brand);
-  }
-  .hero-icon i { display: flex; width: 20px; height: 20px; }
-  .hero-icon.alt { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
-  .hero-t { display: block; font-size: 16px; font-weight: 600; }
-  .hero-d { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
 
   /* ── Sections ── */
   .sec { margin-bottom: var(--spacing-extra-loose); }
@@ -411,7 +388,6 @@
 </div>
 
 <div class="wrap">
-  <div class="hero" id="hero"></div>
   <div id="sections"></div>
   <div class="foot">
     Eén kaart per prototype. Een prototype met meerdere schermen opent op zijn beginpagina.<br />
@@ -770,16 +746,9 @@ function render() {
 
 function renderHero() {
   document.getElementById("dsbtn").href = DS.docs;
-  document.getElementById("hero").innerHTML =
-    '<a class="hero-card" href="' + DS.docs + '" target="_blank" rel="noopener">' +
-      '<span class="hero-icon"><i data-icon="book-open"></i></span>' +
-      '<span><span class="hero-t">Design system documentatie</span>' +
-      '<span class="hero-d">Componenten, tokens, iconen en richtlijnen</span></span></a>' +
-    '<a class="hero-card" href="' + DS.guide + '" target="_blank" rel="noopener">' +
-      '<span class="hero-icon alt"><i data-icon="tool"></i></span>' +
-      '<span><span class="hero-t">Zelf een prototype bouwen</span>' +
-      '<span class="hero-d">Skill installeren en aan de slag met Claude</span></span></a>';
-  document.getElementById("foot-src").innerHTML = "Bronnen: " + REPOS.map(r =>
+  document.getElementById("foot-src").innerHTML =
+    'Zelf een prototype bouwen? <a href="' + DS.guide + '" target="_blank" rel="noopener">' +
+    'installeer de skill</a>.<br />Bronnen: ' + REPOS.map(r =>
     '<a href="https://github.com/' + r.repo + '" target="_blank" rel="noopener">' + r.repo + "</a>"
   ).join(" · ");
 }
