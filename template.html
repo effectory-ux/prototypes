@@ -77,7 +77,11 @@
   .chip-n { font-weight: 400; opacity: .7; }
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
-  .wrap { padding: var(--spacing-loose) var(--spacing-loose) var(--spacing-super-extra-loose); }
+  .wrap {
+    /* 80px zijmarge, ruimer dan de spacing-schaal (die stopt bij 56). */
+    padding: var(--spacing-extra-loose) 80px var(--spacing-super-extra-loose);
+    max-width: 1600px; margin: 0 auto;
+  }
 
   /* ── Sections ── */
   .sec { margin-bottom: var(--spacing-extra-loose); }
@@ -321,11 +325,14 @@
   .foot a { color: var(--content-action); }
   .foot code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
 
+  @media (max-width: 1100px) {
+    .wrap { padding: var(--spacing-loose) var(--spacing-extra-loose) var(--spacing-super-loose); }
+  }
   @media (max-width: 720px) {
+    .wrap { padding: var(--spacing-base); }
     .page-head { flex-wrap: wrap; }
     .page-title { width: 100%; }
     .search { flex: 1; width: auto; }
-    .wrap { padding: var(--spacing-base); }
   }
 </style>
 </head>
