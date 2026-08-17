@@ -23,7 +23,7 @@
   /* ── Paginakop, in de pagina zelf zoals Figma ── */
   .page-head {
     display: flex; align-items: center; gap: var(--spacing-base);
-    margin-bottom: var(--spacing-base);
+    margin-bottom: var(--spacing-loose);
   }
   .page-title { display: flex; align-items: baseline; gap: var(--spacing-tight); margin-right: auto; }
   .page-title h1 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
@@ -53,15 +53,15 @@
 
   /* ── Filters ── */
   .filters {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    padding-bottom: var(--spacing-base);
-    margin-bottom: var(--spacing-loose);
+    display: flex; flex-wrap: wrap; gap: var(--spacing-tight);
+    padding-bottom: var(--spacing-loose);
+    margin-bottom: var(--spacing-extra-loose);
     border-bottom: 1px solid var(--border-base);
   }
   .chip {
     display: inline-flex; align-items: center; gap: 6px;
-    height: 28px; padding: 0 10px;
-    font: 500 12px 'Poppins', system-ui, sans-serif;
+    height: 34px; padding: 0 var(--spacing-base-tight);
+    font: 500 14px 'Poppins', system-ui, sans-serif;
     color: var(--content-secondary);
     background: var(--bg-base);
     border: 1px solid var(--border-base);
@@ -74,7 +74,7 @@
     background: var(--bg-brand-subtle);
     border-color: var(--border-brand-subtle);
   }
-  .chip-n { font-weight: 400; opacity: .7; }
+  .chip-n { font-weight: 400; color: var(--content-subtle); }
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
   .wrap {
@@ -84,13 +84,13 @@
   }
 
   /* ── Sections ── */
-  .sec { margin-bottom: var(--spacing-extra-loose); }
-  .sec-hd { display: flex; align-items: center; gap: var(--spacing-tight); margin-bottom: var(--spacing-base-tight); }
-  .sec-t { font-size: 16px; font-weight: 600; }
-  .sec-n { font-size: 12px; color: var(--content-secondary); }
+  .sec { margin-bottom: var(--spacing-super-loose); }
+  .sec-hd { display: flex; align-items: center; gap: var(--spacing-base-tight); margin-bottom: var(--spacing-base); }
+  .sec-t { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  .sec-n { font-size: 14px; color: var(--content-secondary); }
   .sec-line { flex: 1; height: 1px; background: var(--border-base); }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-base); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-loose); }
 
   /* ── Card ── */
   .card {
@@ -155,7 +155,7 @@
   }
   .open-pill svg { width: 14px; height: 14px; }
 
-  .card-body { padding: 12px 14px 10px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .card-body { padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight); display: flex; flex-direction: column; gap: 6px; flex: 1; }
   .card-hd { display: flex; align-items: flex-start; gap: 6px; }
   .card-t { font-size: 16px; font-weight: 600; line-height: 1.3; flex: 1; letter-spacing: -0.01em; }
   .card-d {
@@ -164,7 +164,7 @@
   }
   .card-meta {
     display: flex; align-items: center; gap: 8px;
-    margin-top: auto; padding-top: 10px;
+    margin-top: auto; padding-top: var(--spacing-base-tight);
     border-top: 1px solid var(--border-base);
   }
   .card-meta .av { cursor: default; }
