@@ -173,9 +173,6 @@
   .ov.is-open { display: flex; }
   .ov .dialog { max-height: 80vh; gap: var(--spacing-base); }
 
-  .modal-repos { display: flex; flex-wrap: wrap; gap: 6px; }
-  .modal-repos:empty { display: none; }
-
   /* Kader om de lijst, zoals de docs het rond .list-item doen. */
   .list-frame {
     border: 1px solid var(--border-base);
@@ -203,22 +200,6 @@
   .steps li { margin-bottom: 6px; }
   .steps code { font-size: 12px; background: var(--bg-secondary); padding: 1px 5px; border-radius: var(--radius-sm); }
   .steps .done { color: var(--content-positive); font-weight: 500; }
-
-  /* Repo-chip in de modal, kleur per org. */
-  .tag {
-    display: inline-flex; align-items: baseline; gap: 5px;
-    padding: 3px var(--spacing-tight);
-    font-size: 12px; font-weight: 500; line-height: 1.35;
-    border-radius: var(--radius-sm);
-    background: var(--bg-secondary);
-    color: var(--content-secondary);
-    max-width: 100%; word-break: break-word;
-  }
-  .tag.org-ux { background: var(--bg-brand-subtle); color: var(--content-brand); }
-  .tag.org-design { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
-  .tag.org-eray { background: var(--bg-accent-purple-subtle); color: var(--content-base); }
-  .tag.org-jamal { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise); }
-  .tag-dot { width: 6px; height: 6px; border-radius: var(--radius-full); background: currentColor; flex: none; position: relative; top: 5px; }
 
   /* ── Renaming ── */
   .card-edit {
@@ -309,7 +290,6 @@
       <h3 class="dialog-title" id="ov-title"></h3>
       <p class="dialog-subtitle" id="ov-sub"></p>
     </div>
-    <div class="modal-repos" id="ov-repos"></div>
     <div class="dialog-body modal-list" id="ov-list"></div>
     <p class="dialog-subtitle" id="ov-ft"></p>
   </div>
@@ -458,7 +438,6 @@ function editKey() {
   return new Promise(resolve => {
     document.getElementById("ov-title").textContent = "Sleutel invullen";
     document.getElementById("ov-sub").textContent = "Eén keer per browser, daarna niet meer";
-    document.getElementById("ov-repos").innerHTML = "";
     document.getElementById("ov-ft").textContent = "Vraag de sleutel na bij je team.";
 
     const list = document.getElementById("ov-list");
@@ -510,13 +489,6 @@ const PEOPLE = {
 function avatar(owner) {
   const p = PEOPLE[owner] || { initials: owner.slice(0, 2).toUpperCase(), full: owner, av: "av-grey" };
   return '<span class="av av-24 ' + p.av + '" title="' + p.full + '">' + p.initials + "</span>";
-}
-
-function orgClass(org) {
-  if (org === "effectory-ux") return "org-ux";
-  if (org === "effectory-design") return "org-design";
-  if (org === "eray-effectory") return "org-eray";
-  return "org-jamal";
 }
 
 const owners = [...new Set(DATA.map(d => d.owner))].sort();
@@ -758,7 +730,6 @@ async function publish() {
   document.getElementById("ov-title").textContent = "Publiceren voor iedereen";
   document.getElementById("ov-sub").textContent =
     (n === 1 ? "1 gewijzigde naam" : n + " gewijzigde namen") + " · prototypes.json";
-  document.getElementById("ov-repos").innerHTML = "";
   document.getElementById("ov-ft").textContent =
     "Je wijzigingen blijven in deze browser staan tot je ze publiceert.";
 
@@ -816,12 +787,7 @@ function openModal(d) {
 
   document.getElementById("ov-title").textContent = nameOf(d);
   document.getElementById("ov-sub").textContent =
-    (pages.length === 1 ? "1 pagina" : pages.length + " pagina's") + " · " + d.owner;
-
-  document.getElementById("ov-repos").innerHTML = d.repos.map(r =>
-    '<span class="tag repo ' + orgClass(r.org) + '">' +
-    '<span class="tag-dot"></span><span>' + r.org + "/" + r.name + "</span></span>"
-  ).join("");
+    "in repository " + d.repos.map(r => r.org + "/" + r.name).join(", ");
 
   document.getElementById("ov-ft").textContent = "Elke pagina opent in een nieuw tabblad.";
 
