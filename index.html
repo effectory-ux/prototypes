@@ -6,8 +6,10 @@
 <title>Prototypes · Effectory UX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="tokens.css" />
-<link rel="stylesheet" href="foundation.css" />
+<link rel="stylesheet" href="https://effectory-ux.github.io/Engage-Design-system-/tokens.css" />
+<link rel="stylesheet" href="https://effectory-ux.github.io/Engage-Design-system-/foundation.css" />
+<link rel="stylesheet" href="https://effectory-ux.github.io/Engage-Design-system-/components.css" />
+<script src="https://effectory-ux.github.io/Engage-Design-system-/icons.js"></script>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -22,54 +24,60 @@
   .topbar {
     position: sticky; top: 0; z-index: 40;
     display: flex; align-items: center; gap: var(--spacing-base);
-    padding: var(--spacing-base-tight) var(--spacing-loose);
+    padding: 10px var(--spacing-loose);
     background: var(--bg-base);
     border-bottom: 1px solid var(--border-base);
   }
-  .brand { display: flex; align-items: baseline; gap: var(--spacing-tight); margin-right: auto; }
-  .brand-name { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
-  .brand-count { font-size: 14px; color: var(--content-secondary); }
+  .topbar::before {
+    content: ""; position: absolute; inset: 0 0 auto; height: 2px;
+    background: linear-gradient(90deg, var(--bg-brand), var(--bg-accent-blue));
+  }
+  .brand { display: flex; align-items: center; gap: var(--spacing-tight); margin-right: auto; }
+  .brand-mark {
+    display: grid; place-items: center; width: 28px; height: 28px;
+    border-radius: var(--radius-md);
+    background: var(--bg-brand-subtle); color: var(--content-brand);
+  }
+  .brand-mark i { display: flex; width: 16px; height: 16px; }
+  #dsbtn i { display: flex; width: 16px; height: 16px; }
+  .brand-name { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+  .brand-count {
+    font-size: 12px; font-weight: 500; color: var(--content-secondary);
+    background: var(--bg-secondary); padding: 2px 8px; border-radius: var(--radius-full);
+  }
 
-  .search { width: 240px; }
+  .search { position: relative; width: 260px; }
+  .search i {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    display: flex; width: 16px; height: 16px; color: var(--content-subtle);
+    pointer-events: none;
+  }
   .search input {
     width: 100%; height: 36px;
-    padding: 0 var(--spacing-base-tight);
+    padding: 0 var(--spacing-base-tight) 0 32px;
     font: 400 14px 'Poppins', system-ui, sans-serif;
     color: var(--content-base);
-    background: var(--bg-base);
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-base);
+    background: var(--bg-secondary);
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
     outline: none;
+    transition: background .12s ease, border-color .12s ease;
   }
   .search input:hover { border-color: var(--border-action-hover); }
-  .search input:focus { border-color: var(--border-action); box-shadow: var(--sh-action); }
+  .search input:focus { background: var(--bg-base); border-color: var(--border-action); box-shadow: var(--sh-action); }
   .search input::placeholder { color: var(--content-subtle); }
-
-  .ds-btn {
-    display: inline-flex; align-items: center; gap: var(--spacing-tight);
-    height: 36px; padding: 0 var(--spacing-base);
-    font-size: 14px; font-weight: 500;
-    color: var(--content-always-white);
-    background: var(--bg-brand);
-    border-radius: var(--radius-base);
-    white-space: nowrap;
-    transition: background .12s ease;
-  }
-  .ds-btn:hover { background: var(--bg-brand-hover); }
-  .ds-btn:active { background: var(--bg-brand-pressed); }
-  .ds-btn svg { width: 16px; height: 16px; flex: none; }
 
   /* ── Filters ── */
   .filters {
-    position: sticky; top: 61px; z-index: 30;
-    display: flex; flex-wrap: wrap; gap: var(--spacing-tight);
-    padding: var(--spacing-base-tight) var(--spacing-loose);
+    position: sticky; top: 57px; z-index: 30;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 10px var(--spacing-loose);
     background: var(--bg-base);
     border-bottom: 1px solid var(--border-base);
   }
   .chip {
     display: inline-flex; align-items: center; gap: 6px;
-    height: 30px; padding: 0 var(--spacing-base-tight);
+    height: 28px; padding: 0 10px;
     font: 500 12px 'Poppins', system-ui, sans-serif;
     color: var(--content-secondary);
     background: var(--bg-secondary);
@@ -106,7 +114,7 @@
     background: var(--bg-brand-subtle);
     color: var(--content-brand);
   }
-  .hero-icon svg { width: 20px; height: 20px; }
+  .hero-icon i { display: flex; width: 20px; height: 20px; }
   .hero-icon.alt { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
   .hero-t { display: block; font-size: 16px; font-weight: 600; }
   .hero-d { display: block; font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
@@ -183,105 +191,42 @@
   }
   .open-pill svg { width: 14px; height: 14px; }
 
-  .card-body { padding: var(--spacing-base-tight); display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .card-hd { display: flex; align-items: flex-start; gap: var(--spacing-tight); }
-  .card-t { font-size: 16px; font-weight: 600; line-height: 1.3; flex: 1; }
-  .card-d { font-size: 12px; color: var(--content-secondary); line-height: 1.45; }
-  /* ── Modal with every page of a prototype ── */
-  .ov {
-    position: fixed; inset: 0; z-index: 90;
-    display: none; align-items: center; justify-content: center;
-    padding: var(--spacing-loose);
-    background: rgba(25, 39, 67, .45);
+  .card-body { padding: 12px 14px 10px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .card-hd { display: flex; align-items: flex-start; gap: 6px; }
+  .card-t { font-size: 16px; font-weight: 600; line-height: 1.3; flex: 1; letter-spacing: -0.01em; }
+  .card-d {
+    font-size: 12px; color: var(--content-secondary); line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .ov.is-open { display: flex; }
-  .modal {
-    display: flex; flex-direction: column;
-    width: 100%; max-width: 520px; max-height: 80vh;
-    background: var(--bg-base);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--sh-dialogs);
-    overflow: hidden;
+  .card-meta {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: auto; padding-top: 10px;
+    border-top: 1px solid var(--border-base);
   }
-  .modal-hd {
-    display: flex; align-items: flex-start; gap: var(--spacing-base);
-    padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight);
-    border-bottom: 1px solid var(--border-base);
-  }
-  .modal-t { font-size: 18px; font-weight: 600; line-height: 1.3; }
-  .modal-sub { font-size: 12px; color: var(--content-secondary); margin-top: 2px; }
-  .modal-x {
-    margin-left: auto; flex: none;
-    display: grid; place-items: center;
-    width: 32px; height: 32px;
-    border: 0; border-radius: var(--radius-base);
-    background: transparent; color: var(--content-secondary);
-    cursor: pointer;
-  }
-  .modal-x:hover { background: var(--bg-secondary); color: var(--content-base); }
-  .modal-x svg { width: 14px; height: 14px; }
-  .modal-repos {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    padding: var(--spacing-base-tight) var(--spacing-base);
-    border-bottom: 1px solid var(--border-base);
-  }
-  .modal-repos:empty { display: none; }
-  .modal-list { overflow-y: auto; padding: var(--spacing-tight); }
-  .modal-row {
-    display: flex; align-items: center; gap: var(--spacing-base-tight);
-    padding: var(--spacing-tight) var(--spacing-base-tight);
-    border-radius: var(--radius-md);
-  }
-  .modal-row:hover { background: var(--bg-secondary); }
-  .modal-num {
-    flex: none; display: grid; place-items: center;
-    width: 22px; height: 22px;
-    font-size: 12px; font-weight: 600;
-    color: var(--content-secondary);
-    background: var(--bg-secondary);
-    border-radius: var(--radius-full);
-  }
-  .modal-row:hover .modal-num { background: var(--bg-brand-subtle); color: var(--content-brand); }
-  .modal-lbl { font-size: 14px; font-weight: 500; }
-  .modal-path { font-size: 12px; color: var(--content-subtle); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .modal-open { margin-left: auto; flex: none; display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--content-action); }
-  .modal-open svg { width: 12px; height: 12px; }
-  .modal-ft { padding: var(--spacing-base-tight) var(--spacing-base); border-top: 1px solid var(--border-base); font-size: 12px; color: var(--content-subtle); }
+  .card-meta .av { cursor: default; }
 
-  .pages-btn {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 3px var(--spacing-tight);
-    font: 500 12px 'Poppins', system-ui, sans-serif;
-    color: var(--content-action);
-    background: transparent;
-    border: 1px solid var(--border-base);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-  }
-  .pages-btn:hover { border-color: var(--border-action-hover); background: var(--bg-secondary); }
-  .pages-btn svg { width: 12px; height: 12px; }
+  /* Compacte varianten van de design-system-knop, voor in een kaartvoet. */
+  .btn.btn-xs { height: 28px; padding: 0 8px; font-size: 12px; gap: 6px; }
+  .btn.btn-xs i { display: flex; width: 13px; height: 13px; }
+  .btn.btn-quiet { color: var(--content-secondary); }
+  .btn.btn-quiet:hover { color: var(--content-base); }
+  .meta-right { margin-left: auto; }
 
-  .card-meta { display: flex; flex-direction: column; gap: 6px; margin-top: var(--spacing-tight); }
-  .meta-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-
+  /* Repo-chip in de modal, kleur per org. */
   .tag {
-    display: inline-flex; align-items: center; gap: 5px;
+    display: inline-flex; align-items: baseline; gap: 5px;
     padding: 3px var(--spacing-tight);
     font-size: 12px; font-weight: 500; line-height: 1.35;
     border-radius: var(--radius-sm);
     background: var(--bg-secondary);
     color: var(--content-secondary);
-    max-width: 100%;
+    max-width: 100%; word-break: break-word;
   }
-  .tag.repo { align-items: baseline; word-break: break-word; text-align: left; }
   .tag.org-ux { background: var(--bg-brand-subtle); color: var(--content-brand); }
   .tag.org-design { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
   .tag.org-eray { background: var(--bg-accent-purple-subtle); color: var(--content-base); }
   .tag.org-jamal { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise); }
   .tag-dot { width: 6px; height: 6px; border-radius: var(--radius-full); background: currentColor; flex: none; position: relative; top: 5px; }
-  .tag.who { background: var(--bg-highlight-subtle, var(--bg-secondary)); color: var(--content-base); font-weight: 600; }
-  .tag.code { margin-left: auto; background: transparent; color: var(--content-action); border: 1px solid var(--border-base); }
-  .tag.code:hover { border-color: var(--border-action-hover); background: var(--bg-secondary); }
 
   /* ── Renaming ── */
   .card-edit {
@@ -319,16 +264,17 @@
 
   .pub {
     position: fixed; left: 50%; bottom: var(--spacing-loose); z-index: 50;
-    transform: translateX(-50%) translateY(120%);
+    transform: translateX(-50%) translateY(140%);
+    opacity: 0; pointer-events: none;
     display: flex; align-items: center; gap: var(--spacing-base-tight);
     padding: var(--spacing-base-tight) var(--spacing-base-tight) var(--spacing-base-tight) var(--spacing-base);
     background: var(--bg-inverse);
     color: var(--content-inverse);
     border-radius: var(--radius-full);
     box-shadow: var(--sh-dialogs);
-    transition: transform .2s ease;
+    transition: transform .2s ease, opacity .2s ease;
   }
-  .pub.is-on { transform: translateX(-50%) translateY(0); }
+  .pub.is-on { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
   .pub-txt { font-size: 14px; font-weight: 500; }
   .pub-btn {
     display: inline-flex; align-items: center; gap: 6px;
@@ -366,14 +312,16 @@
 
 <div class="topbar">
   <div class="brand">
+    <span class="brand-mark"><i data-icon="layout"></i></span>
     <span class="brand-name">Prototypes</span>
     <span class="brand-count" id="count">15</span>
   </div>
   <div class="search">
+    <i data-icon="search"></i>
     <input id="q" type="search" placeholder="Zoek op naam of repo" autocomplete="off" />
   </div>
-  <a class="ds-btn" id="dsbtn" href="#" target="_blank" rel="noopener">
-    <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+  <a class="btn btn-primary" id="dsbtn" href="#" target="_blank" rel="noopener">
+    <i data-icon="book-open"></i>
     Design system
   </a>
 </div>
@@ -1102,6 +1050,16 @@ const ICON = {
   pencil: '<svg viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5l2 2L6 12l-2.5.5L4 10l7.5-7.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 4l2 2" stroke="currentColor" stroke-width="1.5"/></svg>'
 };
 
+const PEOPLE = {
+  Jente: { initials: "JI", full: "Jente Insing", av: "av-blue" },
+  Eray:  { initials: "ED", full: "Eray Demirsoy", av: "av-orange" },
+  Jamal: { initials: "JR", full: "Jamal van Rooijen", av: "av-turquoise" }
+};
+function avatar(owner) {
+  const p = PEOPLE[owner] || { initials: owner.slice(0, 2).toUpperCase(), full: owner, av: "av-grey" };
+  return '<span class="av av-24 ' + p.av + '" title="' + p.full + '">' + p.initials + "</span>";
+}
+
 function orgClass(org) {
   if (org === "effectory-ux") return "org-ux";
   if (org === "effectory-design") return "org-design";
@@ -1214,27 +1172,24 @@ function card(d) {
 
   const meta = document.createElement("div");
   meta.className = "card-meta";
-  const row1 = document.createElement("div");
-  row1.className = "meta-row";
-  row1.innerHTML = '<span class="tag who">' + d.owner + "</span>";
+  meta.innerHTML = avatar(d.owner);
 
   // One button per card, also when there is a single page: the modal is where the
   // repo lives, so it has to stay reachable from every card.
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
-  btn.className = "pages-btn";
-  btn.innerHTML = ICON.pages + (n === 1 ? "1 pagina" : n + " pagina's");
+  btn.className = "btn btn-link btn-xs";
+  btn.innerHTML = '<i data-icon="copy"></i>' + (n === 1 ? "1 pagina" : n + " pagina's");
   btn.onclick = () => openModal(d);
-  row1.append(btn);
+  meta.append(btn);
 
   const code = document.createElement("a");
-  code.className = "tag code";
+  code.className = "btn btn-link btn-xs btn-quiet meta-right";
   code.href = d.code;
   code.target = "_blank";
   code.rel = "noopener";
-  code.textContent = "Code";
-  row1.append(code);
-  meta.append(row1);
+  code.innerHTML = '<i data-icon="code"></i>Code';
+  meta.append(code);
 
   body.append(hd, desc, meta);
   el.append(thumb, body);
@@ -1275,17 +1230,18 @@ function render() {
     host.appendChild(sec);
   });
   scale();
+  if (window.Icons) window.Icons.render();
 }
 
 function renderHero() {
   document.getElementById("dsbtn").href = DS.docs;
   document.getElementById("hero").innerHTML =
     '<a class="hero-card" href="' + DS.docs + '" target="_blank" rel="noopener">' +
-      '<span class="hero-icon">' + ICON.book + "</span>" +
+      '<span class="hero-icon"><i data-icon="book-open"></i></span>' +
       '<span><span class="hero-t">Design system documentatie</span>' +
       '<span class="hero-d">Componenten, tokens, iconen en richtlijnen</span></span></a>' +
     '<a class="hero-card" href="' + DS.guide + '" target="_blank" rel="noopener">' +
-      '<span class="hero-icon alt">' + ICON.wrench + "</span>" +
+      '<span class="hero-icon alt"><i data-icon="tool"></i></span>' +
       '<span><span class="hero-t">Zelf een prototype bouwen</span>' +
       '<span class="hero-d">Skill installeren en aan de slag met Claude</span></span></a>';
   document.getElementById("foot-src").innerHTML = "Bronnen: " + REPOS.map(r =>
