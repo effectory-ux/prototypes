@@ -176,16 +176,16 @@
   .modal-repos { display: flex; flex-wrap: wrap; gap: 6px; }
   .modal-repos:empty { display: none; }
 
-  .modal-list { overflow-y: auto; margin: 0 calc(var(--spacing-extra-loose) * -1); padding: 0 var(--spacing-extra-loose); }
-  .modal-row {
-    display: flex; align-items: center; gap: var(--spacing-base-tight);
-    padding: var(--spacing-tight) var(--spacing-base-tight);
-    margin: 0 calc(var(--spacing-base-tight) * -1);
-    border-radius: var(--radius-md);
-    color: var(--content-base);
+  /* Kader om de lijst, zoals de docs het rond .list-item doen. */
+  .list-frame {
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-lg);
+    overflow: auto;
+    background: var(--bg-base);
+    max-height: 46vh;
   }
-  .modal-row:hover { background: var(--bg-secondary); }
-  .modal-num {
+  .ov .list-item { min-height: 56px; padding: var(--spacing-base-tight) var(--spacing-base); gap: var(--spacing-base-tight); }
+  .list-item-num {
     flex: none; display: grid; place-items: center;
     width: 24px; height: 24px;
     font-size: 12px; font-weight: 600;
@@ -193,11 +193,10 @@
     background: var(--bg-secondary);
     border-radius: var(--radius-full);
   }
-  .modal-row:hover .modal-num { background: var(--bg-brand-subtle); color: var(--content-brand); }
-  .modal-lbl { font-size: 14px; font-weight: 500; }
-  .modal-path { font-size: 12px; color: var(--content-subtle); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .modal-open { margin-left: auto; flex: none; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--content-action); }
-  .modal-open i { display: flex; width: 12px; height: 12px; }
+  .list-item.is-interactive:hover .list-item-num { background: var(--bg-brand-subtle); color: var(--content-brand); }
+  .ov .list-item-title { font-size: 14px; }
+  .ov .list-item-sub { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .list-item-trailing i { display: flex; width: 14px; height: 14px; color: var(--content-secondary); }
 
   .steps { font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
   .steps ol { margin: 0; padding-left: var(--spacing-base); }
@@ -764,6 +763,7 @@ async function publish() {
     "Je wijzigingen blijven in deze browser staan tot je ze publiceert.";
 
   const list = document.getElementById("ov-list");
+  list.className = "dialog-body steps-wrap";
   list.innerHTML =
     '<div class="steps"><ol>' +
       "<li>" + (copied
@@ -826,26 +826,39 @@ function openModal(d) {
   document.getElementById("ov-ft").textContent = "Elke pagina opent in een nieuw tabblad.";
 
   const list = document.getElementById("ov-list");
+  list.className = "dialog-body list-frame";
   list.innerHTML = "";
   pages.forEach((v, i) => {
     const a = document.createElement("a");
-    a.className = "modal-row";
+    a.className = "list-item is-interactive";
     a.href = v.live || v.code;
     a.target = "_blank";
     a.rel = "noopener";
-    const label = document.createElement("div");
-    label.innerHTML = '<div class="modal-lbl"></div><div class="modal-path"></div>';
-    label.querySelector(".modal-lbl").textContent = v.label;
-    label.querySelector(".modal-path").textContent =
-      (v.live || v.code).split("/").pop() || v.label;
-    a.innerHTML = '<span class="modal-num">' + (i + 1) + "</span>";
-    a.append(label);
-    const open = document.createElement("span");
-    open.className = "modal-open";
-    open.innerHTML = '<i data-icon="external-link"></i>' + (v.live ? "Openen" : "Code");
-    a.append(open);
+
+    const num = document.createElement("span");
+    num.className = "list-item-num";
+    num.textContent = i + 1;
+
+    const content = document.createElement("div");
+    content.className = "list-item-content";
+    const title = document.createElement("div");
+    title.className = "list-item-title";
+    title.textContent = v.label;
+    const sub = document.createElement("div");
+    sub.className = "list-item-sub";
+    const file = document.createElement("span");
+    file.textContent = (v.code || v.live || "").split("/").pop() || v.label;
+    sub.append(file);
+    content.append(title, sub);
+
+    const trailing = document.createElement("div");
+    trailing.className = "list-item-trailing";
+    trailing.innerHTML = '<i data-icon="' + (v.live ? "external-link" : "code") + '"></i>';
+
+    a.append(num, content, trailing);
     list.append(a);
   });
+
 
   ov.classList.add("is-open");
   document.body.style.overflow = "hidden";
