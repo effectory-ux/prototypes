@@ -54,13 +54,16 @@
 
   /* Search sits on its own centred line, the way a prompt field does. The field
      itself stays the design system's 36px component; only the width is ours. */
-  .search-row { display: flex; justify-content: center; margin-bottom: var(--spacing-loose); }
+  .search-row {
+    display: flex; justify-content: center;
+    margin: var(--spacing-extra-loose) 0 var(--spacing-loose);
+  }
   .search-wrap { width: 100%; max-width: 560px; }
 
   /* ── Filters ── */
   .filters {
     display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-tight);
-    margin-bottom: var(--spacing-extra-loose);
+    margin-bottom: var(--spacing-super-extra-loose);
   }
   .fpill {
     display: inline-flex; align-items: center; gap: 6px;
@@ -335,9 +338,9 @@
   </div>
 
   <div class="search-row">
-    <div class="search-wrap">
+    <div class="search-wrap is-lg">
       <div class="search-icon"><i data-icon="search"></i></div>
-      <input id="q" type="search" class="srch" placeholder="Search by name or repo" autocomplete="off" />
+      <input id="q" type="search" class="srch srch-lg" placeholder="Search by name or repo" autocomplete="off" />
     </div>
   </div>
 
