@@ -178,11 +178,11 @@
       "owner": "Jente",
       "group": "Reporting",
       "repo": "gl",
-      "path": "index.html",
+      "path": "roc.html",
       "variants": [
         {
           "label": "ROC van Amsterdam",
-          "path": "index.html"
+          "path": "roc.html"
         },
         {
           "label": "Effectory",
