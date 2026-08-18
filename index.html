@@ -1288,10 +1288,11 @@ function card(d) {
 
   const meta = document.createElement("div");
   meta.className = "card-meta";
+  // The avatar already says who; the line next to it says when.
   meta.innerHTML = avatar(d.owner) +
-    '<span class="card-by">By ' + d.owner +
-    (d.updated ? ' · <span title="' + d.updated.slice(0, 10) + '">' + sinds(d.updated) + "</span>" : "") +
-    "</span>";
+    (d.updated
+      ? '<span class="card-by" title="' + d.updated.slice(0, 10) + '">' + sinds(d.updated) + "</span>"
+      : "");
 
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
