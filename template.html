@@ -49,9 +49,7 @@
     display: flex; align-items: center; gap: var(--spacing-base);
     padding: var(--spacing-tight) var(--spacing-tight) var(--spacing-tight) var(--spacing-base);
     background: var(--bg-base);
-    border: 1px solid var(--border-base);
     border-radius: var(--radius-xl);
-    box-shadow: var(--sh-card);
   }
   .page-title { display: flex; align-items: center; gap: var(--spacing-tight); margin-right: auto; }
   .page-title h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
@@ -380,6 +378,10 @@ const REPOS = /*__REPOS__*/;
 const CONFIG = /*__CONFIG__*/;
 const GALLERY_REPO = "effectory-ux/prototypes";
 
+/* Filter pills are parked, not removed: the state and the matching below stay live,
+   so flipping this back shows them again. Search still filters. */
+const SHOW_FILTERS = false;
+
 /* Renames are shared through the worker in CONFIG.sync.url: a name typed here is
    what the next visitor sees. Without that URL they stay in this browser and are
    published to prototypes.json by hand. */
@@ -652,7 +654,7 @@ function card(d) {
   if (renames[d.id]) el.classList.add("is-renamed");
 
   const track = document.createElement("span");
-  track.className = "chip " + TRACK_CLASS[d.group];
+  track.className = "chip chip-sm " + TRACK_CLASS[d.group];
   track.textContent = d.group;
 
   const desc = document.createElement("div");
@@ -676,7 +678,8 @@ function card(d) {
 }
 
 function render() {
-  renderFilters();
+  if (SHOW_FILTERS) renderFilters();
+  document.getElementById("filters").hidden = !SHOW_FILTERS;
   const shown = DATA.filter(matches);
   const host = document.getElementById("sections");
   host.innerHTML = "";
