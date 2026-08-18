@@ -167,6 +167,7 @@
   .fpill.is-on:hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-hover); color: var(--content-always-white); }
   .fpill.is-on .fpill-n { color: var(--content-always-white); opacity: .75; }
   .fpill-n { font-weight: 400; color: var(--content-subtle); }
+  .fpill.is-empty { opacity: .55; cursor: default; }
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
   .wrap {
@@ -649,7 +650,8 @@ function filterPill(label, n, on, onClick) {
   const b = document.createElement("button");
   b.className = "fpill" + (on ? " is-on" : "");
   b.innerHTML = label + ' <span class="fpill-n">' + n + "</span>";
-  b.onclick = onClick;
+  if (onClick) b.onclick = onClick;
+  else b.disabled = true;
   return b;
 }
 
@@ -659,9 +661,17 @@ function renderFilters() {
   f.appendChild(filterPill("All", DATA.length, !activeGroup, () => {
     activeGroup = null; render();
   }));
-  groups.forEach(g => f.appendChild(filterPill(g, DATA.filter(d => d.group === g).length, activeGroup === g, () => {
-    activeGroup = activeGroup === g ? null : g; render();
-  })));
+  // Every defined track gets a tab, in the order they are declared, so the taxonomy
+  // is visible even before anything is filed under it. An empty one is dimmed and
+  // does nothing, rather than leading to an empty page.
+  Object.keys(TRACK_CLASS).forEach(g => {
+    const n = DATA.filter(d => d.group === g).length;
+    const pill = filterPill(g, n, activeGroup === g, n ? () => {
+      activeGroup = activeGroup === g ? null : g; render();
+    } : null);
+    if (!n) pill.classList.add("is-empty");
+    f.appendChild(pill);
+  });
 }
 
 /* Thumbnails only load once their card comes near the viewport. */
