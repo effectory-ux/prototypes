@@ -123,7 +123,7 @@
       "name": "Approach picker",
       "desc": "Picking an approach for the survey, shown in its empty starting state.",
       "owner": "Jente",
-      "group": "Surveying",
+      "group": "Leadership enablement",
       "repo": "engage",
       "path": "prototypes/approach-picker.html"
     },
