@@ -20,39 +20,101 @@
     color: var(--content-base);
   }
 
-  /* The design system's yellow glow, drifting slowly across the viewport. A fixed
-     pseudo-element animated on transform, so it never repaints the page content. */
+  /* A ball of the design system's yellow, travelling across the viewport and
+     breathing as it goes. Fixed and animated on transform only, so the page content
+     never repaints. */
   body::before {
     content: "";
-    position: fixed; inset: -45%;
+    position: fixed; top: 0; left: 0;
+    width: 150vmin; height: 150vmin;
+    margin: -75vmin 0 0 -75vmin;
     z-index: -1; pointer-events: none;
-    background:
-      radial-gradient(42% 42% at 72% 22%, rgba(255,216,87,0.55) 0%, rgba(255,224,120,0.30) 30%, rgba(254,242,203,0.10) 60%, rgba(253,253,252,0) 80%),
-      radial-gradient(38% 38% at 22% 8%, rgba(255,224,120,0.22) 0%, rgba(254,242,203,0.08) 55%, rgba(253,253,252,0) 78%);
-    animation: glow-drift 28s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 45% 40%,
+      rgba(255,216,87,0.60) 0%,
+      rgba(255,224,120,0.42) 45%,
+      rgba(254,242,203,0.22) 80%,
+      rgba(254,242,203,0.10) 100%);
+    filter: blur(48px);
+    animation:
+      glow-ball 16s ease-in-out infinite alternate,
+      glow-morph 21s ease-in-out infinite alternate,
+      glow-fade 37s ease-in-out infinite alternate;
+    will-change: transform, border-radius, opacity;
   }
-  @keyframes glow-drift {
-    from { transform: translate3d(-22%, -10%, 0) scale(1); }
-    to   { transform: translate3d(22%, 12%, 0) scale(1.15); }
+  @keyframes glow-ball {
+    0%   { transform: translate3d(12vw, 10vh, 0) scale(0.90) rotate(0deg); }
+    35%  { transform: translate3d(50vw, 0vh, 0)  scale(1.35) rotate(45deg); }
+    70%  { transform: translate3d(82vw, 30vh, 0) scale(1.05) rotate(95deg); }
+    100% { transform: translate3d(100vw, 6vh, 0) scale(1.30) rotate(160deg); }
   }
-  /* Anyone who asked their system for less motion gets the glow standing still. */
+  /* The silhouette itself flows: opposing corner radii pulling in turn. */
+  @keyframes glow-morph {
+    0%   { border-radius: 58% 42% 46% 54% / 54% 46% 54% 46%; }
+    25%  { border-radius: 42% 58% 62% 38% / 38% 62% 38% 62%; }
+    50%  { border-radius: 66% 34% 38% 62% / 62% 40% 60% 38%; }
+    75%  { border-radius: 38% 62% 56% 44% / 44% 56% 44% 56%; }
+    100% { border-radius: 52% 48% 60% 40% / 60% 38% 62% 40%; }
+  }
+  /* A second ball on the same path in brand turquoise (--bg-brand, #0a9d99), fading in
+     and out over a longer cycle so the colour drifts from yellow to teal and back.
+     Literal rgba because a gradient stop needs alpha, not a token. */
+  body::after {
+    content: "";
+    position: fixed; top: 0; left: 0;
+    width: 150vmin; height: 150vmin;
+    margin: -75vmin 0 0 -75vmin;
+    z-index: -1; pointer-events: none;
+    background: radial-gradient(circle at 45% 40%,
+      rgba(10,157,153,0.26) 0%,
+      rgba(10,157,153,0.17) 45%,
+      rgba(122,221,219,0.09) 80%,
+      rgba(122,221,219,0.04) 100%);
+    filter: blur(48px);
+    opacity: 0;
+    animation:
+      glow-ball 16s ease-in-out infinite alternate,
+      glow-morph 21s ease-in-out infinite alternate,
+      glow-tint 37s ease-in-out infinite alternate;
+    will-change: transform, border-radius, opacity;
+  }
+  @keyframes glow-tint {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  /* The yellow steps back as the teal comes up, so the two never sit on top of each
+     other at full strength and turn olive. */
+  @keyframes glow-fade {
+    0%   { opacity: 1; }
+    100% { opacity: 0.15; }
+  }
+
+  /* Anyone who asked their system for less motion gets the ball standing still. */
   @media (prefers-reduced-motion: reduce) {
-    body::before { animation: none; }
+    body::before, body::after { animation: none; transform: translate3d(70vw, 10vh, 0); }
+    body::after { opacity: .5; }
   }
 
   @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) { background: var(--bg-interface-body-secondary); }
     html:not([data-theme="light"]) body::before {
-      background:
-        radial-gradient(42% 42% at 72% 22%, rgba(255,216,87,0.14) 0%, rgba(255,224,120,0.07) 35%, rgba(0,0,0,0) 70%),
-        radial-gradient(38% 38% at 22% 8%, rgba(255,224,120,0.06) 0%, rgba(0,0,0,0) 65%);
+      background: radial-gradient(circle at 50% 50%,
+        rgba(255,216,87,0.20) 0%, rgba(255,224,120,0.10) 35%, rgba(0,0,0,0) 70%);
     }
   }
   html[data-theme="dark"] { background: var(--bg-interface-body-secondary); }
   html[data-theme="dark"] body::before {
-    background:
-      radial-gradient(42% 42% at 72% 22%, rgba(255,216,87,0.14) 0%, rgba(255,224,120,0.07) 35%, rgba(0,0,0,0) 70%),
-      radial-gradient(38% 38% at 22% 8%, rgba(255,224,120,0.06) 0%, rgba(0,0,0,0) 65%);
+    background: radial-gradient(circle at 50% 50%,
+      rgba(255,216,87,0.20) 0%, rgba(255,224,120,0.10) 35%, rgba(0,0,0,0) 70%);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) body::after {
+      background: radial-gradient(circle at 50% 50%,
+        rgba(122,221,219,0.16) 0%, rgba(10,157,153,0.09) 35%, rgba(0,0,0,0) 70%);
+    }
+  }
+  html[data-theme="dark"] body::after {
+    background: radial-gradient(circle at 50% 50%,
+      rgba(122,221,219,0.16) 0%, rgba(10,157,153,0.09) 35%, rgba(0,0,0,0) 70%);
   }
 
   a { color: inherit; text-decoration: none; }
