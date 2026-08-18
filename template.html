@@ -44,26 +44,39 @@
   }
   a { color: inherit; text-decoration: none; }
 
-  /* ── Page head, inside the page the way Figma does it ── */
+  /* ── Page head: a white bar floating on the gradient ── */
   .page-head {
     display: flex; align-items: center; gap: var(--spacing-base);
-    margin-bottom: var(--spacing-loose);
+    padding: var(--spacing-tight) var(--spacing-tight) var(--spacing-tight) var(--spacing-base);
+    background: var(--bg-base);
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--sh-card);
   }
-  .page-title { display: flex; align-items: baseline; gap: var(--spacing-tight); margin-right: auto; }
-  .page-title h1 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+  .page-title { display: flex; align-items: center; gap: var(--spacing-tight); margin-right: auto; }
+  .page-title h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+  /* Placeholder for the Effectory logo: the design system ships no brand asset. */
+  .brand-mark {
+    display: grid; place-items: center; flex: none;
+    width: 28px; height: 28px;
+    border-radius: var(--radius-md);
+    background: var(--bg-brand); color: var(--content-always-white);
+  }
+  .brand-mark i { display: flex; width: 16px; height: 16px; }
 
-  /* Search sits on its own centred line, the way a prompt field does. The field
-     itself stays the design system's 36px component; only the width is ours. */
+  /* Search sits on its own centred line, the way a prompt field does. */
   .search-row {
     display: flex; justify-content: center;
-    margin: var(--spacing-extra-loose) 0 var(--spacing-loose);
+    margin: var(--spacing-super-extra-loose) 0 calc(var(--spacing-super-extra-loose) + var(--spacing-tight));
   }
   .search-wrap { width: 100%; max-width: 560px; }
 
   /* ── Filters ── */
+  /* Left-aligned and close to the grid: the pills filter the content below them,
+     so they belong with it rather than with the centred search. */
   .filters {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-tight);
-    margin-bottom: var(--spacing-super-extra-loose);
+    display: flex; flex-wrap: wrap; gap: var(--spacing-tight);
+    margin-bottom: var(--spacing-loose);
   }
   .fpill {
     display: inline-flex; align-items: center; gap: 6px;
@@ -85,27 +98,31 @@
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
   .wrap {
-    /* 80px zijmarge, ruimer dan de spacing-schaal (die stopt bij 56). */
-    padding: var(--spacing-extra-loose) 80px var(--spacing-super-extra-loose);
+    /* 80px = super-extra-loose (56) + loose (24), the way the design system homepage
+       composes its 80/96px. */
+    padding:
+      var(--spacing-super-extra-loose)
+      calc(var(--spacing-super-extra-loose) + var(--spacing-loose))
+      calc(var(--spacing-super-extra-loose) + var(--spacing-super-loose));
     max-width: 1600px; margin: 0 auto;
   }
 
   /* ── Sections ── */
-  .sec { margin-bottom: var(--spacing-super-loose); }
-  .sec-hd { display: flex; align-items: center; gap: var(--spacing-base-tight); margin-bottom: var(--spacing-base); }
+  .sec { margin-bottom: var(--spacing-super-extra-loose); }
+  .sec-hd { display: flex; align-items: center; gap: var(--spacing-base-tight); margin-bottom: var(--spacing-loose); }
   .sec-t { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
   .sec-n { font-size: 14px; color: var(--content-secondary); }
   .sec-line { flex: 1; height: 1px; background: var(--border-base); }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-loose); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-extra-loose); }
 
   /* ── Card ── */
   .card {
     display: flex; flex-direction: column;
+    padding: var(--spacing-tight);
     background: var(--bg-base);
     border: 1px solid var(--border-base);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
+    border-radius: var(--radius-xl);
     box-shadow: var(--sh-card);
     transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
   }
@@ -115,7 +132,7 @@
     position: relative;
     aspect-ratio: 16 / 10;
     background: var(--bg-subtle, var(--bg-secondary));
-    border-bottom: 1px solid var(--border-base);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     display: block;
   }
@@ -162,23 +179,30 @@
   }
   .open-pill i { display: flex; width: 14px; height: 14px; }
 
-  .card-body { padding: var(--spacing-base) var(--spacing-base) var(--spacing-base-tight); display: flex; flex-direction: column; gap: 2px; flex: 1; }
-  .card-hd { display: flex; align-items: flex-start; gap: 6px; }
+  .card-body {
+    padding: var(--spacing-base-tight) var(--spacing-tight) var(--spacing-tight);
+    display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-tight);
+    flex: 1;
+  }
+  .card-hd { display: flex; align-items: flex-start; gap: 6px; width: 100%; }
   .card-t { font-size: 14px; font-weight: 600; line-height: 1.35; flex: 1; }
   .card-d {
     font-size: 12px; color: var(--content-secondary); line-height: 1.5;
-    margin-bottom: 10px;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .card-meta {
-    display: flex; align-items: center; gap: 8px;
-    margin-top: auto; padding-top: var(--spacing-base);
-    border-top: 1px solid var(--border-base);
-  }
-  .card-meta .av { cursor: default; }
 
-  /* Geen design-system-knop: die is 14px en kent geen kleine variant. Dit is een
-     eigen tekstknop op 12px, zodat er niets aan het component wordt overschreven. */
+  /* Track label: the design system chip, coloured per track. */
+  .chip.track-surveying { background: var(--bg-accent-blue-subtle); color: var(--content-accent-blue); }
+  .chip.track-leadership { background: var(--bg-accent-orange-subtle); color: var(--content-accent-orange); }
+  .chip.track-reporting { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise); }
+  .chip.track-platform { background: var(--bg-secondary); color: var(--content-secondary); }
+
+  .card-meta { display: flex; align-items: center; gap: var(--spacing-tight); width: 100%; margin-top: auto; }
+  .card-meta .av { cursor: default; }
+  .card-by { font-size: 12px; color: var(--content-secondary); }
+
+  /* Not a design system button: that one is 14px with no small variant, so this is
+     our own 12px text button and nothing about the component is overridden. */
   .card-pages {
     margin-left: auto;
     padding: 0; border: 0; background: none;
@@ -188,7 +212,7 @@
   }
   .card-pages:hover { color: var(--content-action-hover); text-decoration: underline; }
 
-  /* Alleen de laag eromheen; het paneel zelf is het .dialog-component. */
+  /* Only the layer around it; the panel itself is the .dialog component. */
   .ov {
     position: fixed; inset: 0; z-index: 90;
     display: none; align-items: center; justify-content: center;
@@ -198,7 +222,7 @@
   .ov.is-open { display: flex; }
   .ov .dialog { max-height: 80vh; gap: var(--spacing-base); }
 
-  /* Kader om de lijst, zoals de docs het rond .list-item doen. */
+  /* Frame around the list, the way the docs frame .list-item. */
   .list-frame {
     border: 1px solid var(--border-base);
     border-radius: var(--radius-lg);
@@ -329,6 +353,7 @@
 <div class="wrap">
   <div class="page-head">
     <div class="page-title">
+      <span class="brand-mark"><i data-icon="layout"></i></span>
       <h1>Projects</h1>
     </div>
     <a class="btn btn-primary" id="dsbtn" href="#" target="_blank" rel="noopener">
@@ -510,6 +535,13 @@ function editKey() {
 }
 
 
+const TRACK_CLASS = {
+  "Surveying": "track-surveying",
+  "Leadership enablement": "track-leadership",
+  "Reporting": "track-reporting",
+  "Platform": "track-platform"
+};
+
 const PEOPLE = {
   Jente: { initials: "JI", full: "Jente Insing", av: "av-blue" },
   Eray:  { initials: "ED", full: "Eray Demirsoy", av: "av-orange" },
@@ -619,16 +651,18 @@ function card(d) {
   hd.append(t, pen);
   if (renames[d.id]) el.classList.add("is-renamed");
 
+  const track = document.createElement("span");
+  track.className = "chip " + TRACK_CLASS[d.group];
+  track.textContent = d.group;
+
   const desc = document.createElement("div");
   desc.className = "card-d";
   desc.textContent = d.desc;
 
   const meta = document.createElement("div");
   meta.className = "card-meta";
-  meta.innerHTML = avatar(d.owner);
+  meta.innerHTML = avatar(d.owner) + '<span class="card-by">By ' + d.owner + "</span>";
 
-  // One button per card, also when there is a single page: the modal is where the
-  // repo lives, so it has to stay reachable from every card.
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
   btn.className = "card-pages";
@@ -636,8 +670,7 @@ function card(d) {
   btn.onclick = () => openModal(d);
   meta.append(btn);
 
-
-  body.append(hd, desc, meta);
+  body.append(hd, track, desc, meta);
   el.append(thumb, body);
   return el;
 }
@@ -857,7 +890,7 @@ function openModal(d) {
 
   ov.classList.add("is-open");
   document.body.style.overflow = "hidden";
-  if (window.Icons) window.Icons.render(ov);   // rijen zijn net aangemaakt
+  if (window.Icons) window.Icons.render(ov);   // rows were just built
   document.getElementById("ov-close").focus();
 }
 
