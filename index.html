@@ -127,11 +127,11 @@
   .page-head {
     display: flex; align-items: center; gap: var(--spacing-base);
   }
-  .page-title { display: flex; align-items: center; gap: var(--spacing-tight); margin-right: auto; }
+  .page-title { display: flex; align-items: center; gap: var(--spacing-base-tight); margin-right: auto; }
   .page-title h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
   /* The Effectory logo, supplied by Jente; it carries its own yellow and radius. */
   .brand-mark { display: flex; flex: none; }
-  .brand-mark img { display: block; width: 40px; height: 40px; }
+  .brand-mark img { display: block; width: 48px; height: 48px; }
 
   /* Search spans the content width, on its own line. */
   .search-row {
@@ -187,7 +187,7 @@
   .sec-n { font-size: 14px; color: var(--content-secondary); }
   .sec-line { flex: 1; height: 1px; background: var(--border-base); }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-extra-loose); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-loose); }
 
   /* ── Card ── */
   .card {
@@ -439,66 +439,7 @@
 <script>
 const DATA = [
 {
-"updated": "2026-08-18T11:17:54Z",
-"id": "engage::prototypes/results-dashboard.html",
-"name": "Results dashboard",
-"variants": [
-{
-"label": "Overview",
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html"
-},
-{
-"label": "Overview with back button",
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard-panel-back.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard-panel-back.html"
-}
-],
-"desc": "Results for managers: the overview and a variant with a back button.",
-"owner": "Jente",
-"group": "Reporting",
-"path": "prototypes/results-dashboard.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 3,
-"pages": [
-"prototypes/results-dashboard-panel-back.html",
-"prototypes/results-dashboard.html",
-"prototypes/results-overview.html"
-]
-},
-{
-"updated": "2026-08-18T11:08:01Z",
-"id": "engage::conversation-guide.html",
-"name": "Conversation Guide",
-"variants": [],
-"desc": "A guide for the team conversation after the survey.",
-"owner": "Jente",
-"group": "Leadership enablement",
-"path": "conversation-guide.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/conversation-guide.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/conversation-guide.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 1,
-"pages": [
-"conversation-guide.html"
-]
-},
-{
-"updated": "2026-08-18T07:39:33Z",
+"updated": "2026-08-18T12:34:32Z",
 "id": "engage::action-center-manager.html",
 "name": "Action Center · manager",
 "variants": [
@@ -542,6 +483,65 @@ const DATA = [
 "action-center-manager-v4.html",
 "action-center-manager-v5.html",
 "action-center-manager.html"
+]
+},
+{
+"updated": "2026-08-18T12:32:02Z",
+"id": "engage::conversation-guide.html",
+"name": "Conversation Guide",
+"variants": [],
+"desc": "A guide for the team conversation after the survey.",
+"owner": "Jente",
+"group": "Leadership enablement",
+"path": "conversation-guide.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/conversation-guide.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/conversation-guide.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"conversation-guide.html"
+]
+},
+{
+"updated": "2026-08-18T11:17:54Z",
+"id": "engage::prototypes/results-dashboard.html",
+"name": "Results dashboard",
+"variants": [
+{
+"label": "Overview",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html"
+},
+{
+"label": "Overview with back button",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard-panel-back.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard-panel-back.html"
+}
+],
+"desc": "Results for managers: the overview and a variant with a back button.",
+"owner": "Jente",
+"group": "Reporting",
+"path": "prototypes/results-dashboard.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 3,
+"pages": [
+"prototypes/results-dashboard-panel-back.html",
+"prototypes/results-dashboard.html",
+"prototypes/results-overview.html"
 ]
 },
 {
