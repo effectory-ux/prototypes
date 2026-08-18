@@ -24,16 +24,16 @@
      pseudo-element animated on transform, so it never repaints the page content. */
   body::before {
     content: "";
-    position: fixed; inset: -25%;
+    position: fixed; inset: -45%;
     z-index: -1; pointer-events: none;
     background:
       radial-gradient(42% 42% at 72% 22%, rgba(255,216,87,0.55) 0%, rgba(255,224,120,0.30) 30%, rgba(254,242,203,0.10) 60%, rgba(253,253,252,0) 80%),
       radial-gradient(38% 38% at 22% 8%, rgba(255,224,120,0.22) 0%, rgba(254,242,203,0.08) 55%, rgba(253,253,252,0) 78%);
-    animation: glow-drift 44s ease-in-out infinite alternate;
+    animation: glow-drift 28s ease-in-out infinite alternate;
   }
   @keyframes glow-drift {
-    from { transform: translate3d(-5%, -3%, 0) scale(1); }
-    to   { transform: translate3d(7%, 5%, 0) scale(1.12); }
+    from { transform: translate3d(-22%, -10%, 0) scale(1); }
+    to   { transform: translate3d(22%, 12%, 0) scale(1.15); }
   }
   /* Anyone who asked their system for less motion gets the glow standing still. */
   @media (prefers-reduced-motion: reduce) {
@@ -57,12 +57,9 @@
 
   a { color: inherit; text-decoration: none; }
 
-  /* ── Page head: a white bar floating on the gradient ── */
+  /* ── Page head ── */
   .page-head {
     display: flex; align-items: center; gap: var(--spacing-base);
-    padding: var(--spacing-base);
-    background: var(--bg-base);
-    border-radius: var(--radius-xl);
   }
   .page-title { display: flex; align-items: center; gap: var(--spacing-tight); margin-right: auto; }
   .page-title h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
@@ -73,7 +70,7 @@
   /* Search spans the content width, on its own line. */
   .search-row {
     display: flex;
-    margin: var(--spacing-super-extra-loose) 0 calc(var(--spacing-super-extra-loose) + var(--spacing-tight));
+    margin: var(--spacing-super-extra-loose) 0 var(--spacing-super-loose);
   }
   .search-wrap { width: 100%; }
 
