@@ -64,11 +64,13 @@
     width: 150vmin; height: 150vmin;
     margin: -75vmin 0 0 -75vmin;
     z-index: -1; pointer-events: none;
+    /* Straight --bg-brand (#0a9d99), no lighter turquoise mixed in, so what you see
+       is the brand colour. */
     background: radial-gradient(circle at 45% 40%,
-      rgba(10,157,153,0.26) 0%,
-      rgba(10,157,153,0.17) 45%,
-      rgba(122,221,219,0.09) 80%,
-      rgba(122,221,219,0.04) 100%);
+      rgba(10,157,153,0.55) 0%,
+      rgba(10,157,153,0.38) 45%,
+      rgba(10,157,153,0.18) 80%,
+      rgba(10,157,153,0.08) 100%);
     filter: blur(48px);
     opacity: 0;
     animation:
@@ -79,13 +81,15 @@
   }
   @keyframes glow-tint {
     0%   { opacity: 0; }
+    40%  { opacity: 0.35; }
     100% { opacity: 1; }
   }
   /* The yellow steps back as the teal comes up, so the two never sit on top of each
      other at full strength and turn olive. */
   @keyframes glow-fade {
     0%   { opacity: 1; }
-    100% { opacity: 0.15; }
+    60%  { opacity: 0.25; }
+    100% { opacity: 0; }
   }
 
   /* Anyone who asked their system for less motion gets the ball standing still. */
@@ -108,13 +112,13 @@
   }
   @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) body::after {
-      background: radial-gradient(circle at 50% 50%,
-        rgba(122,221,219,0.16) 0%, rgba(10,157,153,0.09) 35%, rgba(0,0,0,0) 70%);
+      background: radial-gradient(circle at 45% 40%,
+        rgba(10,157,153,0.30) 0%, rgba(10,157,153,0.16) 45%, rgba(10,157,153,0.05) 85%);
     }
   }
   html[data-theme="dark"] body::after {
-    background: radial-gradient(circle at 50% 50%,
-      rgba(122,221,219,0.16) 0%, rgba(10,157,153,0.09) 35%, rgba(0,0,0,0) 70%);
+    background: radial-gradient(circle at 45% 40%,
+      rgba(10,157,153,0.30) 0%, rgba(10,157,153,0.16) 45%, rgba(10,157,153,0.05) 85%);
   }
 
   a { color: inherit; text-decoration: none; }
@@ -447,7 +451,7 @@ const GALLERY_REPO = "effectory-ux/prototypes";
 
 /* Filter pills are parked, not removed: the state and the matching below stay live,
    so flipping this back shows them again. Search still filters. */
-const SHOW_FILTERS = false;
+const SHOW_FILTERS = true;
 
 /* Renames are shared through the worker in CONFIG.sync.url: a name typed here is
    what the next visitor sees. Without that URL they stay in this browser and are
@@ -460,6 +464,17 @@ let renames = {};
 try { renames = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { renames = {}; }
 
 const nameOf = d => renames[d.id] || d.name;
+
+/* "Updated 3 days ago", worked out in the browser so a built page never goes stale. */
+function sinds(iso) {
+  if (!iso) return "";
+  const dagen = Math.floor((Date.now() - new Date(iso)) / 86400000);
+  if (dagen <= 0) return "Updated today";
+  if (dagen === 1) return "Updated yesterday";
+  if (dagen < 30) return "Updated " + dagen + " days ago";
+  const maanden = Math.round(dagen / 30);
+  return "Updated " + maanden + (maanden === 1 ? " month ago" : " months ago");
+}
 
 function saveLocal() {
   try { localStorage.setItem(STORE, JSON.stringify(renames)); } catch (e) {}
@@ -647,14 +662,9 @@ function filterPill(label, n, on, onClick) {
 function renderFilters() {
   const f = document.getElementById("filters");
   f.innerHTML = "";
-  f.appendChild(filterPill("All", DATA.length, !activeOwner && !activeGroup, () => {
-    activeOwner = activeGroup = null; render();
+  f.appendChild(filterPill("All", DATA.length, !activeGroup, () => {
+    activeGroup = null; render();
   }));
-  const s1 = document.createElement("div"); s1.className = "filters-sep"; f.appendChild(s1);
-  owners.forEach(o => f.appendChild(filterPill(o, DATA.filter(d => d.owner === o).length, activeOwner === o, () => {
-    activeOwner = activeOwner === o ? null : o; render();
-  })));
-  const s2 = document.createElement("div"); s2.className = "filters-sep"; f.appendChild(s2);
   groups.forEach(g => f.appendChild(filterPill(g, DATA.filter(d => d.group === g).length, activeGroup === g, () => {
     activeGroup = activeGroup === g ? null : g; render();
   })));
@@ -738,7 +748,10 @@ function card(d) {
 
   const meta = document.createElement("div");
   meta.className = "card-meta";
-  meta.innerHTML = avatar(d.owner) + '<span class="card-by">By ' + d.owner + "</span>";
+  meta.innerHTML = avatar(d.owner) +
+    '<span class="card-by">By ' + d.owner +
+    (d.updated ? ' · <span title="' + d.updated.slice(0, 10) + '">' + sinds(d.updated) + "</span>" : "") +
+    "</span>";
 
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
@@ -762,25 +775,14 @@ function render() {
     host.innerHTML = '<div class="empty">Nothing found. Adjust your search or filter.</div>';
     return;
   }
-  const secs = [];
-  shown.forEach(d => {
-    let g = secs.find(x => x.name === d.group);
-    if (!g) secs.push(g = { name: d.group, items: [] });
-    g.items.push(d);
-  });
-  secs.forEach(g => {
-    const sec = document.createElement("div");
-    sec.className = "sec";
-    const hd = document.createElement("div");
-    hd.className = "sec-hd";
-    hd.innerHTML = '<span class="sec-t">' + g.name + '</span><span class="sec-n">' +
-      g.items.length + '</span><span class="sec-line"></span>';
-    const grid = document.createElement("div");
-    grid.className = "grid";
-    g.items.forEach(d => grid.appendChild(card(d)));
-    sec.append(hd, grid);
-    host.appendChild(sec);
-  });
+
+  // On All the tracks are just a sort order, not a heading; picking a track already
+  // names what you are looking at, so no section header there either.
+  const grid = document.createElement("div");
+  grid.className = "grid";
+  shown.forEach(d => grid.appendChild(card(d)));
+  host.append(grid);
+
   scale();
   if (window.Icons) window.Icons.render();
 }

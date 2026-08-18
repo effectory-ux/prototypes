@@ -64,11 +64,13 @@
     width: 150vmin; height: 150vmin;
     margin: -75vmin 0 0 -75vmin;
     z-index: -1; pointer-events: none;
+    /* Straight --bg-brand (#0a9d99), no lighter turquoise mixed in, so what you see
+       is the brand colour. */
     background: radial-gradient(circle at 45% 40%,
-      rgba(10,157,153,0.26) 0%,
-      rgba(10,157,153,0.17) 45%,
-      rgba(122,221,219,0.09) 80%,
-      rgba(122,221,219,0.04) 100%);
+      rgba(10,157,153,0.55) 0%,
+      rgba(10,157,153,0.38) 45%,
+      rgba(10,157,153,0.18) 80%,
+      rgba(10,157,153,0.08) 100%);
     filter: blur(48px);
     opacity: 0;
     animation:
@@ -79,13 +81,15 @@
   }
   @keyframes glow-tint {
     0%   { opacity: 0; }
+    40%  { opacity: 0.35; }
     100% { opacity: 1; }
   }
   /* The yellow steps back as the teal comes up, so the two never sit on top of each
      other at full strength and turn olive. */
   @keyframes glow-fade {
     0%   { opacity: 1; }
-    100% { opacity: 0.15; }
+    60%  { opacity: 0.25; }
+    100% { opacity: 0; }
   }
 
   /* Anyone who asked their system for less motion gets the ball standing still. */
@@ -108,13 +112,13 @@
   }
   @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) body::after {
-      background: radial-gradient(circle at 50% 50%,
-        rgba(122,221,219,0.16) 0%, rgba(10,157,153,0.09) 35%, rgba(0,0,0,0) 70%);
+      background: radial-gradient(circle at 45% 40%,
+        rgba(10,157,153,0.30) 0%, rgba(10,157,153,0.16) 45%, rgba(10,157,153,0.05) 85%);
     }
   }
   html[data-theme="dark"] body::after {
-    background: radial-gradient(circle at 50% 50%,
-      rgba(122,221,219,0.16) 0%, rgba(10,157,153,0.09) 35%, rgba(0,0,0,0) 70%);
+    background: radial-gradient(circle at 45% 40%,
+      rgba(10,157,153,0.30) 0%, rgba(10,157,153,0.16) 45%, rgba(10,157,153,0.05) 85%);
   }
 
   a { color: inherit; text-decoration: none; }
@@ -441,128 +445,180 @@
 <script>
 const DATA = [
 {
-"id": "engage::prototypes/approach-picker.html",
-"name": "Approach picker",
-"variants": [],
-"desc": "Picking an approach for the survey, shown in its empty starting state.",
+"updated": "2026-08-18T11:17:54Z",
+"id": "engage::prototypes/results-dashboard.html",
+"name": "Results dashboard",
+"variants": [
+{
+"label": "Overview",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html"
+},
+{
+"label": "Overview with back button",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard-panel-back.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard-panel-back.html"
+}
+],
+"desc": "Results for managers: the overview and a variant with a back button.",
 "owner": "Jente",
-"group": "Surveying",
-"path": "prototypes/approach-picker.html",
+"group": "Reporting",
+"path": "prototypes/results-dashboard.html",
 "repos": [
 {
 "org": "effectory-design",
 "name": "effectory-design-documentation"
 }
 ],
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/approach-picker.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/approach-picker.html",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 3,
+"pages": [
+"prototypes/results-dashboard-panel-back.html",
+"prototypes/results-dashboard.html",
+"prototypes/results-overview.html"
+]
+},
+{
+"updated": "2026-08-18T11:08:01Z",
+"id": "engage::conversation-guide.html",
+"name": "Conversation Guide",
+"variants": [],
+"desc": "A guide for the team conversation after the survey.",
+"owner": "Jente",
+"group": "Leadership enablement",
+"path": "conversation-guide.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/conversation-guide.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/conversation-guide.html",
 "tree": "https://github.com/effectory-design/effectory-design-documentation",
 "screens": 1,
 "pages": [
-"prototypes/approach-picker.html"
+"conversation-guide.html"
 ]
 },
 {
-"id": "cyos-demo::index.html",
-"name": "CYOS demo",
-"variants": [],
-"desc": "Standalone demo of the survey creation flow.",
-"owner": "Jamal",
-"group": "Surveying",
-"path": "index.html",
-"repos": [
-{
-"org": "N33G3K",
-"name": "cyos-survey-creation-flow-demo"
-}
-],
-"live": "https://n33g3k.github.io/cyos-survey-creation-flow-demo/",
-"code": "https://github.com/N33G3K/cyos-survey-creation-flow-demo/blob/main/index.html",
-"tree": "https://github.com/N33G3K/cyos-survey-creation-flow-demo",
-"screens": 1,
-"pages": [
-"index.html"
-]
-},
-{
-"id": "cyos::site/research/central-library-sync/index.html",
-"name": "CYOS research · central library sync",
-"variants": [],
-"desc": "Research note on keeping the central library in sync.",
-"owner": "Jamal",
-"group": "Surveying",
-"path": "site/research/central-library-sync/index.html",
-"repos": [
-{
-"org": "effectory-ux",
-"name": "cyos"
-}
-],
-"live": "https://effectory-ux.github.io/cyos/research/central-library-sync/",
-"code": "https://github.com/effectory-ux/cyos/blob/main/site/research/central-library-sync/index.html",
-"tree": "https://github.com/effectory-ux/cyos",
-"screens": 1,
-"pages": [
-"site/research/central-library-sync/index.html"
-]
-},
-{
-"id": "cyos::site/index.html",
-"name": "CYOS site",
-"variants": [],
-"desc": "Landing page for the CYOS project.",
-"owner": "Jamal",
-"group": "Surveying",
-"path": "site/index.html",
-"repos": [
-{
-"org": "effectory-ux",
-"name": "cyos"
-}
-],
-"live": "https://effectory-ux.github.io/cyos/",
-"code": "https://github.com/effectory-ux/cyos/blob/main/site/index.html",
-"tree": "https://github.com/effectory-ux/cyos",
-"screens": 1,
-"pages": [
-"site/index.html"
-]
-},
-{
-"id": "cyos::phase-1/index.html",
-"name": "CYOS survey creation",
+"updated": "2026-08-18T07:39:33Z",
+"id": "engage::action-center-manager.html",
+"name": "Action Center · manager",
 "variants": [
 {
-"label": "Phase 1",
-"live": "https://effectory-ux.github.io/cyos/phase-1/",
-"code": "https://github.com/effectory-ux/cyos/blob/main/phase-1/index.html"
+"label": "Focus view",
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager.html"
 },
 {
-"label": "Phase 2",
-"live": "https://effectory-ux.github.io/cyos/phase-2/",
-"code": "https://github.com/effectory-ux/cyos/blob/main/phase-2/index.html"
+"label": "Stepper",
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-stepper.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-stepper.html"
+},
+{
+"label": "V4 · multi-select and triage",
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-v4.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-v4.html"
+},
+{
+"label": "V5 · triage page",
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-v5.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-v5.html"
 }
 ],
-"desc": "Create your own survey, with both phases side by side.",
-"owner": "Jamal",
-"group": "Surveying",
-"path": "phase-1/index.html",
+"desc": "From result to action. Four directions, from focus view to multi-select and triage.",
+"owner": "Jente",
+"group": "Leadership enablement",
+"path": "action-center-manager.html",
 "repos": [
 {
-"org": "effectory-ux",
-"name": "cyos"
+"org": "effectory-design",
+"name": "effectory-design-documentation"
 }
 ],
-"live": "https://effectory-ux.github.io/cyos/phase-1/",
-"code": "https://github.com/effectory-ux/cyos/blob/main/phase-1/index.html",
-"tree": "https://github.com/effectory-ux/cyos",
-"screens": 2,
+"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 4,
 "pages": [
-"phase-1/index.html",
-"phase-2/index.html"
+"action-center-manager-stepper.html",
+"action-center-manager-v4.html",
+"action-center-manager-v5.html",
+"action-center-manager.html"
 ]
 },
 {
+"updated": "2026-08-17T11:33:04Z",
+"id": "gtma::novanta-before-overview.html",
+"name": "GTMA Prototype",
+"variants": [
+{
+"label": "Novanta · Q2",
+"live": "https://effectory-ux.github.io/gtma/novanta-before-overview.html",
+"code": "https://github.com/effectory-ux/gtma/blob/main/novanta-before-overview.html"
+},
+{
+"label": "Novanta · Q3",
+"live": "https://effectory-ux.github.io/gtma/novanta-after-overview.html",
+"code": "https://github.com/effectory-ux/gtma/blob/main/novanta-after-overview.html"
+},
+{
+"label": "Team IT · Q2",
+"live": "https://effectory-ux.github.io/gtma/team-it-before-overview.html",
+"code": "https://github.com/effectory-ux/gtma/blob/main/team-it-before-overview.html"
+},
+{
+"label": "Team IT · Q3",
+"live": "https://effectory-ux.github.io/gtma/team-it-after-overview.html",
+"code": "https://github.com/effectory-ux/gtma/blob/main/team-it-after-overview.html"
+}
+],
+"desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
+"owner": "Jente",
+"group": "Reporting",
+"path": "novanta-before-overview.html",
+"repos": [
+{
+"org": "effectory-ux",
+"name": "gtma"
+}
+],
+"live": "https://effectory-ux.github.io/gtma/novanta-before-overview.html",
+"code": "https://github.com/effectory-ux/gtma/blob/main/novanta-before-overview.html",
+"tree": "https://github.com/effectory-ux/gtma",
+"screens": 24,
+"pages": [
+"novanta-after-actions.html",
+"novanta-after-focus.html",
+"novanta-after-overview.html",
+"novanta-after-reports.html",
+"novanta-after-scores.html",
+"novanta-after-themes.html",
+"novanta-before-actions.html",
+"novanta-before-focus.html",
+"novanta-before-overview.html",
+"novanta-before-reports.html",
+"novanta-before-scores.html",
+"novanta-before-themes.html",
+"team-it-after-actions.html",
+"team-it-after-focus.html",
+"team-it-after-overview.html",
+"team-it-after-reports.html",
+"team-it-after-scores.html",
+"team-it-after-themes.html",
+"team-it-before-actions.html",
+"team-it-before-focus.html",
+"team-it-before-overview.html",
+"team-it-before-reports.html",
+"team-it-before-scores.html",
+"team-it-before-themes.html"
+]
+},
+{
+"updated": "2026-08-17T11:30:59Z",
 "id": "gl::index.html",
 "name": "Group linking",
 "variants": [
@@ -615,74 +671,203 @@ const DATA = [
 ]
 },
 {
-"id": "engage::action-center-manager.html",
-"name": "Action Center · manager",
-"variants": [
-{
-"label": "Focus view",
-"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager.html"
-},
-{
-"label": "Stepper",
-"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-stepper.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-stepper.html"
-},
-{
-"label": "V4 · multi-select and triage",
-"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-v4.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-v4.html"
-},
-{
-"label": "V5 · triage page",
-"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager-v5.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager-v5.html"
-}
-],
-"desc": "From result to action. Four directions, from focus view to multi-select and triage.",
-"owner": "Jente",
-"group": "Leadership enablement",
-"path": "action-center-manager.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/action-center-manager.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/action-center-manager.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 4,
-"pages": [
-"action-center-manager-stepper.html",
-"action-center-manager-v4.html",
-"action-center-manager-v5.html",
-"action-center-manager.html"
-]
-},
-{
-"id": "engage::conversation-guide.html",
-"name": "Conversation Guide",
+"updated": "2026-08-17T11:07:44Z",
+"id": "engage::prototypes/integration-bamboohr.html",
+"name": "BambooHR integration",
 "variants": [],
-"desc": "A guide for the team conversation after the survey.",
+"desc": "Setting up a connection with an HR system.",
 "owner": "Jente",
-"group": "Leadership enablement",
-"path": "conversation-guide.html",
+"group": "Platform",
+"path": "prototypes/integration-bamboohr.html",
 "repos": [
 {
 "org": "effectory-design",
 "name": "effectory-design-documentation"
 }
 ],
-"live": "https://effectory-design.github.io/effectory-design-documentation/conversation-guide.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/conversation-guide.html",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/integration-bamboohr.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/integration-bamboohr.html",
 "tree": "https://github.com/effectory-design/effectory-design-documentation",
 "screens": 1,
 "pages": [
-"conversation-guide.html"
+"prototypes/integration-bamboohr.html"
 ]
 },
 {
+"updated": "2026-08-13T14:15:00Z",
+"id": "engage::prototypes/my-effectory-home.html",
+"name": "My Effectory · home",
+"variants": [],
+"desc": "The platform homepage.",
+"owner": "Jente",
+"group": "Platform",
+"path": "prototypes/my-effectory-home.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/my-effectory-home.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/my-effectory-home.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/my-effectory-home.html"
+]
+},
+{
+"updated": "2026-08-13T14:03:06Z",
+"id": "engage::prototypes/approach-picker.html",
+"name": "Approach picker",
+"variants": [],
+"desc": "Picking an approach for the survey, shown in its empty starting state.",
+"owner": "Jente",
+"group": "Surveying",
+"path": "prototypes/approach-picker.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/approach-picker.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/approach-picker.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/approach-picker.html"
+]
+},
+{
+"updated": "2026-08-13T12:02:37Z",
+"id": "cyos::site/index.html",
+"name": "CYOS site",
+"variants": [],
+"desc": "Landing page for the CYOS project.",
+"owner": "Jamal",
+"group": "Surveying",
+"path": "site/index.html",
+"repos": [
+{
+"org": "effectory-ux",
+"name": "cyos"
+}
+],
+"live": "https://effectory-ux.github.io/cyos/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/site/index.html",
+"tree": "https://github.com/effectory-ux/cyos",
+"screens": 1,
+"pages": [
+"site/index.html"
+]
+},
+{
+"updated": "2026-08-13T12:02:37Z",
+"id": "cyos::site/research/central-library-sync/index.html",
+"name": "CYOS research · central library sync",
+"variants": [],
+"desc": "Research note on keeping the central library in sync.",
+"owner": "Jamal",
+"group": "Surveying",
+"path": "site/research/central-library-sync/index.html",
+"repos": [
+{
+"org": "effectory-ux",
+"name": "cyos"
+}
+],
+"live": "https://effectory-ux.github.io/cyos/research/central-library-sync/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/site/research/central-library-sync/index.html",
+"tree": "https://github.com/effectory-ux/cyos",
+"screens": 1,
+"pages": [
+"site/research/central-library-sync/index.html"
+]
+},
+{
+"updated": "2026-08-10T09:59:22Z",
+"id": "cyos-demo::index.html",
+"name": "CYOS demo",
+"variants": [],
+"desc": "Standalone demo of the survey creation flow.",
+"owner": "Jamal",
+"group": "Surveying",
+"path": "index.html",
+"repos": [
+{
+"org": "N33G3K",
+"name": "cyos-survey-creation-flow-demo"
+}
+],
+"live": "https://n33g3k.github.io/cyos-survey-creation-flow-demo/",
+"code": "https://github.com/N33G3K/cyos-survey-creation-flow-demo/blob/main/index.html",
+"tree": "https://github.com/N33G3K/cyos-survey-creation-flow-demo",
+"screens": 1,
+"pages": [
+"index.html"
+]
+},
+{
+"updated": "2026-08-07T12:09:21Z",
+"id": "cyos::phase-1/index.html",
+"name": "CYOS survey creation",
+"variants": [
+{
+"label": "Phase 1",
+"live": "https://effectory-ux.github.io/cyos/phase-1/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/phase-1/index.html"
+},
+{
+"label": "Phase 2",
+"live": "https://effectory-ux.github.io/cyos/phase-2/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/phase-2/index.html"
+}
+],
+"desc": "Create your own survey, with both phases side by side.",
+"owner": "Jamal",
+"group": "Surveying",
+"path": "phase-1/index.html",
+"repos": [
+{
+"org": "effectory-ux",
+"name": "cyos"
+}
+],
+"live": "https://effectory-ux.github.io/cyos/phase-1/",
+"code": "https://github.com/effectory-ux/cyos/blob/main/phase-1/index.html",
+"tree": "https://github.com/effectory-ux/cyos",
+"screens": 2,
+"pages": [
+"phase-1/index.html",
+"phase-2/index.html"
+]
+},
+{
+"updated": "2026-07-30T12:40:06Z",
+"id": "engage::prototypes/announcement-playground.html",
+"name": "Announcement playground",
+"variants": [],
+"desc": "Every variant of the announcement component side by side.",
+"owner": "Jente",
+"group": "Platform",
+"path": "prototypes/announcement-playground.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/announcement-playground.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/announcement-playground.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 1,
+"pages": [
+"prototypes/announcement-playground.html"
+]
+},
+{
+"updated": "2026-07-29T06:31:00Z",
 "id": "eray-ac::index.html",
 "name": "Action Center · Eray",
 "variants": [
@@ -771,173 +956,7 @@ const DATA = [
 ]
 },
 {
-"id": "gtma::novanta-before-overview.html",
-"name": "GTMA Prototype",
-"variants": [
-{
-"label": "Novanta · Q2",
-"live": "https://effectory-ux.github.io/gtma/novanta-before-overview.html",
-"code": "https://github.com/effectory-ux/gtma/blob/main/novanta-before-overview.html"
-},
-{
-"label": "Novanta · Q3",
-"live": "https://effectory-ux.github.io/gtma/novanta-after-overview.html",
-"code": "https://github.com/effectory-ux/gtma/blob/main/novanta-after-overview.html"
-},
-{
-"label": "Team IT · Q2",
-"live": "https://effectory-ux.github.io/gtma/team-it-before-overview.html",
-"code": "https://github.com/effectory-ux/gtma/blob/main/team-it-before-overview.html"
-},
-{
-"label": "Team IT · Q3",
-"live": "https://effectory-ux.github.io/gtma/team-it-after-overview.html",
-"code": "https://github.com/effectory-ux/gtma/blob/main/team-it-after-overview.html"
-}
-],
-"desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
-"owner": "Jente",
-"group": "Reporting",
-"path": "novanta-before-overview.html",
-"repos": [
-{
-"org": "effectory-ux",
-"name": "gtma"
-}
-],
-"live": "https://effectory-ux.github.io/gtma/novanta-before-overview.html",
-"code": "https://github.com/effectory-ux/gtma/blob/main/novanta-before-overview.html",
-"tree": "https://github.com/effectory-ux/gtma",
-"screens": 24,
-"pages": [
-"novanta-after-actions.html",
-"novanta-after-focus.html",
-"novanta-after-overview.html",
-"novanta-after-reports.html",
-"novanta-after-scores.html",
-"novanta-after-themes.html",
-"novanta-before-actions.html",
-"novanta-before-focus.html",
-"novanta-before-overview.html",
-"novanta-before-reports.html",
-"novanta-before-scores.html",
-"novanta-before-themes.html",
-"team-it-after-actions.html",
-"team-it-after-focus.html",
-"team-it-after-overview.html",
-"team-it-after-reports.html",
-"team-it-after-scores.html",
-"team-it-after-themes.html",
-"team-it-before-actions.html",
-"team-it-before-focus.html",
-"team-it-before-overview.html",
-"team-it-before-reports.html",
-"team-it-before-scores.html",
-"team-it-before-themes.html"
-]
-},
-{
-"id": "engage::prototypes/results-dashboard.html",
-"name": "Results dashboard",
-"variants": [
-{
-"label": "Overview",
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html"
-},
-{
-"label": "Overview with back button",
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard-panel-back.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard-panel-back.html"
-}
-],
-"desc": "Results for managers: the overview and a variant with a back button.",
-"owner": "Jente",
-"group": "Reporting",
-"path": "prototypes/results-dashboard.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 3,
-"pages": [
-"prototypes/results-dashboard-panel-back.html",
-"prototypes/results-dashboard.html",
-"prototypes/results-overview.html"
-]
-},
-{
-"id": "engage::prototypes/announcement-playground.html",
-"name": "Announcement playground",
-"variants": [],
-"desc": "Every variant of the announcement component side by side.",
-"owner": "Jente",
-"group": "Platform",
-"path": "prototypes/announcement-playground.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/announcement-playground.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/announcement-playground.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 1,
-"pages": [
-"prototypes/announcement-playground.html"
-]
-},
-{
-"id": "engage::prototypes/integration-bamboohr.html",
-"name": "BambooHR integration",
-"variants": [],
-"desc": "Setting up a connection with an HR system.",
-"owner": "Jente",
-"group": "Platform",
-"path": "prototypes/integration-bamboohr.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/integration-bamboohr.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/integration-bamboohr.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 1,
-"pages": [
-"prototypes/integration-bamboohr.html"
-]
-},
-{
-"id": "engage::prototypes/my-effectory-home.html",
-"name": "My Effectory · home",
-"variants": [],
-"desc": "The platform homepage.",
-"owner": "Jente",
-"group": "Platform",
-"path": "prototypes/my-effectory-home.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/my-effectory-home.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/my-effectory-home.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 1,
-"pages": [
-"prototypes/my-effectory-home.html"
-]
-},
-{
+"updated": "2026-07-16T13:06:23Z",
 "id": "eray-ux::index.html",
 "name": "Platform design",
 "variants": [],
@@ -967,7 +986,7 @@ const GALLERY_REPO = "effectory-ux/prototypes";
 
 /* Filter pills are parked, not removed: the state and the matching below stay live,
    so flipping this back shows them again. Search still filters. */
-const SHOW_FILTERS = false;
+const SHOW_FILTERS = true;
 
 /* Renames are shared through the worker in CONFIG.sync.url: a name typed here is
    what the next visitor sees. Without that URL they stay in this browser and are
@@ -980,6 +999,17 @@ let renames = {};
 try { renames = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { renames = {}; }
 
 const nameOf = d => renames[d.id] || d.name;
+
+/* "Updated 3 days ago", worked out in the browser so a built page never goes stale. */
+function sinds(iso) {
+  if (!iso) return "";
+  const dagen = Math.floor((Date.now() - new Date(iso)) / 86400000);
+  if (dagen <= 0) return "Updated today";
+  if (dagen === 1) return "Updated yesterday";
+  if (dagen < 30) return "Updated " + dagen + " days ago";
+  const maanden = Math.round(dagen / 30);
+  return "Updated " + maanden + (maanden === 1 ? " month ago" : " months ago");
+}
 
 function saveLocal() {
   try { localStorage.setItem(STORE, JSON.stringify(renames)); } catch (e) {}
@@ -1167,14 +1197,9 @@ function filterPill(label, n, on, onClick) {
 function renderFilters() {
   const f = document.getElementById("filters");
   f.innerHTML = "";
-  f.appendChild(filterPill("All", DATA.length, !activeOwner && !activeGroup, () => {
-    activeOwner = activeGroup = null; render();
+  f.appendChild(filterPill("All", DATA.length, !activeGroup, () => {
+    activeGroup = null; render();
   }));
-  const s1 = document.createElement("div"); s1.className = "filters-sep"; f.appendChild(s1);
-  owners.forEach(o => f.appendChild(filterPill(o, DATA.filter(d => d.owner === o).length, activeOwner === o, () => {
-    activeOwner = activeOwner === o ? null : o; render();
-  })));
-  const s2 = document.createElement("div"); s2.className = "filters-sep"; f.appendChild(s2);
   groups.forEach(g => f.appendChild(filterPill(g, DATA.filter(d => d.group === g).length, activeGroup === g, () => {
     activeGroup = activeGroup === g ? null : g; render();
   })));
@@ -1258,7 +1283,10 @@ function card(d) {
 
   const meta = document.createElement("div");
   meta.className = "card-meta";
-  meta.innerHTML = avatar(d.owner) + '<span class="card-by">By ' + d.owner + "</span>";
+  meta.innerHTML = avatar(d.owner) +
+    '<span class="card-by">By ' + d.owner +
+    (d.updated ? ' · <span title="' + d.updated.slice(0, 10) + '">' + sinds(d.updated) + "</span>" : "") +
+    "</span>";
 
   const n = d.variants && d.variants.length ? d.variants.length : 1;
   const btn = document.createElement("button");
@@ -1282,25 +1310,14 @@ function render() {
     host.innerHTML = '<div class="empty">Nothing found. Adjust your search or filter.</div>';
     return;
   }
-  const secs = [];
-  shown.forEach(d => {
-    let g = secs.find(x => x.name === d.group);
-    if (!g) secs.push(g = { name: d.group, items: [] });
-    g.items.push(d);
-  });
-  secs.forEach(g => {
-    const sec = document.createElement("div");
-    sec.className = "sec";
-    const hd = document.createElement("div");
-    hd.className = "sec-hd";
-    hd.innerHTML = '<span class="sec-t">' + g.name + '</span><span class="sec-n">' +
-      g.items.length + '</span><span class="sec-line"></span>';
-    const grid = document.createElement("div");
-    grid.className = "grid";
-    g.items.forEach(d => grid.appendChild(card(d)));
-    sec.append(hd, grid);
-    host.appendChild(sec);
-  });
+
+  // On All the tracks are just a sort order, not a heading; picking a track already
+  // names what you are looking at, so no section header there either.
+  const grid = document.createElement("div");
+  grid.className = "grid";
+  shown.forEach(d => grid.appendChild(card(d)));
+  host.append(grid);
+
   scale();
   if (window.Icons) window.Icons.render();
 }

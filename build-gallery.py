@@ -14,6 +14,7 @@ import os
 import re
 import subprocess
 import sys
+from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -47,6 +48,16 @@ def crawl(key, cfg):
     ]
     print(f"  {cfg['repo']} · branch {branch} · {len(paths)} pagina's")
     return {"branch": branch, "paths": paths}
+
+
+def last_commit(repo, path):
+    """Date of the newest commit touching this path, empty string if unknown."""
+    out = subprocess.run(
+        ["gh", "api", f"repos/{repo}/commits?path={path}&per_page=1",
+         "--jq", ".[0].commit.committer.date"],
+        capture_output=True, text=True, check=False,
+    )
+    return out.stdout.strip()
 
 
 def auto_variants(entry_path, pages):
@@ -131,8 +142,13 @@ def main():
                 }
             )
 
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            dates = [d for d in pool.map(lambda pg: last_commit(rc["repo"], pg), sorted(pages)) if d]
+        updated = max(dates) if dates else ""
+
         items.append(
             {
+                "updated": updated,
                 # Stable handle back to this entry in prototypes.json, so a rename
                 # made in the page can be written to the right entry.
                 "id": entry["repo"] + "::" + path,
@@ -165,8 +181,14 @@ def main():
     else:
         print("\n✓ elke pagina hoort bij een prototype")
 
-    order = {g: i for i, g in enumerate(dict.fromkeys(e["group"] for e in cfg["entries"]))}
-    items.sort(key=lambda i: (order[i["group"]], not i["live"], i["name"].lower()))
+    # Newest first. The page groups by track when a track is selected, but the
+    # order inside any view is always most recently updated.
+    items.sort(key=lambda i: (i["updated"] or "", i["name"].lower()), reverse=True)
+
+    nieuwste = [f"{i['updated'][:10]}  {i['name']}" for i in items[:3]]
+    print("\nmeest recent bijgewerkt:")
+    for r in nieuwste:
+        print("   " + r)
 
     with open(os.path.join(ROOT, "template.html")) as f:
         tpl = f.read()
