@@ -149,7 +149,7 @@
   }
   .fpill {
     display: inline-flex; align-items: center; gap: 6px;
-    height: 34px; padding: 0 var(--spacing-base-tight);
+    height: 34px; padding: 0 6px 0 var(--spacing-base-tight);
     font: 500 14px 'Poppins', system-ui, sans-serif;
     color: var(--content-secondary);
     background: var(--bg-base);
@@ -165,8 +165,16 @@
     border-color: var(--bg-brand);
   }
   .fpill.is-on:hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-hover); color: var(--content-always-white); }
-  .fpill.is-on .fpill-n { color: var(--content-always-white); opacity: .75; }
-  .fpill-n { font-weight: 400; color: var(--content-subtle); }
+  .fpill.is-on .fpill-n { color: var(--content-always-white); background: rgba(255, 255, 255, 0.22); }
+  /* The count sits in its own round container inside the pill. */
+  .fpill-n {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 20px; height: 20px; padding: 0 6px;
+    font-weight: 500; font-size: 12px; line-height: 1;
+    color: var(--content-secondary);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-full);
+  }
   .fpill.is-empty { opacity: .55; cursor: default; }
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
@@ -443,6 +451,100 @@
 <script>
 const DATA = [
 {
+"updated": "2026-08-18T14:13:22Z",
+"id": "engage::prototypes/results-dashboard.html",
+"name": "Results dashboard",
+"variants": [
+{
+"label": "Overview",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html"
+},
+{
+"label": "Overview with back button",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard-panel-back.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard-panel-back.html"
+},
+{
+"label": "Overview",
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-overview.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-overview.html"
+}
+],
+"desc": "Results for managers: the overview and a variant with a back button.",
+"owner": "Jente",
+"group": "Reporting",
+"path": "prototypes/results-dashboard.html",
+"repos": [
+{
+"org": "effectory-design",
+"name": "effectory-design-documentation"
+}
+],
+"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
+"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html",
+"tree": "https://github.com/effectory-design/effectory-design-documentation",
+"screens": 3,
+"pages": [
+"prototypes/results-dashboard-panel-back.html",
+"prototypes/results-dashboard.html",
+"prototypes/results-overview.html"
+]
+},
+{
+"updated": "2026-08-18T14:13:14Z",
+"id": "gl::index.html",
+"name": "Group linking",
+"variants": [
+{
+"label": "ROC van Amsterdam",
+"live": "https://effectory-ux.github.io/group-linking/",
+"code": "https://github.com/effectory-ux/group-linking/blob/main/index.html"
+},
+{
+"label": "Effectory",
+"live": "https://effectory-ux.github.io/group-linking/effectory.html",
+"code": "https://github.com/effectory-ux/group-linking/blob/main/effectory.html"
+},
+{
+"label": "bol.com",
+"live": "https://effectory-ux.github.io/group-linking/bol.html",
+"code": "https://github.com/effectory-ux/group-linking/blob/main/bol.html"
+},
+{
+"label": "Stepped",
+"live": "https://effectory-ux.github.io/group-linking/stepped.html",
+"code": "https://github.com/effectory-ux/group-linking/blob/main/stepped.html"
+},
+{
+"label": "Deep structure (stress test)",
+"live": "https://effectory-ux.github.io/group-linking/deep.html",
+"code": "https://github.com/effectory-ux/group-linking/blob/main/deep.html"
+}
+],
+"desc": "Link a previous survey to the new structure. Three real customer structures, the stepped base flow, and a deep tree as a stress test.",
+"owner": "Jente",
+"group": "Reporting",
+"path": "index.html",
+"repos": [
+{
+"org": "effectory-ux",
+"name": "group-linking"
+}
+],
+"live": "https://effectory-ux.github.io/group-linking/",
+"code": "https://github.com/effectory-ux/group-linking/blob/main/index.html",
+"tree": "https://github.com/effectory-ux/group-linking",
+"screens": 5,
+"pages": [
+"bol.html",
+"deep.html",
+"effectory.html",
+"index.html",
+"stepped.html"
+]
+},
+{
 "updated": "2026-08-18T12:44:35Z",
 "id": "engage::conversation-guide.html",
 "name": "Conversation Guide",
@@ -516,47 +618,6 @@ const DATA = [
 "action-center-manager-v4.html",
 "action-center-manager-v5.html",
 "action-center-manager.html"
-]
-},
-{
-"updated": "2026-08-18T11:17:54Z",
-"id": "engage::prototypes/results-dashboard.html",
-"name": "Results dashboard",
-"variants": [
-{
-"label": "Overview",
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html"
-},
-{
-"label": "Overview with back button",
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard-panel-back.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard-panel-back.html"
-},
-{
-"label": "Overview",
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-overview.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-overview.html"
-}
-],
-"desc": "Results for managers: the overview and a variant with a back button.",
-"owner": "Jente",
-"group": "Reporting",
-"path": "prototypes/results-dashboard.html",
-"repos": [
-{
-"org": "effectory-design",
-"name": "effectory-design-documentation"
-}
-],
-"live": "https://effectory-design.github.io/effectory-design-documentation/prototypes/results-dashboard.html",
-"code": "https://github.com/effectory-design/effectory-design-documentation/blob/main/prototypes/results-dashboard.html",
-"tree": "https://github.com/effectory-design/effectory-design-documentation",
-"screens": 3,
-"pages": [
-"prototypes/results-dashboard-panel-back.html",
-"prototypes/results-dashboard.html",
-"prototypes/results-overview.html"
 ]
 },
 {
@@ -724,59 +785,6 @@ const DATA = [
 "team-it-before-reports.html",
 "team-it-before-scores.html",
 "team-it-before-themes.html"
-]
-},
-{
-"updated": "2026-08-17T11:30:59Z",
-"id": "gl::index.html",
-"name": "Group linking",
-"variants": [
-{
-"label": "ROC van Amsterdam",
-"live": "https://effectory-ux.github.io/group-linking/",
-"code": "https://github.com/effectory-ux/group-linking/blob/main/index.html"
-},
-{
-"label": "Effectory",
-"live": "https://effectory-ux.github.io/group-linking/effectory.html",
-"code": "https://github.com/effectory-ux/group-linking/blob/main/effectory.html"
-},
-{
-"label": "bol.com",
-"live": "https://effectory-ux.github.io/group-linking/bol.html",
-"code": "https://github.com/effectory-ux/group-linking/blob/main/bol.html"
-},
-{
-"label": "Stepped",
-"live": "https://effectory-ux.github.io/group-linking/stepped.html",
-"code": "https://github.com/effectory-ux/group-linking/blob/main/stepped.html"
-},
-{
-"label": "Deep structure (stress test)",
-"live": "https://effectory-ux.github.io/group-linking/deep.html",
-"code": "https://github.com/effectory-ux/group-linking/blob/main/deep.html"
-}
-],
-"desc": "Link a previous survey to the new structure. Three real customer structures, the stepped base flow, and a deep tree as a stress test.",
-"owner": "Jente",
-"group": "Reporting",
-"path": "index.html",
-"repos": [
-{
-"org": "effectory-ux",
-"name": "group-linking"
-}
-],
-"live": "https://effectory-ux.github.io/group-linking/",
-"code": "https://github.com/effectory-ux/group-linking/blob/main/index.html",
-"tree": "https://github.com/effectory-ux/group-linking",
-"screens": 5,
-"pages": [
-"bol.html",
-"deep.html",
-"effectory.html",
-"index.html",
-"stepped.html"
 ]
 },
 {

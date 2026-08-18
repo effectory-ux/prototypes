@@ -149,7 +149,7 @@
   }
   .fpill {
     display: inline-flex; align-items: center; gap: 6px;
-    height: 34px; padding: 0 var(--spacing-base-tight);
+    height: 34px; padding: 0 6px 0 var(--spacing-base-tight);
     font: 500 14px 'Poppins', system-ui, sans-serif;
     color: var(--content-secondary);
     background: var(--bg-base);
@@ -165,8 +165,16 @@
     border-color: var(--bg-brand);
   }
   .fpill.is-on:hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-hover); color: var(--content-always-white); }
-  .fpill.is-on .fpill-n { color: var(--content-always-white); opacity: .75; }
-  .fpill-n { font-weight: 400; color: var(--content-subtle); }
+  .fpill.is-on .fpill-n { color: var(--content-always-white); background: rgba(255, 255, 255, 0.22); }
+  /* The count sits in its own round container inside the pill. */
+  .fpill-n {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 20px; height: 20px; padding: 0 6px;
+    font-weight: 500; font-size: 12px; line-height: 1;
+    color: var(--content-secondary);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-full);
+  }
   .fpill.is-empty { opacity: .55; cursor: default; }
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
