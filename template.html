@@ -49,16 +49,17 @@
     display: flex; align-items: center; gap: var(--spacing-base);
     margin-bottom: var(--spacing-loose);
   }
-  .page-title { display: flex; align-items: baseline; gap: var(--spacing-tight); flex: none; margin-right: var(--spacing-loose); }
+  .page-title { display: flex; align-items: baseline; gap: var(--spacing-tight); margin-right: auto; }
   .page-title h1 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
 
-  /* Search takes the free space in the head row; the field itself stays the
-     design system's 36px component, only the width is ours. */
-  .search-wrap { flex: 1; max-width: 480px; min-width: 220px; }
+  /* Search sits on its own centred line, the way a prompt field does. The field
+     itself stays the design system's 36px component; only the width is ours. */
+  .search-row { display: flex; justify-content: center; margin-bottom: var(--spacing-loose); }
+  .search-wrap { width: 100%; max-width: 560px; }
 
   /* ── Filters ── */
   .filters {
-    display: flex; flex-wrap: wrap; gap: var(--spacing-tight);
+    display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-tight);
     margin-bottom: var(--spacing-extra-loose);
   }
   .fpill {
@@ -327,15 +328,19 @@
     <div class="page-title">
       <h1>Projects</h1>
     </div>
-    <div class="search-wrap">
-      <div class="search-icon"><i data-icon="search"></i></div>
-      <input id="q" type="search" class="srch" placeholder="Search by name or repo" autocomplete="off" />
-    </div>
     <a class="btn btn-primary" id="dsbtn" href="#" target="_blank" rel="noopener">
       <i data-icon="book-open"></i>
       Design system
     </a>
   </div>
+
+  <div class="search-row">
+    <div class="search-wrap">
+      <div class="search-icon"><i data-icon="search"></i></div>
+      <input id="q" type="search" class="srch" placeholder="Search by name or repo" autocomplete="off" />
+    </div>
+  </div>
+
   <div class="filters" id="filters"></div>
   <div id="sections"></div>
 </div>
