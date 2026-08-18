@@ -274,17 +274,6 @@
   .card-meta .av { cursor: default; }
   .card-by { font-size: 12px; color: var(--content-secondary); }
 
-  /* Not a design system button: that one is 14px with no small variant, so this is
-     our own 12px text button and nothing about the component is overridden. */
-  .card-pages {
-    margin-left: auto;
-    padding: 0; border: 0; background: none;
-    font: 500 12px 'Poppins', system-ui, sans-serif;
-    color: var(--content-action);
-    cursor: pointer;
-  }
-  .card-pages:hover { color: var(--content-action-hover); text-decoration: underline; }
-
   /* Only the layer around it; the panel itself is the .dialog component. */
   .ov {
     position: fixed; inset: 0; z-index: 90;
@@ -718,13 +707,16 @@ function card(d) {
       '<div class="open-ov"><span class="open-pill"><i data-icon="external-link"></i>View code</span></div>';
   }
 
-  // Clicking Open shows the dialog first, so you pick the page you land on. The href
-  // stays real, so cmd-click still goes straight to the entry page.
-  thumb.onclick = e => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    openModal(d);
-  };
+  // One page opens straight away; several pages ask which one first. The href stays
+  // real either way, so cmd-click always goes direct.
+  const paginas = d.variants && d.variants.length ? d.variants.length : 1;
+  if (paginas > 1) {
+    thumb.onclick = e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      openModal(d);
+    };
+  }
 
   const body = document.createElement("div");
   body.className = "card-body";
@@ -758,13 +750,6 @@ function card(d) {
     (d.updated
       ? '<span class="card-by" title="' + d.updated.slice(0, 10) + '">' + sinds(d.updated) + "</span>"
       : "");
-
-  const n = d.variants && d.variants.length ? d.variants.length : 1;
-  const btn = document.createElement("button");
-  btn.className = "card-pages";
-  btn.textContent = n === 1 ? "1 page" : n + " pages";
-  btn.onclick = () => openModal(d);
-  meta.append(btn);
 
   body.append(hd, track, desc, meta);
   el.append(thumb, body);
