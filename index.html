@@ -68,7 +68,7 @@
   .page-title h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
   /* The Effectory logo, supplied by Jente; it carries its own yellow and radius. */
   .brand-mark { display: flex; flex: none; }
-  .brand-mark img { display: block; width: 28px; height: 28px; }
+  .brand-mark img { display: block; width: 40px; height: 40px; }
 
   /* Search spans the content width, on its own line. */
   .search-row {
@@ -1163,6 +1163,14 @@ function card(d) {
       '<div class="thumb-none"><i data-icon="eye-off"></i><span>No live preview</span></div>' +
       '<div class="open-ov"><span class="open-pill"><i data-icon="external-link"></i>View code</span></div>';
   }
+
+  // Clicking Open shows the dialog first, so you pick the page you land on. The href
+  // stays real, so cmd-click still goes straight to the entry page.
+  thumb.onclick = e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    openModal(d);
+  };
 
   const body = document.createElement("div");
   body.className = "card-body";
