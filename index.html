@@ -158,11 +158,14 @@
     cursor: pointer;
   }
   .fpill:hover { background: var(--bg-secondary); color: var(--content-base); }
+  /* Selected reads like the primary button: filled brand, white label. */
   .fpill.is-on {
-    color: var(--content-brand);
-    background: var(--bg-brand-subtle);
-    border-color: var(--border-brand-subtle);
+    color: var(--content-always-white);
+    background: var(--bg-brand);
+    border-color: var(--bg-brand);
   }
+  .fpill.is-on:hover { background: var(--bg-brand-hover); border-color: var(--bg-brand-hover); color: var(--content-always-white); }
+  .fpill.is-on .fpill-n { color: var(--content-always-white); opacity: .75; }
   .fpill-n { font-weight: 400; color: var(--content-subtle); }
   .filters-sep { width: 1px; background: var(--border-base); margin: 4px var(--spacing-extra-tight); }
 
