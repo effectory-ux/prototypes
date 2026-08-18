@@ -17,6 +17,15 @@ listing all its pages and the repo it lives in.
 - Styling comes from the [design system](https://effectory-ux.github.io/Engage-Design-system-/):
   tokens, components and the icon library are loaded from its site, not copied.
 
+## New project
+
+The **New project** button opens a Claude Code session in the desktop app through the
+documented `claude://code/new?q=…` deep link, with a prompt that tells Claude to use the
+design system skill, ask which track the prototype belongs to, and add it to this gallery
+when it works. It needs the Claude desktop app and Claude Code v2.1.91 or later; without
+those the link does nothing. No `folder` is passed, because the working directory differs
+per person and a linked folder needs confirmation anyway.
+
 ## Sections
 
 Sections follow the three Product & Tech tracks: **Surveying**, **Leadership enablement**
