@@ -60,6 +60,17 @@ def last_commit(repo, path):
     return out.stdout.strip()
 
 
+def stem(path):
+    """Filename without extension; a folder index is named after its folder."""
+    last = path.rsplit("/", 1)[-1]
+    return path.split("/")[-2] if last == "index.html" and "/" in path else last[:-5]
+
+
+def pretty(path, prefix=""):
+    rest = stem(path)[len(prefix):].lstrip("-") if prefix and stem(path).startswith(prefix) else stem(path)
+    return rest.replace("-", " ").replace("/", " · ").strip().capitalize() or "Main page"
+
+
 def auto_variants(entry_path, pages):
     """Label every page of a prototype from its filename, entry page first.
 
@@ -134,11 +145,25 @@ def main():
                 sys.exit(f"✗ variant bestaat niet: {rc['repo']}/{v['path']}")
             pages.add(v["path"])
             claimed[entry["repo"]].add(v["path"])
-            variants.append(
+            variants.append(v)
+
+        # Every page of the prototype becomes a link, not just the curated entry
+        # points: the main page first, then the labelled ones in the order they are
+        # declared, then the rest by path. Curated labels win; the others are derived
+        # from the filename with the shared prefix dropped.
+        labels = {v["path"]: v["label"] for v in variants}
+        volgorde = {v["path"]: i + 1 for i, v in enumerate(variants)}
+        volgorde[path] = 0
+        stems = [stem(pg) for pg in pages]
+        prefix = os.path.commonprefix(stems).rstrip("-") if len(stems) > 1 else ""
+
+        links = []
+        for pg in sorted(pages, key=lambda pg: (volgorde.get(pg, 999), pg)):
+            links.append(
                 {
-                    "label": v["label"],
-                    "live": live_url(rc.get("pages"), v["path"], rc.get("liveRewrite", [])),
-                    "code": f"https://github.com/{rc['repo']}/blob/{rc['branch']}/{v['path']}",
+                    "label": labels.get(pg) or pretty(pg, prefix),
+                    "live": live_url(rc.get("pages"), pg, rc.get("liveRewrite", [])),
+                    "code": f"https://github.com/{rc['repo']}/blob/{rc['branch']}/{pg}",
                 }
             )
 
@@ -153,7 +178,7 @@ def main():
                 # made in the page can be written to the right entry.
                 "id": entry["repo"] + "::" + path,
                 "name": entry["name"],
-                "variants": variants,
+                "variants": links,
                 "desc": entry.get("desc", ""),
                 "owner": entry["owner"],
                 "group": entry["group"],
