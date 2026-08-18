@@ -176,7 +176,7 @@
       "name": "Group linking",
       "desc": "Link a previous survey to the new structure. Three real customer structures, the stepped base flow, and a deep tree as a stress test.",
       "owner": "Jente",
-      "group": "Surveying",
+      "group": "Reporting",
       "repo": "gl",
       "path": "index.html",
       "variants": [
@@ -368,7 +368,7 @@
       "name": "BambooHR integration",
       "desc": "Setting up a connection with an HR system.",
       "owner": "Jente",
-      "group": "Platform",
+      "group": "Reporting",
       "repo": "engage",
       "path": "prototypes/integration-bamboohr.html"
     },
