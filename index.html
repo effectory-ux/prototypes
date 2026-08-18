@@ -12,62 +12,70 @@
 <script src="https://effectory-ux.github.io/Engage-Design-system-/icons.js"></script>
 <style>
   * { box-sizing: border-box; }
+  html { background: #fdfdfc; }
   body {
     margin: 0;
-    /* Same yellow gradient as the design system homepage. */
-    background:
-      radial-gradient(80% 60% at 95% 0%, rgba(255,216,87,0.55) 0%, rgba(255,224,120,0.32) 22%, rgba(254,231,153,0.16) 42%, rgba(254,242,203,0.06) 65%, rgba(253,253,252,0) 85%),
-      #fdfdfc;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+    position: relative;
     font-family: 'Poppins', system-ui, sans-serif;
     color: var(--content-base);
   }
 
-  /* In dark the same glow would light up the whole page, so it is dialled back and
-     sits on the design system's dark surface instead of the near-white one. */
+  /* The design system's yellow glow, drifting slowly across the viewport. A fixed
+     pseudo-element animated on transform, so it never repaints the page content. */
+  body::before {
+    content: "";
+    position: fixed; inset: -25%;
+    z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(42% 42% at 72% 22%, rgba(255,216,87,0.55) 0%, rgba(255,224,120,0.30) 30%, rgba(254,242,203,0.10) 60%, rgba(253,253,252,0) 80%),
+      radial-gradient(38% 38% at 22% 8%, rgba(255,224,120,0.22) 0%, rgba(254,242,203,0.08) 55%, rgba(253,253,252,0) 78%);
+    animation: glow-drift 44s ease-in-out infinite alternate;
+  }
+  @keyframes glow-drift {
+    from { transform: translate3d(-5%, -3%, 0) scale(1); }
+    to   { transform: translate3d(7%, 5%, 0) scale(1.12); }
+  }
+  /* Anyone who asked their system for less motion gets the glow standing still. */
+  @media (prefers-reduced-motion: reduce) {
+    body::before { animation: none; }
+  }
+
   @media (prefers-color-scheme: dark) {
-    html:not([data-theme="light"]) body {
+    html:not([data-theme="light"]) { background: var(--bg-interface-body-secondary); }
+    html:not([data-theme="light"]) body::before {
       background:
-        radial-gradient(80% 60% at 95% 0%, rgba(255,216,87,0.12) 0%, rgba(255,224,120,0.07) 25%, rgba(254,231,153,0.03) 45%, rgba(0,0,0,0) 70%),
-        var(--bg-interface-body-secondary);
-      background-attachment: fixed;
-      background-repeat: no-repeat;
+        radial-gradient(42% 42% at 72% 22%, rgba(255,216,87,0.14) 0%, rgba(255,224,120,0.07) 35%, rgba(0,0,0,0) 70%),
+        radial-gradient(38% 38% at 22% 8%, rgba(255,224,120,0.06) 0%, rgba(0,0,0,0) 65%);
     }
   }
-  html[data-theme="dark"] body {
+  html[data-theme="dark"] { background: var(--bg-interface-body-secondary); }
+  html[data-theme="dark"] body::before {
     background:
-      radial-gradient(80% 60% at 95% 0%, rgba(255,216,87,0.12) 0%, rgba(255,224,120,0.07) 25%, rgba(254,231,153,0.03) 45%, rgba(0,0,0,0) 70%),
-      var(--bg-interface-body-secondary);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+      radial-gradient(42% 42% at 72% 22%, rgba(255,216,87,0.14) 0%, rgba(255,224,120,0.07) 35%, rgba(0,0,0,0) 70%),
+      radial-gradient(38% 38% at 22% 8%, rgba(255,224,120,0.06) 0%, rgba(0,0,0,0) 65%);
   }
+
   a { color: inherit; text-decoration: none; }
 
   /* ── Page head: a white bar floating on the gradient ── */
   .page-head {
     display: flex; align-items: center; gap: var(--spacing-base);
-    padding: var(--spacing-tight) var(--spacing-tight) var(--spacing-tight) var(--spacing-base);
+    padding: var(--spacing-base);
     background: var(--bg-base);
     border-radius: var(--radius-xl);
   }
   .page-title { display: flex; align-items: center; gap: var(--spacing-tight); margin-right: auto; }
   .page-title h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
-  /* Placeholder for the Effectory logo: the design system ships no brand asset. */
-  .brand-mark {
-    display: grid; place-items: center; flex: none;
-    width: 28px; height: 28px;
-    border-radius: var(--radius-md);
-    background: var(--bg-brand); color: var(--content-always-white);
-  }
-  .brand-mark i { display: flex; width: 16px; height: 16px; }
+  /* The Effectory logo, supplied by Jente; it carries its own yellow and radius. */
+  .brand-mark { display: flex; flex: none; }
+  .brand-mark img { display: block; width: 28px; height: 28px; }
 
-  /* Search sits on its own centred line, the way a prompt field does. */
+  /* Search spans the content width, on its own line. */
   .search-row {
-    display: flex; justify-content: center;
+    display: flex;
     margin: var(--spacing-super-extra-loose) 0 calc(var(--spacing-super-extra-loose) + var(--spacing-tight));
   }
-  .search-wrap { width: 100%; max-width: 560px; }
+  .search-wrap { width: 100%; }
 
   /* ── Filters ── */
   /* Left-aligned and close to the grid: the pills filter the content below them,
@@ -351,7 +359,7 @@
 <div class="wrap">
   <div class="page-head">
     <div class="page-title">
-      <span class="brand-mark"><i data-icon="layout"></i></span>
+      <span class="brand-mark"><img src="assets/effectory-logo.svg" alt="Effectory" /></span>
       <h1>Projects</h1>
     </div>
     <a class="btn btn-primary" id="dsbtn" href="#" target="_blank" rel="noopener">
