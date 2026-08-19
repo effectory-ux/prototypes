@@ -357,8 +357,8 @@
       ]
     },
     {
-      "name": "Results overview",
-      "desc": "Results for coordinators, with the CSM result settings and the filter panel.",
+      "name": "CSM Result settings",
+      "desc": "Result settings and the filter panel, as a CSM sees them on the results dashboard.",
       "owner": "Jente",
       "group": "Reporting",
       "repo": "engage",
