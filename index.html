@@ -240,6 +240,10 @@
 
   .card-meta { display: flex; align-items: center; gap: var(--spacing-tight); width: 100%; margin-top: auto; }
   .card-meta .av { cursor: default; }
+  /* The design system avatar carries initials; a photo covers them when there is one.
+     Positioned rather than replacing the text, so the initials remain the fallback. */
+  .av { position: relative; overflow: hidden; }
+  .av-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .card-by { font-size: 12px; color: var(--content-secondary); }
 
   /* Only the layer around it; the panel itself is the .dialog component. */
@@ -1348,12 +1352,17 @@ const TRACK_CLASS = {
 
 const PEOPLE = {
   Jente: { initials: "JI", full: "Jente Insing", av: "av-blue" },
-  Eray:  { initials: "ED", full: "Eray Demirsoy", av: "av-orange" },
-  Jamal: { initials: "JR", full: "Jamal van Rooijen", av: "av-turquoise" }
+  Eray:  { initials: "ED", full: "Eray Demirsoy", av: "av-orange", photo: "assets/avatars/eray.jpg" },
+  Jamal: { initials: "JR", full: "Jamal van Rooijen", av: "av-turquoise", photo: "assets/avatars/jamal.jpg" }
 };
 function avatar(owner) {
   const p = PEOPLE[owner] || { initials: owner.slice(0, 2).toUpperCase(), full: owner, av: "av-grey" };
-  return '<span class="av av-24 ' + p.av + '" title="' + p.full + '">' + p.initials + "</span>";
+  // A photo where we have one, initials where we do not. The initials stay in the
+  // markup underneath, so a photo that fails to load leaves a usable avatar.
+  const img = p.photo
+    ? '<img class="av-photo" src="' + p.photo + '" alt="" onerror="this.remove()" />'
+    : "";
+  return '<span class="av av-24 ' + p.av + '" title="' + p.full + '">' + p.initials + img + "</span>";
 }
 
 const owners = [...new Set(DATA.map(d => d.owner))].sort();
