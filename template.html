@@ -20,106 +20,64 @@
     color: var(--content-base);
   }
 
-  /* A ball of the design system's yellow, travelling across the viewport and
-     breathing as it goes. Fixed and animated on transform only, so the page content
-     never repaints. */
-  body::before {
-    content: "";
-    position: fixed; top: 0; left: 0;
-    width: 150vmin; height: 150vmin;
-    margin: -75vmin 0 0 -75vmin;
-    z-index: -1; pointer-events: none;
-    background: radial-gradient(circle at 45% 40%,
-      rgba(255,216,87,0.60) 0%,
-      rgba(255,224,120,0.42) 45%,
-      rgba(254,242,203,0.22) 80%,
-      rgba(254,242,203,0.10) 100%);
-    filter: blur(48px);
-    animation:
-      glow-ball 16s ease-in-out infinite alternate,
-      glow-morph 21s ease-in-out infinite alternate,
-      glow-fade 37s ease-in-out infinite alternate;
-    will-change: transform, border-radius, opacity;
+  /* Three blurred blobs drifting at different speeds. One circle animated on its
+     border-radius stays a circle, because what you see is the gradient's fade and not
+     the box; overlapping blobs on separate paths genuinely change the silhouette. */
+  .glow { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+  .glow span {
+    position: absolute; top: 0; left: 0;
+    width: 78vmin; height: 78vmin;
+    margin: -39vmin 0 0 -39vmin;
+    border-radius: 50%;
+    filter: blur(56px);
+    will-change: transform, opacity;
   }
-  @keyframes glow-ball {
-    0%   { transform: translate3d(12vw, 10vh, 0) scale(0.90) rotate(0deg); }
-    35%  { transform: translate3d(50vw, 0vh, 0)  scale(1.35) rotate(45deg); }
-    70%  { transform: translate3d(82vw, 30vh, 0) scale(1.05) rotate(95deg); }
-    100% { transform: translate3d(100vw, 6vh, 0) scale(1.30) rotate(160deg); }
+  .glow span:nth-child(1) {
+    background: radial-gradient(circle at 50% 50%, rgba(255,216,87,0.75) 0%, rgba(255,224,120,0.35) 45%, rgba(255,224,120,0) 72%);
+    animation: blob-a 17s ease-in-out infinite alternate;
   }
-  /* The silhouette itself flows: opposing corner radii pulling in turn. */
-  @keyframes glow-morph {
-    0%   { border-radius: 58% 42% 46% 54% / 54% 46% 54% 46%; }
-    25%  { border-radius: 42% 58% 62% 38% / 38% 62% 38% 62%; }
-    50%  { border-radius: 66% 34% 38% 62% / 62% 40% 60% 38%; }
-    75%  { border-radius: 38% 62% 56% 44% / 44% 56% 44% 56%; }
-    100% { border-radius: 52% 48% 60% 40% / 60% 38% 62% 40%; }
+  .glow span:nth-child(2) {
+    background: radial-gradient(circle at 50% 50%, rgba(255,224,120,0.55) 0%, rgba(254,242,203,0.28) 45%, rgba(254,242,203,0) 72%);
+    animation: blob-b 23s ease-in-out infinite alternate;
   }
-  /* A second ball on the same path in brand turquoise (--bg-brand, #0a9d99), fading in
-     and out over a longer cycle so the colour drifts from yellow to teal and back.
-     Literal rgba because a gradient stop needs alpha, not a token. */
-  body::after {
-    content: "";
-    position: fixed; top: 0; left: 0;
-    width: 150vmin; height: 150vmin;
-    margin: -75vmin 0 0 -75vmin;
-    z-index: -1; pointer-events: none;
-    /* Straight --bg-brand (#0a9d99), no lighter turquoise mixed in, so what you see
-       is the brand colour. */
-    background: radial-gradient(circle at 45% 40%,
-      rgba(10,157,153,0.55) 0%,
-      rgba(10,157,153,0.38) 45%,
-      rgba(10,157,153,0.18) 80%,
-      rgba(10,157,153,0.08) 100%);
-    filter: blur(48px);
-    opacity: 0;
-    animation:
-      glow-ball 16s ease-in-out infinite alternate,
-      glow-morph 21s ease-in-out infinite alternate,
-      glow-tint 37s ease-in-out infinite alternate;
-    will-change: transform, border-radius, opacity;
+  .glow span:nth-child(3) {
+    background: radial-gradient(circle at 50% 50%, rgba(10,157,153,0.55) 0%, rgba(10,157,153,0.26) 45%, rgba(10,157,153,0) 72%);
+    animation: blob-c 29s ease-in-out infinite alternate, blob-tint 41s ease-in-out infinite alternate;
   }
-  @keyframes glow-tint {
-    0%   { opacity: 0; }
-    40%  { opacity: 0.35; }
+  @keyframes blob-a {
+    0%   { transform: translate3d(18vw, 14vh, 0) scale(1.00); }
+    50%  { transform: translate3d(58vw, 2vh, 0)  scale(1.45); }
+    100% { transform: translate3d(92vw, 26vh, 0) scale(0.95); }
+  }
+  @keyframes blob-b {
+    0%   { transform: translate3d(72vw, 6vh, 0)  scale(1.25); }
+    50%  { transform: translate3d(34vw, 30vh, 0) scale(0.85); }
+    100% { transform: translate3d(8vw, 12vh, 0)  scale(1.40); }
+  }
+  @keyframes blob-c {
+    0%   { transform: translate3d(46vw, 32vh, 0) scale(0.90); }
+    50%  { transform: translate3d(86vw, 10vh, 0) scale(1.30); }
+    100% { transform: translate3d(24vw, 22vh, 0) scale(1.10); }
+  }
+  /* The teal comes and goes, so the whole field drifts towards the brand colour. */
+  @keyframes blob-tint {
+    0%   { opacity: 0.15; }
     100% { opacity: 1; }
   }
-  /* The yellow steps back as the teal comes up, so the two never sit on top of each
-     other at full strength and turn olive. */
-  @keyframes glow-fade {
-    0%   { opacity: 1; }
-    60%  { opacity: 0.25; }
-    100% { opacity: 0; }
-  }
-
-  /* Anyone who asked their system for less motion gets the ball standing still. */
+  /* Anyone who asked their system for less motion gets the field standing still. */
   @media (prefers-reduced-motion: reduce) {
-    body::before, body::after { animation: none; transform: translate3d(70vw, 10vh, 0); }
-    body::after { opacity: .5; }
+    .glow span { animation: none; }
+    .glow span:nth-child(1) { transform: translate3d(70vw, 12vh, 0); }
+    .glow span:nth-child(2) { transform: translate3d(30vw, 20vh, 0); }
+    .glow span:nth-child(3) { transform: translate3d(55vw, 26vh, 0); opacity: .5; }
   }
 
   @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) { background: var(--bg-interface-body-secondary); }
-    html:not([data-theme="light"]) body::before {
-      background: radial-gradient(circle at 50% 50%,
-        rgba(255,216,87,0.20) 0%, rgba(255,224,120,0.10) 35%, rgba(0,0,0,0) 70%);
-    }
+    html:not([data-theme="light"]) .glow span { opacity: .45; filter: blur(64px); }
   }
   html[data-theme="dark"] { background: var(--bg-interface-body-secondary); }
-  html[data-theme="dark"] body::before {
-    background: radial-gradient(circle at 50% 50%,
-      rgba(255,216,87,0.20) 0%, rgba(255,224,120,0.10) 35%, rgba(0,0,0,0) 70%);
-  }
-  @media (prefers-color-scheme: dark) {
-    html:not([data-theme="light"]) body::after {
-      background: radial-gradient(circle at 45% 40%,
-        rgba(10,157,153,0.30) 0%, rgba(10,157,153,0.16) 45%, rgba(10,157,153,0.05) 85%);
-    }
-  }
-  html[data-theme="dark"] body::after {
-    background: radial-gradient(circle at 45% 40%,
-      rgba(10,157,153,0.30) 0%, rgba(10,157,153,0.16) 45%, rgba(10,157,153,0.05) 85%);
-  }
+  html[data-theme="dark"] .glow span { opacity: .45; filter: blur(64px); }
 
   a { color: inherit; text-decoration: none; }
 
@@ -414,6 +372,8 @@
     <p class="dialog-subtitle" id="ov-ft"></p>
   </div>
 </div>
+
+<div class="glow" aria-hidden="true"><span></span><span></span><span></span></div>
 
 <div class="pub" id="pub">
   <span class="pub-txt" id="pub-txt"></span>
