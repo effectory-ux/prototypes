@@ -340,7 +340,7 @@
       "repo": "engage",
       "path": "prototypes/results-dashboard.html",
       "also": [
-        "^prototypes/results-",
+        "^prototypes/results-dashboard",
         "^prototypes/scores\\.",
         "^prototypes/themes\\.",
         "^prototypes/reports\\."
@@ -355,6 +355,14 @@
           "path": "prototypes/results-dashboard-panel-back.html"
         }
       ]
+    },
+    {
+      "name": "Results overview",
+      "desc": "Results for coordinators, with the CSM result settings and the filter panel.",
+      "owner": "Jente",
+      "group": "Reporting",
+      "repo": "engage",
+      "path": "prototypes/results-overview.html"
     },
     {
       "name": "Announcement playground",
