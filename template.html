@@ -159,8 +159,8 @@
   .card {
     display: flex; flex-direction: column;
     padding: var(--spacing-tight);
-    /* A hair short of opaque, so the moving background just barely reads through. */
-    background: color-mix(in srgb, var(--bg-base) 99%, transparent);
+    /* Translucent, so the moving background reads through the card. */
+    background: color-mix(in srgb, var(--bg-base) 75%, transparent);
     border: 1px solid var(--border-base);
     border-radius: var(--radius-xl);
     box-shadow: var(--sh-card);
