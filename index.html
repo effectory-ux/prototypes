@@ -159,7 +159,8 @@
   .card {
     display: flex; flex-direction: column;
     padding: var(--spacing-tight);
-    background: var(--bg-base);
+    /* A hair short of opaque, so the moving background just barely reads through. */
+    background: color-mix(in srgb, var(--bg-base) 99%, transparent);
     border: 1px solid var(--border-base);
     border-radius: var(--radius-xl);
     box-shadow: var(--sh-card);
@@ -411,7 +412,7 @@
 <script>
 const DATA = [
 {
-"updated": "2026-08-19T12:57:28Z",
+"updated": "2026-08-19T13:29:47Z",
 "id": "rd::ai-summary-improvement.html",
 "name": "AI summary improvement",
 "variants": [
