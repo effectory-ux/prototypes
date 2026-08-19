@@ -116,6 +116,20 @@
         "^404\\.html$",
         "^index\\.html$"
       ]
+    },
+    "rd": {
+      "repo": "effectory-ux/results-dashboard",
+      "pages": "https://effectory-ux.github.io/results-dashboard/",
+      "repos": [
+        {
+          "org": "effectory-ux",
+          "name": "results-dashboard"
+        }
+      ],
+      "ignore": [
+        "^404\\.html$",
+        "^index\\.html$"
+      ]
     }
   },
   "entries": [
@@ -355,6 +369,14 @@
           "path": "prototypes/results-dashboard-panel-back.html"
         }
       ]
+    },
+    {
+      "name": "AI summary improvement",
+      "desc": "The results overview cut back to four cards, to work on the AI summary: it animates open, fades its text out instead of clipping it, and explains how the summary is made.",
+      "owner": "Jente",
+      "group": "Reporting",
+      "repo": "rd",
+      "path": "ai-summary-improvement.html"
     },
     {
       "name": "CSM Result settings",
