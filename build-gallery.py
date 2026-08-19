@@ -119,6 +119,7 @@ def main():
 
     claimed = {k: set() for k in repos}
     items = []
+    hidden = []
 
     for entry in cfg["entries"]:
         rc = repos[entry["repo"]]
@@ -146,6 +147,13 @@ def main():
             pages.add(v["path"])
             claimed[entry["repo"]].add(v["path"])
             variants.append(v)
+
+        # Hidden: keep the entry (name, group, owner, desc) and let it claim its
+        # pages so they stay out of the leftovers, but render no card. Skipping
+        # here also saves the per-page commit lookups below.
+        if entry.get("hidden"):
+            hidden.append(entry["name"])
+            continue
 
         # Every page of the prototype becomes a link, not just the curated entry
         # points: the main page first, then the labelled ones in the order they are
@@ -193,6 +201,8 @@ def main():
         )
 
     print(f"\n{len(items)} prototypes uit {len(repos)} repos")
+    if hidden:
+        print(f"{len(hidden)} verborgen (geen kaart): " + ", ".join(sorted(hidden)))
 
     leftovers = {
         k: sorted(set(r["paths"]) - claimed[k]) for k, r in repos.items()
