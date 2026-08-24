@@ -20,7 +20,7 @@
     color: var(--content-base);
   }
 
-  /* Three blurred blobs drifting at different speeds. One circle animated on its
+  /* Three blurred yellow blobs drifting at different speeds. One circle animated on its
      border-radius stays a circle, because what you see is the gradient's fade and not
      the box; overlapping blobs on separate paths genuinely change the silhouette. */
   .glow { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
@@ -33,51 +33,46 @@
     will-change: transform, opacity;
   }
   .glow span:nth-child(1) {
-    background: radial-gradient(circle at 50% 50%, rgba(255,216,87,0.75) 0%, rgba(255,224,120,0.35) 45%, rgba(255,224,120,0) 72%);
-    animation: blob-a 17s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 50% 50%, rgba(255,216,87,0.34) 0%, rgba(255,224,120,0.16) 45%, rgba(255,224,120,0) 72%);
+    animation: blob-a 38s ease-in-out infinite alternate;
   }
   .glow span:nth-child(2) {
-    background: radial-gradient(circle at 50% 50%, rgba(255,224,120,0.55) 0%, rgba(254,242,203,0.28) 45%, rgba(254,242,203,0) 72%);
-    animation: blob-b 23s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 50% 50%, rgba(255,224,120,0.26) 0%, rgba(254,242,203,0.13) 45%, rgba(254,242,203,0) 72%);
+    animation: blob-b 52s ease-in-out infinite alternate;
   }
   .glow span:nth-child(3) {
-    background: radial-gradient(circle at 50% 50%, rgba(10,157,153,0.55) 0%, rgba(10,157,153,0.26) 45%, rgba(10,157,153,0) 72%);
-    animation: blob-c 29s ease-in-out infinite alternate, blob-tint 41s ease-in-out infinite alternate;
+    background: radial-gradient(circle at 50% 50%, rgba(254,242,203,0.30) 0%, rgba(254,242,203,0.14) 45%, rgba(254,242,203,0) 72%);
+    animation: blob-c 64s ease-in-out infinite alternate;
   }
   @keyframes blob-a {
     0%   { transform: translate3d(18vw, 14vh, 0) scale(1.00); }
-    50%  { transform: translate3d(58vw, 2vh, 0)  scale(1.45); }
+    50%  { transform: translate3d(58vw, 2vh, 0)  scale(1.30); }
     100% { transform: translate3d(92vw, 26vh, 0) scale(0.95); }
   }
   @keyframes blob-b {
-    0%   { transform: translate3d(72vw, 6vh, 0)  scale(1.25); }
-    50%  { transform: translate3d(34vw, 30vh, 0) scale(0.85); }
-    100% { transform: translate3d(8vw, 12vh, 0)  scale(1.40); }
+    0%   { transform: translate3d(72vw, 6vh, 0)  scale(1.20); }
+    50%  { transform: translate3d(34vw, 30vh, 0) scale(0.90); }
+    100% { transform: translate3d(8vw, 12vh, 0)  scale(1.25); }
   }
   @keyframes blob-c {
-    0%   { transform: translate3d(46vw, 32vh, 0) scale(0.90); }
-    50%  { transform: translate3d(86vw, 10vh, 0) scale(1.30); }
-    100% { transform: translate3d(24vw, 22vh, 0) scale(1.10); }
-  }
-  /* The teal comes and goes, so the whole field drifts towards the brand colour. */
-  @keyframes blob-tint {
-    0%   { opacity: 0.15; }
-    100% { opacity: 1; }
+    0%   { transform: translate3d(46vw, 32vh, 0) scale(0.95); }
+    50%  { transform: translate3d(86vw, 10vh, 0) scale(1.20); }
+    100% { transform: translate3d(24vw, 22vh, 0) scale(1.05); }
   }
   /* Anyone who asked their system for less motion gets the field standing still. */
   @media (prefers-reduced-motion: reduce) {
     .glow span { animation: none; }
     .glow span:nth-child(1) { transform: translate3d(70vw, 12vh, 0); }
     .glow span:nth-child(2) { transform: translate3d(30vw, 20vh, 0); }
-    .glow span:nth-child(3) { transform: translate3d(55vw, 26vh, 0); opacity: .5; }
+    .glow span:nth-child(3) { transform: translate3d(55vw, 26vh, 0); }
   }
 
   @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) { background: var(--bg-interface-body-secondary); }
-    html:not([data-theme="light"]) .glow span { opacity: .45; filter: blur(64px); }
+    html:not([data-theme="light"]) .glow span { opacity: .4; filter: blur(64px); }
   }
   html[data-theme="dark"] { background: var(--bg-interface-body-secondary); }
-  html[data-theme="dark"] .glow span { opacity: .45; filter: blur(64px); }
+  html[data-theme="dark"] .glow span { opacity: .4; filter: blur(64px); }
 
   a { color: inherit; text-decoration: none; }
 
@@ -416,7 +411,7 @@
 <script>
 const DATA = [
 {
-"updated": "2026-08-19T13:29:47Z",
+"updated": "2026-08-19T14:51:39Z",
 "id": "rd::ai-summary-improvement.html",
 "name": "AI summary improvement",
 "variants": [
