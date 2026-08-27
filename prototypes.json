@@ -188,23 +188,15 @@
     },
     {
       "name": "Group linking",
-      "desc": "Link a previous survey to the new structure. Three real customer structures, the stepped base flow, and a deep tree as a stress test.",
+      "desc": "Link a previous survey to the new structure. Effectory's own structure, the stepped base flow, and a deep tree as a stress test.",
       "owner": "Jente",
       "group": "Reporting",
       "repo": "gl",
-      "path": "roc.html",
+      "path": "effectory.html",
       "variants": [
-        {
-          "label": "ROC van Amsterdam",
-          "path": "roc.html"
-        },
         {
           "label": "Effectory",
           "path": "effectory.html"
-        },
-        {
-          "label": "bol.com",
-          "path": "bol.html"
         },
         {
           "label": "Stepped",
