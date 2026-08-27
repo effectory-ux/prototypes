@@ -1,0 +1,41 @@
+# The "Updated" date on a card comes from the newest commit touching that prototype,
+# read at build time. A prototype lives in another repo, so nothing here notices when
+# it changes. This run rebuilds the gallery on a schedule and commits only when the
+# result actually differs.
+name: Refresh the gallery
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rebuild index.html
+        env:
+          # build-gallery.py reads the source repos through the gh CLI. They are all
+          # public, so the run's own token is enough; no personal token needed.
+          GH_TOKEN: ${{ github.token }}
+        run: python3 build-gallery.py
+
+      - name: Commit when something changed
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Refresh the updated dates" -- index.html
+          git push
