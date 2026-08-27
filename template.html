@@ -273,6 +273,33 @@
   .ov .list-item-sub { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   .list-item-trailing i { display: flex; width: 14px; height: 14px; color: var(--content-secondary); }
 
+  /* The index page is usually the way in, so it sits above the list as a row of its
+     own instead of being one line among twenty. */
+  .ov-main {
+    display: none; align-items: center; gap: var(--spacing-base-tight);
+    padding: var(--spacing-base-tight) var(--spacing-base);
+    background: var(--bg-brand-subtle);
+    border: 1px solid var(--border-brand-subtle);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+  }
+  .ov-main.is-on { display: flex; }
+  .ov-main:hover { border-color: var(--border-brand); }
+  .ov-main-icon {
+    flex: none; display: grid; place-items: center;
+    width: 32px; height: 32px;
+    color: var(--content-brand);
+    background: var(--bg-base);
+    border-radius: var(--radius-base);
+  }
+  .ov-main-icon i { display: flex; width: 16px; height: 16px; }
+  .ov-main-body { min-width: 0; }
+  .ov-main-t { font-size: 14px; font-weight: 600; color: var(--content-base); }
+  .ov-main-s { font-size: 12px; color: var(--content-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .ov-main-go { margin-left: auto; display: flex; width: 14px; height: 14px; color: var(--content-brand); }
+  .ov-cap { display: none; font-size: 12px; font-weight: 500; color: var(--content-secondary); }
+  .ov-cap.is-on { display: block; }
+
   .steps { font-size: 14px; line-height: 1.6; color: var(--content-secondary); }
   .steps ol { margin: 0; padding-left: var(--spacing-base); }
   .steps li { margin-bottom: 6px; }
@@ -368,6 +395,8 @@
       <h3 class="dialog-title" id="ov-title"></h3>
       <p class="dialog-subtitle" id="ov-sub"></p>
     </div>
+    <a class="ov-main" id="ov-main" target="_blank" rel="noopener"></a>
+    <div class="ov-cap" id="ov-cap">Other pages</div>
     <div class="dialog-body modal-list" id="ov-list"></div>
     <p class="dialog-subtitle" id="ov-ft"></p>
   </div>
@@ -911,10 +940,39 @@ function openModal(d) {
 
   document.getElementById("ov-ft").textContent = "Every page opens in a new tab.";
 
+  // The index page is the hub of most prototypes, so it is lifted out of the list.
+  // Without one the entry page the card opens takes that spot.
+  const isIndex = v => /\/index\.html$/.test(v.code || "");
+  const main = pages.find(isIndex) || pages[0];
+  const rest = pages.filter(v => v !== main);
+
+  const mainRow = document.getElementById("ov-main");
+  const cap = document.getElementById("ov-cap");
+  mainRow.href = main.live || main.code;
+  mainRow.classList.toggle("is-on", pages.length > 1);
+  mainRow.innerHTML = "";
+  const mIcon = document.createElement("span");
+  mIcon.className = "ov-main-icon";
+  mIcon.innerHTML = '<i data-icon="' + (main.live ? "home" : "code") + '"></i>';
+  const mBody = document.createElement("span");
+  mBody.className = "ov-main-body";
+  const mT = document.createElement("span");
+  mT.className = "ov-main-t";
+  mT.textContent = main.label;
+  const mS = document.createElement("span");
+  mS.className = "ov-main-s";
+  mS.textContent = (main.code || main.live || "").split("/").pop();
+  mBody.append(mT, document.createElement("br"), mS);
+  const mGo = document.createElement("i");
+  mGo.className = "ov-main-go";
+  mGo.setAttribute("data-icon", "external-link");
+  mainRow.append(mIcon, mBody, mGo);
+  cap.classList.toggle("is-on", pages.length > 1 && rest.length > 0);
+
   const list = document.getElementById("ov-list");
   list.className = "dialog-body list-frame";
   list.innerHTML = "";
-  pages.forEach((v, i) => {
+  (pages.length > 1 ? rest : pages).forEach((v, i) => {
     const a = document.createElement("a");
     a.className = "list-item is-interactive";
     a.href = v.live || v.code;

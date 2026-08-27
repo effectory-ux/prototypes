@@ -67,6 +67,10 @@ def stem(path):
 
 
 def pretty(path, prefix=""):
+    # The index page is the way into most prototypes and gets its own row in the
+    # dialog, so it is named for what it is rather than for its filename.
+    if path == "index.html":
+        return "Main page"
     rest = stem(path)[len(prefix):].lstrip("-") if prefix and stem(path).startswith(prefix) else stem(path)
     return rest.replace("-", " ").replace("/", " · ").strip().capitalize() or "Main page"
 
