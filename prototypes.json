@@ -310,7 +310,7 @@
     },
     {
       "name": "GTMA Prototype",
-      "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions.",
+      "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions. Plus four screens for the AI Adoption Scan template.",
       "owner": "Jente",
       "group": "Reporting",
       "repo": "gtma",
@@ -331,11 +331,28 @@
         {
           "label": "Team IT · Q3",
           "path": "team-it-after-overview.html"
+        },
+        {
+          "label": "AI Adoption Scan · template dialog",
+          "path": "ai-adoption-scan-template-dialog.html"
+        },
+        {
+          "label": "AI Adoption Scan · questionnaire",
+          "path": "ai-adoption-scan-questionnaire.html"
+        },
+        {
+          "label": "AI Adoption Scan · themes",
+          "path": "ai-adoption-scan-themes.html"
+        },
+        {
+          "label": "AI Adoption Scan · scores",
+          "path": "ai-adoption-scan-scores.html"
         }
       ],
       "also": [
         "^novanta-",
-        "^team-it-"
+        "^team-it-",
+        "^ai-adoption-scan-"
       ]
     },
     {
