@@ -188,7 +188,7 @@
     },
     {
       "name": "Group linking",
-      "desc": "Link a previous survey to the new structure. Effectory's own structure, the stepped base flow, and a deep tree as a stress test.",
+      "desc": "Link a previous survey to the new structure. Effectory's own structure, and a deep tree as a stress test.",
       "owner": "Jente",
       "group": "Reporting",
       "repo": "gl",
@@ -197,10 +197,6 @@
         {
           "label": "Effectory",
           "path": "effectory.html"
-        },
-        {
-          "label": "Stepped",
-          "path": "stepped.html"
         },
         {
           "label": "Deep structure (stress test)",
