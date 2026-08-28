@@ -232,6 +232,13 @@
   .chip.track-reporting { background: var(--bg-accent-turquoise-subtle); color: var(--content-accent-turquoise); }
   .chip.track-ux { background: var(--bg-accent-purple-subtle); color: var(--content-base); }
   .chip.track-platform { background: var(--bg-secondary); color: var(--content-secondary); }
+  /* Tested winner: the variant usability testing picked. Green, so it reads as
+     settled rather than as another category. */
+  .card-chips { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .chip.winner { background: var(--bg-positive-subtle); color: var(--content-positive); display: inline-flex; align-items: center; gap: 4px; }
+  .chip.winner i { display: flex; width: 12px; height: 12px; }
+  .list-item-win { margin-left: 8px; padding: 1px 6px; border-radius: 999px; font-size: 11px; font-weight: 600;
+    background: var(--bg-positive-subtle); color: var(--content-positive); white-space: nowrap; }
 
   .card-meta { display: flex; align-items: center; gap: var(--spacing-tight); width: 100%; margin-top: auto; }
   .card-meta .av { cursor: default; }
@@ -755,6 +762,19 @@ function card(d) {
   track.className = "chip chip-sm " + TRACK_CLASS[d.group];
   track.textContent = d.group;
 
+  // Track chip and, when testing has settled it, the winner chip sit on one row.
+  const chips = document.createElement("div");
+  chips.className = "card-chips";
+  chips.append(track);
+  if (d.winner) {
+    const w = document.createElement("span");
+    w.className = "chip chip-sm winner";
+    w.innerHTML = '<i data-icon="win"></i>';
+    w.append(document.createTextNode(d.winner.label || "Tested winner"));
+    if (d.winner.note) w.title = d.winner.note;
+    chips.append(w);
+  }
+
   const desc = document.createElement("div");
   desc.className = "card-d";
   desc.textContent = d.desc;
@@ -767,7 +787,7 @@ function card(d) {
       ? '<span class="card-by" title="' + d.updated.slice(0, 10) + '">' + sinds(d.updated) + "</span>"
       : "");
 
-  body.append(hd, track, desc, meta);
+  body.append(hd, chips, desc, meta);
   el.append(thumb, body);
   return el;
 }
@@ -938,7 +958,17 @@ function openModal(d) {
   document.getElementById("ov-sub").textContent =
     "in repository " + d.repos.map(r => r.org + "/" + r.name).join(", ");
 
-  document.getElementById("ov-ft").textContent = "Every page opens in a new tab.";
+  const ft = document.getElementById("ov-ft");
+  ft.textContent = "Every page opens in a new tab.";
+  if (d.winner) {
+    ft.append(document.createTextNode(" " + (d.winner.note || "") + " "));
+    if (d.winner.url) {
+      const a = document.createElement("a");
+      a.href = d.winner.url; a.target = "_blank"; a.rel = "noopener";
+      a.textContent = "See the test";
+      ft.append(a);
+    }
+  }
 
   // The index page is the hub of most prototypes, so it is lifted out of the list.
   // Without one the entry page the card opens takes that spot.
@@ -988,6 +1018,13 @@ function openModal(d) {
     const title = document.createElement("div");
     title.className = "list-item-title";
     title.textContent = v.label;
+    if (v.winner) {
+      const w = document.createElement("span");
+      w.className = "list-item-win";
+      w.textContent = (d.winner && d.winner.label) || "Tested winner";
+      if (d.winner && d.winner.note) w.title = d.winner.note;
+      title.append(w);
+    }
     const sub = document.createElement("div");
     sub.className = "list-item-sub";
     const file = document.createElement("span");

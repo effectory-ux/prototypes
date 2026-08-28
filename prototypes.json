@@ -291,7 +291,13 @@
           "label": "V5 · triage page",
           "path": "action-center-manager-v5.html"
         }
-      ]
+      ],
+      "winner": {
+        "path": "action-center-manager-stepper.html",
+        "label": "Tested winner",
+        "note": "Preferred in UserTesting round 1 (5 of 7) and round 3 (5 of 8, clarity 4.4 vs 3.8)",
+        "url": "https://app.usertesting.com/workspaces/2466620/test/ddef955d-eb6e-4149-a5f7-4e5075150078/results/test"
+      }
     },
     {
       "name": "Conversation Guide",

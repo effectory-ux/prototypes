@@ -169,6 +169,13 @@ def main():
         stems = [stem(pg) for pg in pages]
         prefix = os.path.commonprefix(stems).rstrip("-") if len(stems) > 1 else ""
 
+        # A prototype can have a tested winner: the version usability testing picked,
+        # and the one to keep building on. It gets a chip on the card and a marker on
+        # its page in the dialog, so nobody has to guess which variant is current.
+        winner = entry.get("winner")
+        if winner and winner["path"] not in pages:
+            sys.exit(f"✗ winner-pagina bestaat niet: {rc['repo']}/{winner['path']}")
+
         links = []
         for pg in sorted(pages, key=lambda pg: (volgorde.get(pg, 999), pg)):
             links.append(
@@ -176,6 +183,7 @@ def main():
                     "label": labels.get(pg) or pretty(pg, prefix),
                     "live": live_url(rc.get("pages"), pg, rc.get("liveRewrite", [])),
                     "code": f"https://github.com/{rc['repo']}/blob/{rc['branch']}/{pg}",
+                    **({"winner": True} if winner and pg == winner["path"] else {}),
                 }
             )
 
@@ -191,6 +199,7 @@ def main():
                 "id": entry["repo"] + "::" + path,
                 "name": entry["name"],
                 "variants": links,
+                "winner": entry.get("winner"),
                 "desc": entry.get("desc", ""),
                 "owner": entry["owner"],
                 "group": entry["group"],
