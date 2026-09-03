@@ -239,6 +239,9 @@
   .chip.winner i { display: flex; width: 12px; height: 12px; }
   .list-item-win { margin-left: 8px; padding: 1px 6px; border-radius: 999px; font-size: 11px; font-weight: 600;
     background: var(--bg-positive-subtle); color: var(--content-positive); white-space: nowrap; }
+  /* Status of a version (in development / in testing / …): informative, not a verdict. */
+  .list-item-tag { margin-left: 8px; padding: 1px 6px; border-radius: 999px; font-size: 11px; font-weight: 600;
+    background: var(--bg-tertiary); color: var(--content-secondary); white-space: nowrap; vertical-align: 1px; }
 
   .card-meta { display: flex; align-items: center; gap: var(--spacing-tight); width: 100%; margin-top: auto; }
   .card-meta .av { cursor: default; }
@@ -989,6 +992,12 @@ function openModal(d) {
   const mT = document.createElement("span");
   mT.className = "ov-main-t";
   mT.textContent = main.label;
+  if (main.tag) {
+    const tg = document.createElement("span");
+    tg.className = "list-item-tag";
+    tg.textContent = main.tag;
+    mT.append(tg);
+  }
   const mS = document.createElement("span");
   mS.className = "ov-main-s";
   mS.textContent = (main.code || main.live || "").split("/").pop();
@@ -1024,6 +1033,12 @@ function openModal(d) {
       w.textContent = (d.winner && d.winner.label) || "Tested winner";
       if (d.winner && d.winner.note) w.title = d.winner.note;
       title.append(w);
+    }
+    if (v.tag) {
+      const tg = document.createElement("span");
+      tg.className = "list-item-tag";
+      tg.textContent = v.tag;
+      title.append(tg);
     }
     const sub = document.createElement("div");
     sub.className = "list-item-sub";

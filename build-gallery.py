@@ -164,6 +164,7 @@ def main():
         # declared, then the rest by path. Curated labels win; the others are derived
         # from the filename with the shared prefix dropped.
         labels = {v["path"]: v["label"] for v in variants}
+        tags = {v["path"]: v["tag"] for v in variants if v.get("tag")}
         volgorde = {v["path"]: i + 1 for i, v in enumerate(variants)}
         volgorde[path] = 0
         stems = [stem(pg) for pg in pages]
@@ -183,6 +184,7 @@ def main():
                     "label": labels.get(pg) or pretty(pg, prefix),
                     "live": live_url(rc.get("pages"), pg, rc.get("liveRewrite", [])),
                     "code": f"https://github.com/{rc['repo']}/blob/{rc['branch']}/{pg}",
+                    **({"tag": tags[pg]} if pg in tags else {}),
                     **({"winner": True} if winner and pg == winner["path"] else {}),
                 }
             )

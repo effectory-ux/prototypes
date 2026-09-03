@@ -76,7 +76,8 @@
       "ignore": [
         "^404\\.html$",
         "\\.dc\\.html$",
-        "^phase-\\d+/canvas/"
+        "^phase-\\d+/canvas/",
+        "^site/index\\.html$"
       ]
     },
     "cyos-demo": {
@@ -174,14 +175,6 @@
       "path": "site/research/central-library-sync/index.html"
     },
     {
-      "name": "CYOS site",
-      "desc": "Landing page for the CYOS project.",
-      "owner": "Jamal",
-      "group": "Surveying",
-      "repo": "cyos",
-      "path": "site/index.html"
-    },
-    {
       "name": "CYOS survey creation",
       "desc": "Create your own survey — the phases side by side.",
       "owner": "Jamal",
@@ -193,15 +186,18 @@
       ],
       "variants": [
         {
-          "label": "Phase 1 — in development",
+          "label": "Phase 1 — survey creation flow",
+          "tag": "In development",
           "path": "phase-1/index.html"
         },
         {
-          "label": "Phase 2 — in testing",
+          "label": "Phase 2 — survey-scoped customization",
+          "tag": "In testing",
           "path": "phase-2/index.html"
         },
         {
-          "label": "Phase 3 — in progress",
+          "label": "Phase 3 — question logic",
+          "tag": "In progress",
           "path": "phase-3/index.html"
         }
       ]
