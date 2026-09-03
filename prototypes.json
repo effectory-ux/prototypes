@@ -130,6 +130,20 @@
         "^404\\.html$",
         "^index\\.html$"
       ]
+    },
+    "ql": {
+      "repo": "effectory-ux/question-library",
+      "pages": "https://effectory-ux.github.io/question-library/",
+      "repos": [
+        {
+          "org": "effectory-ux",
+          "name": "question-library"
+        }
+      ],
+      "ignore": [
+        "^404\\.html$",
+        "^index\\.html$"
+      ]
     }
   },
   "entries": [
@@ -431,6 +445,49 @@
       "group": "Platform",
       "repo": "eray-ux",
       "path": "index.html"
+    },
+    {
+      "name": "Question library",
+      "desc": "One governed library of benchmarked and custom questions, plus a review list of questions created in surveys with combine-into-variants suggestions. Fixed and Flexible directions, and the survey creator's picker.",
+      "owner": "Jamal",
+      "group": "Surveying",
+      "repo": "ql",
+      "path": "prototypes/question-library-questions.html",
+      "variants": [
+        {
+          "label": "Fixed · Questions",
+          "path": "prototypes/question-library-questions.html"
+        },
+        {
+          "label": "Fixed · To review",
+          "path": "prototypes/question-library-custom.html"
+        },
+        {
+          "label": "Fixed · Templates",
+          "path": "prototypes/question-library-templates.html"
+        },
+        {
+          "label": "Flexible · Questions",
+          "path": "prototypes/question-library-flexible-questions.html"
+        },
+        {
+          "label": "Survey creator's picker",
+          "path": "prototypes/question-library-picker.html"
+        },
+        {
+          "label": "QL v2 lookalike (live import)",
+          "path": "question-library-v2-prototype.html"
+        },
+        {
+          "label": "Research brief",
+          "path": "ql-v3-research-brief.html"
+        }
+      ],
+      "also": [
+        "^prototypes/question-library-",
+        "^question-library-v2-prototype\\.html$",
+        "^ql-v3-research-brief\\.html$"
+      ]
     }
   ]
 }
