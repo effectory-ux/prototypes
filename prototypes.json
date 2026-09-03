@@ -74,7 +74,9 @@
         }
       ],
       "ignore": [
-        "^404\\.html$"
+        "^404\\.html$",
+        "\\.dc\\.html$",
+        "^phase-\\d+/canvas/"
       ]
     },
     "cyos-demo": {
@@ -181,22 +183,26 @@
     },
     {
       "name": "CYOS survey creation",
-      "desc": "Create your own survey, with both phases side by side.",
+      "desc": "Create your own survey — the phases side by side.",
       "owner": "Jamal",
       "group": "Surveying",
       "repo": "cyos",
       "path": "phase-1/index.html",
       "also": [
-        "^phase-"
+        "^phase-\\d+/index\\.html$"
       ],
       "variants": [
         {
-          "label": "Phase 1",
+          "label": "Phase 1 — in development",
           "path": "phase-1/index.html"
         },
         {
-          "label": "Phase 2",
+          "label": "Phase 2 — in testing",
           "path": "phase-2/index.html"
+        },
+        {
+          "label": "Phase 3 — in progress",
+          "path": "phase-3/index.html"
         }
       ]
     },
