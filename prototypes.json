@@ -450,7 +450,7 @@
     },
     {
       "name": "Question library",
-      "desc": "One governed library of benchmarked and custom questions, plus a review list of questions created in surveys with combine-into-variants suggestions. Fixed and Flexible directions, and the survey creator's picker.",
+      "desc": "One governed library of benchmarked and custom questions, plus a To review list of questions created in surveys with combine-into-variants suggestions. Fixed and Flexible directions.",
       "owner": "Jamal",
       "group": "Surveying",
       "repo": "ql",
@@ -471,10 +471,6 @@
         {
           "label": "Flexible · Questions",
           "path": "prototypes/question-library-flexible-questions.html"
-        },
-        {
-          "label": "Survey creator's picker",
-          "path": "prototypes/question-library-picker.html"
         },
         {
           "label": "QL v2 lookalike (live import)",
