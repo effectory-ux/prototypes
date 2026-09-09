@@ -375,27 +375,18 @@
     },
     {
       "name": "Results dashboard",
-      "desc": "Results for managers: the overview and a variant with a back button.",
+      "desc": "Results for managers: the overview, with a way into and back out of nested side panels.",
       "owner": "Jente",
       "group": "Reporting",
       "repo": "engage",
-      "path": "prototypes/results-dashboard.html",
+      "path": "prototypes/results-dashboard-panel-back.html",
       "also": [
         "^prototypes/results-dashboard",
         "^prototypes/scores\\.",
         "^prototypes/themes\\.",
         "^prototypes/reports\\."
       ],
-      "variants": [
-        {
-          "label": "Overview",
-          "path": "prototypes/results-dashboard.html"
-        },
-        {
-          "label": "Overview with back button",
-          "path": "prototypes/results-dashboard-panel-back.html"
-        }
-      ]
+      "variants": []
     },
     {
       "name": "AI summary improvement",
