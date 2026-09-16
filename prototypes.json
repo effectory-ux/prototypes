@@ -32,32 +32,6 @@
         "^team-it-"
       ]
     },
-    "eray-ac": {
-      "repo": "eray-effectory/action-center",
-      "pages": null,
-      "repos": [
-        {
-          "org": "eray-effectory",
-          "name": "action-center"
-        }
-      ],
-      "ignore": [
-        "^404\\.html$"
-      ]
-    },
-    "eray-ux": {
-      "repo": "eray-effectory/ux",
-      "pages": "https://eray-effectory.github.io/ux/",
-      "repos": [
-        {
-          "org": "eray-effectory",
-          "name": "ux"
-        }
-      ],
-      "ignore": [
-        "^404\\.html$"
-      ]
-    },
     "cyos": {
       "repo": "effectory-ux/cyos",
       "pages": "https://effectory-ux.github.io/cyos/",
@@ -224,63 +198,6 @@
       ]
     },
     {
-      "name": "Action Center · Eray",
-      "desc": "Manager and coordinator screens, the action planner, and three options for choosing an action.",
-      "owner": "Eray",
-      "group": "Leadership enablement",
-      "repo": "eray-ac",
-      "path": "index.html",
-      "also": [
-        ".*"
-      ],
-      "variants": [
-        {
-          "label": "Overview",
-          "path": "index.html"
-        },
-        {
-          "label": "Manager",
-          "path": "action-center/action-center-manager-standalone.html"
-        },
-        {
-          "label": "Action planner",
-          "path": "action-planner/index.html"
-        },
-        {
-          "label": "Action planner · org view",
-          "path": "action-planner/org-view.html"
-        },
-        {
-          "label": "Conversation guide",
-          "path": "conversation-guide/conversation-guide.html"
-        },
-        {
-          "label": "Coordinator home",
-          "path": "coordinator-home.html"
-        },
-        {
-          "label": "Home activity feed",
-          "path": "home-activity-feed.html"
-        },
-        {
-          "label": "Option A: inline expand",
-          "path": "option-a-inline-expand.html"
-        },
-        {
-          "label": "Option B: chips and drawer",
-          "path": "option-b-chips-drawer.html"
-        },
-        {
-          "label": "Option C: choice dialog",
-          "path": "option-c-choose-dialog.html"
-        },
-        {
-          "label": "Group linking preview",
-          "path": "group-linking-preview/prototypes/group-linking-stepped.html"
-        }
-      ]
-    },
-    {
       "name": "Action Center · manager",
       "desc": "From result to action. Four directions, from focus view to multi-select and triage.",
       "owner": "Jente",
@@ -321,7 +238,7 @@
       "owner": "Jente",
       "group": "Leadership enablement",
       "repo": "engage",
-      "path": "conversation-guide.html",
+      "path": "conversation-guide-v1.html",
       "also": [
         "^conversation-guide"
       ]
@@ -430,14 +347,6 @@
       "also": [
         "^prototypes/my-effectory-"
       ]
-    },
-    {
-      "name": "Platform design",
-      "desc": "Eray's full platform design repo.",
-      "owner": "Eray",
-      "group": "Platform",
-      "repo": "eray-ux",
-      "path": "index.html"
     },
     {
       "name": "Question library",
