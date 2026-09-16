@@ -91,7 +91,8 @@
       ],
       "ignore": [
         "^404\\.html$",
-        "^index\\.html$"
+        "^index\\.html$",
+        "^ai-adoption-scan-(overview|themes|scores|reports|actions|template-dialog)\\.html$"
       ]
     },
     "rd": {
@@ -245,12 +246,16 @@
     },
     {
       "name": "GTMA Prototype",
-      "desc": "The old and new situation side by side, for two example organisations. Every moment has its own URL, with overview, scores, themes, focus, reports and actions. Plus four screens for the AI Adoption Scan template.",
+      "desc": "The whole flow, from the surveys list to the results. Set a survey up in four steps, watch it as planned or running, and read the results: the old and new situation side by side for two example organisations, plus the AI Adoption Scan. In English, Dutch and German.",
       "owner": "Jente",
       "group": "Reporting",
       "repo": "gtma",
-      "path": "novanta-before-overview.html",
+      "path": "surveys.html",
       "variants": [
+        {
+          "label": "Surveys",
+          "path": "surveys.html"
+        },
         {
           "label": "Novanta · Q2",
           "path": "novanta-before-overview.html"
@@ -268,26 +273,37 @@
           "path": "team-it-after-overview.html"
         },
         {
-          "label": "AI Adoption Scan · template dialog",
-          "path": "ai-adoption-scan-template-dialog.html"
+          "label": "AI Adoption Scan · results",
+          "path": "ai-adoption-scan.html"
         },
         {
-          "label": "AI Adoption Scan · questionnaire",
+          "label": "Survey · planned or running",
+          "path": "survey-detail.html"
+        },
+        {
+          "label": "Survey creator · questions",
           "path": "ai-adoption-scan-questionnaire.html"
         },
         {
-          "label": "AI Adoption Scan · themes",
-          "path": "ai-adoption-scan-themes.html"
+          "label": "Survey creator · participants",
+          "path": "cyos-participants.html"
         },
         {
-          "label": "AI Adoption Scan · scores",
-          "path": "ai-adoption-scan-scores.html"
+          "label": "Survey creator · survey period",
+          "path": "cyos-survey-period.html"
+        },
+        {
+          "label": "Survey creator · layout & emails",
+          "path": "cyos-layout-emails.html"
+        },
+        {
+          "label": "Survey creator · ready for take off",
+          "path": "cyos-launched.html"
         }
       ],
       "also": [
         "^novanta-",
-        "^team-it-",
-        "^ai-adoption-scan-"
+        "^team-it-"
       ]
     },
     {
