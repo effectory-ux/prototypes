@@ -29,7 +29,40 @@
         "^ci/",
         "^prototypes/group-linking-",
         "^novanta-",
-        "^team-it-"
+        "^team-it-",
+        "^action-center-",
+        "^ac-overview-embed\\.html$",
+        "^conversation-guide-"
+      ]
+    },
+    "ac": {
+      "repo": "effectory-ux/action-center",
+      "pages": "https://effectory-ux.github.io/action-center/",
+      "repos": [
+        {
+          "org": "effectory-ux",
+          "name": "action-center"
+        }
+      ],
+      "ignore": [
+        "^404\\.html$",
+        "^index\\.html$",
+        "embed\\.html$"
+      ]
+    },
+    "cg": {
+      "repo": "effectory-ux/conversation-guide",
+      "pages": "https://effectory-ux.github.io/conversation-guide/",
+      "repos": [
+        {
+          "org": "effectory-ux",
+          "name": "conversation-guide"
+        }
+      ],
+      "ignore": [
+        "^404\\.html$",
+        "^action-center-",
+        "embed\\.html$"
       ]
     },
     "cyos": {
@@ -201,9 +234,9 @@
     {
       "name": "Action Center · manager",
       "desc": "From result to action. Four directions, from focus view to multi-select and triage.",
-      "owner": "Jente",
+      "owner": "Eray",
       "group": "Leadership enablement",
-      "repo": "engage",
+      "repo": "ac",
       "path": "action-center-manager.html",
       "also": [
         "^action-center-"
@@ -236,9 +269,9 @@
     {
       "name": "Conversation Guide",
       "desc": "A guide for the team conversation after the survey.",
-      "owner": "Jente",
+      "owner": "Eray",
       "group": "Leadership enablement",
-      "repo": "engage",
+      "repo": "cg",
       "path": "conversation-guide-v1.html",
       "also": [
         "^conversation-guide"
