@@ -47,7 +47,7 @@ def crawl(key, cfg):
         and not any(p.search(n["path"]) for p in ignore)
     ]
     print(f"  {cfg['repo']} · branch {branch} · {len(paths)} pagina's")
-    return {"branch": branch, "paths": paths}
+    return {"branch": branch, "paths": paths, "private": bool(meta.get("private"))}
 
 
 def last_commit(repo, path):
@@ -93,6 +93,18 @@ def auto_variants(entry_path, pages):
         label = rest.replace("-", " ").strip().capitalize() or "Basis"
         out.append({"label": label, "path": p})
     return out
+
+
+def host_of(base):
+    """Waar een prototype gehost wordt, afgeleid uit zijn basis-URL. Alleen om
+    het in de gallery te tonen; de builder doet er verder niets mee."""
+    if not base:
+        return None
+    if "workers.dev" in base:
+        return "Cloudflare"
+    if "github.io" in base:
+        return "GitHub Pages"
+    return None
 
 
 def live_url(base, path, rewrites=()):
@@ -219,6 +231,8 @@ def main():
                 "tree": f"https://github.com/{rc['repo']}",
                 "screens": len(pages),
                 "pages": sorted(pages),
+                "private": rc.get("private", False),
+                "host": host_of(rc.get("pages")),
             }
         )
 

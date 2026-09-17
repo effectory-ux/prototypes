@@ -260,6 +260,9 @@
   }
   .ov.is-open { display: flex; }
   .ov .dialog { max-height: 80vh; gap: var(--spacing-base); }
+  /* Eigen naamruimte: .ov-meta botst niet met een component uit het design system. */
+  .ov-meta { display: flex; flex-wrap: wrap; gap: var(--spacing-extra-tight); margin-top: var(--spacing-tight); }
+  .ov-meta .chip i[data-icon] { width: 12px; height: 12px; display: flex; }
 
   /* Frame around the list, the way the docs frame .list-item. */
   .list-frame {
@@ -404,6 +407,7 @@
     <div class="dialog-header">
       <h3 class="dialog-title" id="ov-title"></h3>
       <p class="dialog-subtitle" id="ov-sub"></p>
+      <div class="ov-meta" id="ov-meta"></div>
     </div>
     <a class="ov-main" id="ov-main" target="_blank" rel="noopener"></a>
     <div class="ov-cap" id="ov-cap">Other pages</div>
@@ -483,7 +487,9 @@ const DATA = [
 "pages": [
 "conversation-guide-v1.html",
 "conversation-guide-v2.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-09-16T13:15:50Z",
@@ -537,7 +543,9 @@ const DATA = [
 "action-center-manager-v4.html",
 "action-center-manager-v5.html",
 "action-center-manager.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-09-16T12:52:30Z",
@@ -753,7 +761,9 @@ const DATA = [
 "team-it-before-reports.html",
 "team-it-before-scores.html",
 "team-it-before-themes.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-09-09T09:14:36Z",
@@ -843,7 +853,9 @@ const DATA = [
 "prototypes/question-library-themes.html",
 "ql-v3-research-brief.html",
 "question-library-v2-prototype.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-09-09T08:11:31Z",
@@ -885,7 +897,9 @@ const DATA = [
 "deep.html",
 "effectory.html",
 "index.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-09-03T13:26:21Z",
@@ -915,7 +929,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "ai-summary-improvement.html"
-]
+],
+"private": true,
+"host": "Cloudflare"
 },
 {
 "updated": "2026-09-02T08:34:06Z",
@@ -960,7 +976,9 @@ const DATA = [
 "phase-1/index.html",
 "phase-2/index.html",
 "phase-3/index.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-08-19T09:27:19Z",
@@ -990,7 +1008,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "prototypes/results-overview.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-08-17T11:07:44Z",
@@ -1020,7 +1040,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "prototypes/integration-bamboohr.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-08-13T14:15:00Z",
@@ -1050,7 +1072,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "prototypes/my-effectory-home.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-08-13T14:03:06Z",
@@ -1080,7 +1104,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "prototypes/approach-picker.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-08-13T12:02:37Z",
@@ -1110,7 +1136,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "site/research/central-library-sync/index.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-08-10T09:59:22Z",
@@ -1140,7 +1168,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "index.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-07-30T12:40:06Z",
@@ -1170,7 +1200,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "prototypes/announcement-playground.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 },
 {
 "updated": "2026-07-29T14:15:47Z",
@@ -1200,7 +1232,9 @@ const DATA = [
 "screens": 1,
 "pages": [
 "prototypes/results-dashboard-panel-back.html"
-]
+],
+"private": false,
+"host": "GitHub Pages"
 }
 ];
 const DS = {"docs": "https://effectory-ux.github.io/Engage-Design-system-/", "guide": "https://effectory-ux.github.io/Engage-Design-system-/prototypes-docs.html"};
@@ -1714,6 +1748,20 @@ function openModal(d) {
   document.getElementById("ov-title").textContent = nameOf(d);
   document.getElementById("ov-sub").textContent =
     "in repository " + d.repos.map(r => r.org + "/" + r.name).join(", ");
+
+  // Waar de code staat en waar het prototype draait. Private betekent dat de
+  // broncode afgeschermd is, niet dat de pagina dat is.
+  const meta = document.getElementById("ov-meta");
+  meta.textContent = "";
+  const chip = (icon, label, extra) => {
+    const el = document.createElement("span");
+    el.className = "chip chip-sm" + (extra ? " " + extra : "");
+    el.innerHTML = '<i data-icon="' + icon + '"></i>' + label;
+    meta.append(el);
+  };
+  chip(d.private ? "lock" : "unlock", d.private ? "Private repo" : "Public repo");
+  if (d.host) chip("globe", d.host, d.host === "Cloudflare" ? "chip-info" : "");
+  if (window.Icons && Icons.render) Icons.render(meta);
 
   const ft = document.getElementById("ov-ft");
   ft.textContent = "Every page opens in a new tab.";

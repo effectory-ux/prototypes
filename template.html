@@ -260,6 +260,9 @@
   }
   .ov.is-open { display: flex; }
   .ov .dialog { max-height: 80vh; gap: var(--spacing-base); }
+  /* Eigen naamruimte: .ov-meta botst niet met een component uit het design system. */
+  .ov-meta { display: flex; flex-wrap: wrap; gap: var(--spacing-extra-tight); margin-top: var(--spacing-tight); }
+  .ov-meta .chip i[data-icon] { width: 12px; height: 12px; display: flex; }
 
   /* Frame around the list, the way the docs frame .list-item. */
   .list-frame {
@@ -404,6 +407,7 @@
     <div class="dialog-header">
       <h3 class="dialog-title" id="ov-title"></h3>
       <p class="dialog-subtitle" id="ov-sub"></p>
+      <div class="ov-meta" id="ov-meta"></div>
     </div>
     <a class="ov-main" id="ov-main" target="_blank" rel="noopener"></a>
     <div class="ov-cap" id="ov-cap">Other pages</div>
@@ -960,6 +964,20 @@ function openModal(d) {
   document.getElementById("ov-title").textContent = nameOf(d);
   document.getElementById("ov-sub").textContent =
     "in repository " + d.repos.map(r => r.org + "/" + r.name).join(", ");
+
+  // Waar de code staat en waar het prototype draait. Private betekent dat de
+  // broncode afgeschermd is, niet dat de pagina dat is.
+  const meta = document.getElementById("ov-meta");
+  meta.textContent = "";
+  const chip = (icon, label, extra) => {
+    const el = document.createElement("span");
+    el.className = "chip chip-sm" + (extra ? " " + extra : "");
+    el.innerHTML = '<i data-icon="' + icon + '"></i>' + label;
+    meta.append(el);
+  };
+  chip(d.private ? "lock" : "unlock", d.private ? "Private repo" : "Public repo");
+  if (d.host) chip("globe", d.host, d.host === "Cloudflare" ? "chip-info" : "");
+  if (window.Icons && Icons.render) Icons.render(meta);
 
   const ft = document.getElementById("ov-ft");
   ft.textContent = "Every page opens in a new tab.";
