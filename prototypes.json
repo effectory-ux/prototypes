@@ -155,6 +155,20 @@
         "^404\\.html$",
         "^index\\.html$"
       ]
+    },
+    "cc": {
+      "repo": "effectory-ux/confetti-celebration",
+      "pages": "https://effectory-ux.github.io/confetti-celebration/",
+      "repos": [
+        {
+          "org": "effectory-ux",
+          "name": "confetti-celebration"
+        }
+      ],
+      "ignore": [
+        "^404\\.html$",
+        "^index\\.html$"
+      ]
     }
   },
   "entries": [
@@ -435,6 +449,15 @@
         "^question-library-v2-prototype\\.html$",
         "^ql-v3-research-brief\\.html$"
       ]
+    },
+    {
+      "name": "Confetti celebration",
+      "desc": "Animation test: a headline that blasts apart with an SVG confetti burst.",
+      "owner": "Jente",
+      "group": "Surveying",
+      "repo": "cc",
+      "path": "confetti-celebration.html",
+      "hidden": true
     }
   ]
 }
