@@ -24,9 +24,11 @@ jobs:
 
       - name: Rebuild index.html
         env:
-          # build-gallery.py reads the source repos through the gh CLI. They are all
-          # public, so the run's own token is enough; no personal token needed.
-          GH_TOKEN: ${{ github.token }}
+          # build-gallery.py reads the source repos through the gh CLI. The run's
+          # own token only sees public repos, so a private prototype repo needs
+          # GALLERY_READ_TOKEN: a token with read access to effectory-ux. Without
+          # it the build fails loudly rather than publishing a smaller gallery.
+          GH_TOKEN: ${{ secrets.GALLERY_READ_TOKEN || github.token }}
         run: python3 build-gallery.py
 
       - name: Commit when something changed

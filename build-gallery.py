@@ -118,7 +118,14 @@ def main():
     for key, rc in cfg["repos"].items():
         got = crawl(key, rc)
         if got is None:
-            sys.exit(f"✗ kon {rc['repo']} niet lezen")
+            # Stoppen, niet overslaan: een overgeslagen repo levert stilletjes een
+            # kleinere gallery op, en dat valt niemand op. Een rode build wel.
+            sys.exit(
+                f"✗ kon {rc['repo']} niet lezen.\n"
+                f"  Is de repo privé? Dan heeft deze build een token met leesrechten nodig.\n"
+                f"  Lokaal: zorg dat `gh auth status` een account toont dat erbij kan.\n"
+                f"  In CI: zet het secret GALLERY_READ_TOKEN in effectory-ux/prototypes."
+            )
         repos[key] = {**rc, **got}
 
     claimed = {k: set() for k in repos}
