@@ -130,7 +130,7 @@
     },
     "rd": {
       "repo": "effectory-ux/results-dashboard",
-      "pages": "https://effectory-ux.github.io/results-dashboard/",
+      "pages": "https://results-dashboard.effectory-ux.workers.dev/",
       "repos": [
         {
           "org": "effectory-ux",
